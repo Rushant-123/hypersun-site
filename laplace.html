@@ -327,6 +327,15 @@
   #lx ::-webkit-scrollbar-thumb:hover{background-color:rgba(246,248,255,.32)}
   #lx .main{overscroll-behavior:contain}
   #lx .main::after{content:"";position:sticky;display:block;bottom:0;height:28px;margin-top:-28px;background:linear-gradient(transparent,#060607);pointer-events:none}
+
+  .lp-shot,.demo-hd .mb{display:none}
+  @media (max-width:860px){
+    .win{display:none}
+    .demo-hd .dk{display:none}.demo-hd .mb{display:inline}
+    .lp-shot{display:block;margin:4px auto 0;max-width:640px}
+    .lp-shot img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid rgba(246,248,255,.2);box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 80px rgba(246,248,255,.05)}
+    .lp-shot figcaption{margin-top:14px;font-size:13px;color:rgba(246,248,255,.5);text-align:center}
+  }
 </style>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{colors:{core:'#F6F8FF'},fontFamily:{disp:['"Big Shoulders Display"','Geist','sans-serif'],mono:['"Geist Mono"','ui-monospace','monospace'],sans:['Geist','system-ui','sans-serif']}}}}</script>
@@ -347,7 +356,7 @@
 <svg width="0" height="0" style="position:absolute"><defs><filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.56  0 0 0 0 0.66  0 0 0 0 1  0 0 0 0.9 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
 <nav><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><span class="links"><a href="laplace.html">Laplace</a><a href="who.html">Who it's for</a><a href="contact.html">Contact</a></span></nav>
 <section class="demo" id="product">
-  <div class="demo-hd"><div><div class="foot">Laplace</div><h2>See it run.</h2></div><p>One plant, one day, every inverter. Click anything. Trip an inverter in What-if and watch the plant respond.</p></div>
+  <div class="demo-hd"><div><div class="foot">Laplace</div><h2>See it run.</h2></div><p><span class="dk">One plant, one day, every inverter. Click anything. Trip an inverter in What-if and watch the plant respond.</span><span class="mb">One plant, one day, every inverter, measured against physics.</span></p></div>
   <div class="win"><div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">Laplace · Juniper Flats Solar Park</span></div>
   <div id="lx">
     <div class="bar-top">
@@ -455,6 +464,7 @@
     <div class="toast" id="lxToast"></div>
   </div>
   </div>
+  <figure class="lp-shot"><img src="assets/laplace-preview.jpg" alt="Laplace showing Juniper Flats Solar Park: output now, the physics expectation, and four offline inverters flagged on the plant map" loading="lazy"><figcaption>Open this page on a larger screen to explore it.</figcaption></figure>
 </section>
 <header class="after">
   <div class="foot">Laplace by Hypersun</div>
