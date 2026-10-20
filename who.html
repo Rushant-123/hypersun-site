@@ -205,6 +205,25 @@
   @keyframes ntfin{from{transform:translateY(-26px);opacity:0}to{transform:none;opacity:1}}
   html:not([data-s3="a"]) .s3a{display:none}
   html[data-s3="a"] .s3b{display:none}
+
+  /* full-screen film player */
+  .player{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:rgba(0,0,0,.94);color:#F6F8FF;overflow:hidden}
+  .player[open]{display:block;animation:plin .45s cubic-bezier(.16,1,.3,1)}
+  .player::backdrop{background:rgba(0,0,0,.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  @keyframes plin{from{opacity:0}to{opacity:1}}
+  .pl-stage{position:absolute;inset:0;display:grid;place-items:center;padding:72px 4vw 40px}
+  .pl-stage video{display:block;width:100%;max-width:calc((100dvh - 112px) * 16 / 9);max-height:calc(100dvh - 112px);aspect-ratio:16/9;background:#000;border-radius:12px;box-shadow:0 30px 120px rgba(0,0,0,.8),0 0 0 1px rgba(246,248,255,.08)}
+  .pl-x{position:fixed;top:20px;right:20px;z-index:2;width:46px;height:46px;border-radius:50%;border:1px solid rgba(246,248,255,.28);background:rgba(20,20,24,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#F6F8FF;display:grid;place-items:center;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+  .pl-x:hover{background:#F6F8FF;color:#000;border-color:#F6F8FF;transform:rotate(90deg)}
+  .pl-x svg{width:16px;height:16px}
+  @media (max-width:860px){.pl-stage{padding:64px 12px 24px}.pl-stage video{border-radius:8px}.pl-x{top:14px;right:14px;width:42px;height:42px}}
+
+  @media (max-width:860px){
+    .close .btns{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
+    .close .btns .btn{width:min(320px,100%);justify-content:center;text-align:center}
+    .reveal-end{height:52vh;min-height:300px}
+    .reveal-end video{object-fit:contain}
+  }
 </style>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{colors:{core:'#F6F8FF'},fontFamily:{disp:['"Big Shoulders Display"','Geist','sans-serif'],mono:['"Geist Mono"','ui-monospace','monospace'],sans:['Geist','system-ui','sans-serif']}}}}</script>
@@ -237,7 +256,21 @@
       <p class="mt-3 max-w-[30ch] text-[clamp(26px,2.3vw,36px)] font-medium leading-[1.15] tracking-[-.025em]">Power built for the industries that come next.</p><div class="mt-10 grid gap-6 sm:grid-cols-3"><div class="border-t border-white/12 pt-4"><div class="text-[16px] font-medium">Designed for round-the-clock load</div><div class="mt-1 text-[15px] leading-relaxed text-white/60">Supply that matches compute, hour by hour.</div></div><div class="border-t border-white/12 pt-4"><div class="text-[16px] font-medium">For biology, science and robotics</div><div class="mt-1 text-[15px] leading-relaxed text-white/60">The workloads that will need the most energy.</div></div><div class="border-t border-white/12 pt-4"><div class="text-[16px] font-medium">Measured from day one</div><div class="mt-1 text-[15px] leading-relaxed text-white/60">Every kilowatt-hour in the twin from the first switch-on.</div></div></div></article></div></div></section><section class="border-t border-white/10 px-[var(--gut)] py-28 text-center"><h2 class="font-disp text-[clamp(48px,6vw,96px)] font-extrabold uppercase leading-[.9]">Start with one plant.</h2>
   <p class="mx-auto mt-5 max-w-[40ch] text-[19px] text-white/75">Send us one site's data. We will show you its twin.</p>
   <div class="mt-8 flex justify-center gap-3"><a href="contact.html" class="inline-flex rounded-xl bg-core px-6 py-4 text-[15px] font-medium text-black no-underline">Talk to us</a><a href="laplace.html" class="inline-flex rounded-xl border border-white/30 px-6 py-4 text-[15px] font-medium text-core no-underline">See Laplace</a></div></section>
-<footer class="foot"><span>Hypersun</span><a href="mailto:rushantashtputre2002@gmail.com" style="color:inherit;text-decoration:none;text-transform:none;letter-spacing:.02em">rushantashtputre2002@gmail.com</a></footer>
+<footer class="sitefoot border-t border-white/10 px-[var(--gut)] pt-16 pb-10">
+  <div class="mx-auto max-w-[1328px]">
+    <div class="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+      <div class="col-span-2 md:col-span-1"><a href="index.html" class="inline-block no-underline"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" class="block h-[15px] w-auto"></a>
+        <p class="mt-5 max-w-[30ch] text-[15px] leading-relaxed text-white/55">A living physics twin of every power plant and grid on Earth.</p></div>
+      <div><div class="text-[13px] text-white/40">Product</div><ul class="mt-4 grid list-none gap-3 p-0 text-[15px]"><li><a href="laplace.html" class="text-white/60 no-underline transition-colors hover:text-core">Laplace</a></li><li><a href="index.html" class="text-white/60 no-underline transition-colors hover:text-core">The film</a></li></ul></div>
+      <div><div class="text-[13px] text-white/40">Company</div><ul class="mt-4 grid list-none gap-3 p-0 text-[15px]"><li><a href="who.html" class="text-white/60 no-underline transition-colors hover:text-core">Who it's for</a></li><li><a href="contact.html" class="text-white/60 no-underline transition-colors hover:text-core">Contact</a></li></ul></div>
+      <div class="col-span-2 md:col-span-1"><div class="text-[13px] text-white/40">Get in touch</div><a href="mailto:rushantashtputre2002@gmail.com" class="mt-4 inline-block break-all text-[15px] text-core no-underline border-b border-white/25 pb-0.5 transition hover:border-core">rushantashtputre2002@gmail.com</a></div>
+    </div>
+    <div class="mt-16 flex flex-col gap-3 border-t border-white/10 pt-6 text-[12.5px] leading-relaxed text-white/40 md:flex-row md:items-start md:justify-between">
+      <span>© 2026 Hypersun</span>
+      <span class="max-w-[70ch] md:text-right">Photography from public domain archives and Wikimedia Commons, regraded. Plant data recorded by NREL PVDAQ, shown as a fictional plant.</span>
+    </div>
+  </div>
+</footer>
 <script>const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".rv").forEach(el=>io.observe(el));</script><style>.aud.on{color:#F6F8FF;border-color:#F6F8FF}</style><script>const L=[...document.querySelectorAll('.aud')];document.querySelectorAll('.panel').forEach(p=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)L.forEach(a=>a.classList.toggle('on',a.dataset.k===p.dataset.k))}),{rootMargin:'-40% 0px -50% 0px'}).observe(p));L[0]&&L[0].classList.add('on');</script>
 </body>
 </html>
