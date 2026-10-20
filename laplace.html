@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laplace · Hypersun</title>
+<link rel="icon" href="assets/hypersun-icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* tokens v4: black and plasma. One family in sentence case. Mono for footnotes. */
+  :root{
+    --void:#000; --core:#F6F8FF;
+    --c80:rgba(246,248,255,.8); --c55:rgba(246,248,255,.55); --c35:rgba(246,248,255,.35); --c18:rgba(246,248,255,.18);
+    --corona:143,168,255;
+    --sans:"Geist", system-ui, sans-serif; --mono:"Geist Mono", ui-monospace, monospace; --disp:"Big Shoulders Display", "Geist", sans-serif;
+    --t-hero:clamp(72px,9.4vw,148px); --t-say:clamp(44px,4.8vw,74px); --t-big:clamp(72px,9vw,140px); --t-body:18px; --t-foot:13px; --t-state:clamp(28px,2.9vw,42px);
+    --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:104px;
+    --gut:56px; --ease:cubic-bezier(.16,1,.3,1);
+    --glow:0 0 40px rgba(var(--corona),.45), 0 0 6px rgba(255,255,255,.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--void)}
+  body{background:var(--void);color:var(--core);font-family:var(--sans);font-size:var(--t-body);line-height:1.55;-webkit-font-smoothing:antialiased}
+  img,video,svg{display:block;max-width:100%}
+  .foot{font-family:var(--mono);font-size:var(--t-foot);letter-spacing:.06em;text-transform:uppercase;color:var(--c80)}
+  .disp{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:.92}
+
+  /* nav, Boom-like: tiny, quiet */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;height:76px;padding:0 var(--gut);}
+  nav::before{content:"";position:absolute;left:0;right:0;top:0;height:150px;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.82) 0,rgba(0,0,0,.5) 45%,rgba(0,0,0,0) 100%)}
+  nav .mark{font-family:var(--disp);font-weight:800;font-size:22px;letter-spacing:.06em;text-transform:uppercase}
+  nav .links{display:flex;gap:var(--s4);font-size:13px;color:var(--c80)}
+
+  /* hero: the object on black */
+  .hero{height:100vh;min-height:760px;padding:0 var(--gut);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+  .hero .obj{width:min(1080px,84vw);filter:drop-shadow(0 0 30px rgba(var(--corona),.35))}
+  .hero h1{font-family:var(--disp);font-size:var(--t-hero);font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:.9;margin-top:var(--s4)}
+  .hero .lead{margin:var(--s3) auto 0;font-size:20px;color:var(--c80);max-width:40ch}
+  .hero .btns{margin-top:var(--s4);justify-content:center}
+  .hero .sub{margin-top:var(--s3)}
+  .hero .cue{position:absolute;bottom:var(--s4);left:50%;transform:translateX(-50%)}
+
+  /* film chapter, Boom-like: full bleed, grain, one sentence bottom-left, footnotes */
+  .ch{position:relative;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:flex-end}
+  .ch>img,.ch>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ch::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.25) 45%,rgba(0,0,0,0) 70%)}
+  .ch::after{content:"";position:absolute;inset:-50%;z-index:1;opacity:.13;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:grain 1.2s steps(6) infinite}
+  @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,3%)}80%{transform:translate(3%,1%)}100%{transform:translate(0,0)}}
+  .ch .txt{position:relative;z-index:2;width:100%;padding:0 var(--gut) var(--s5)}
+  .ch .say{font-family:var(--disp);font-size:var(--t-say);font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:.95;max-width:18ch}
+  .ch .notes{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,220px));gap:var(--s3);margin-top:var(--s5)}
+  .ch .notes div{border-top:1px solid var(--c35);padding-top:var(--s2);font-size:13px;line-height:1.45;color:var(--c80)}
+
+  /* numbers on black */
+  .figs{padding:var(--s6) var(--gut);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+  .figs div{border-top:1px solid var(--c18);padding-top:var(--s3)}
+  .figs b{display:block;font-family:var(--disp);font-size:var(--t-big);font-weight:800;letter-spacing:.005em;line-height:.9;text-shadow:var(--glow)}
+  .figs p{margin-top:var(--s2);color:var(--c80);max-width:26ch}
+  .figs .foot{margin-top:var(--s2)}
+  .meet-h{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:var(--t-hero);line-height:.9;letter-spacing:.01em;margin-top:var(--s2)}
+  .meet-p{margin-top:var(--s3);font-size:22px;line-height:1.45;color:var(--c80);max-width:46ch}
+  .meet b{font-size:clamp(48px,5vw,80px)!important}
+
+  /* grid trip */
+  .trip{padding:var(--s6) var(--gut)}
+  .trip .say{font-family:var(--disp);font-size:var(--t-say);font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:.95;max-width:18ch}
+  .trip .meta{display:flex;justify-content:space-between;align-items:flex-end;margin:var(--s5) 0 var(--s3);gap:var(--s4)}
+  .trip .meta p{color:var(--c80);max-width:44ch}
+  .trip svg{width:100%;height:auto;overflow:visible}
+  .trip .ax{stroke:var(--c18)} .trip text{fill:var(--c80);font-family:var(--mono);font-size:13px;letter-spacing:.04em}
+  .trip .ln{fill:none;stroke:var(--core);stroke-width:2.5;filter:url(#glow)}
+  .trip .mk{fill:var(--core);font-family:var(--mono);font-size:12px}
+
+  /* product, Lucid-like */
+  .product{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:var(--s6) var(--gut) var(--s5);overflow:hidden}
+  .product .art{position:absolute;left:0;right:0;margin:0 auto;top:14%;width:min(1180px,88vw);filter:drop-shadow(0 0 40px rgba(var(--corona),.3))}
+  .product .name{position:relative;font-size:var(--t-hero);font-weight:500;letter-spacing:-.03em;line-height:1}
+  .product .tag{position:relative;margin-top:var(--s2);color:var(--c80)}
+  .product .bar{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s4);margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--c18)}
+  .product .stats{display:flex;gap:var(--s5)}
+  .product .stats b{display:block;font-size:24px;font-weight:500;letter-spacing:-.01em}
+  .product .stats b.hot{text-shadow:var(--glow)}
+  .btns{display:flex;gap:var(--s2)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;height:46px;min-width:190px;padding:0 var(--s3);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--core);border:1px solid var(--c35);transition:all .5s var(--ease)}
+  button.btn{cursor:pointer;background:transparent}
+  .btn.fill{background:var(--core);color:var(--void);border-color:var(--core)}
+  .btn:hover{background:var(--core);color:var(--void)}
+
+  /* Apple-like centred statement */
+  .statement{min-height:100vh;display:grid;place-items:center;text-align:center;padding:var(--s6) var(--gut)}
+  .statement p{font-size:var(--t-state);font-weight:300;letter-spacing:-.015em;line-height:1.25;max-width:30ch;color:var(--c55)}
+  .statement p+p{margin-top:var(--s4)}
+  .statement p.on{color:var(--core)}
+
+  /* close */
+  .close{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--gut);position:relative;overflow:hidden}
+  .close h2{font-family:var(--disp);font-size:var(--t-hero);font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:.9;max-width:14ch}
+  .close p{margin-top:var(--s3);color:var(--c80)}
+  .close .btns{margin-top:var(--s4)}
+  footer{display:flex;justify-content:space-between;gap:var(--s4);padding:var(--s3) var(--gut) var(--s4);border-top:1px solid var(--c18)}
+
+
+  .hero.film{justify-content:flex-end;padding-bottom:var(--s6)}
+  .hero.film>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .veil{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.2) 50%,rgba(0,0,0,.35) 100%);z-index:1}
+  .hero.film .copy{position:relative;z-index:2}
+  .hero.film .cue{z-index:2}
+  .reveal-end{position:relative;height:100vh;min-height:620px;background:#000;overflow:hidden}
+  .reveal-end video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .rv{opacity:0;transform:translateY(18px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.ch::after{animation:none}}
+  @media (max-width:860px){
+    :root{--gut:16px}
+    nav .links{display:none}
+    .ch .notes{grid-template-columns:1fr 1fr}
+    .figs{grid-template-columns:1fr}
+    .trip .meta,.product .bar{display:block} .product .stats{gap:var(--s3);margin-bottom:var(--s3);flex-wrap:wrap}
+    .btns{flex-wrap:wrap} footer{flex-direction:column}
+  }
+  /* Laplace god view */
+  .gv{--c08:rgba(246,248,255,.08)}
+
+.gv{position:relative;height:100vh;min-height:760px;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 45% 48%,#0b0c10 0,#000 70%)}
+.gv canvas.map{position:absolute;inset:0;width:100%;height:100%}
+.gv .foot{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c55)}
+.gv .hd{position:absolute;left:var(--gut);top:104px;max-width:560px;pointer-events:none}
+.gv .hd h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(40px,4.2vw,64px);line-height:.92;letter-spacing:.01em;margin-top:14px}
+.gv .clock{position:absolute;right:var(--gut);top:104px;text-align:right;pointer-events:none}
+.gv .clock b{display:block;font-family:var(--mono);font-weight:400;font-size:clamp(40px,4vw,60px);letter-spacing:-.01em;line-height:1;font-variant-numeric:tabular-nums}
+.gv .clock .foot{margin-top:10px;display:flex;gap:10px;justify-content:flex-end;align-items:center}
+.gv .rec{width:7px;height:7px;background:var(--core);border-radius:50%;animation:blink 1.4s steps(1) infinite}@keyframes blink{50%{opacity:.15}}
+.gv .stats{position:absolute;left:var(--gut);bottom:206px;display:grid;gap:22px;pointer-events:none}
+.gv .stat .foot{display:block;margin-bottom:6px}
+.gv .stat b{font-family:var(--disp);font-weight:800;font-size:clamp(44px,4.4vw,68px);line-height:.9;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.gv .stat b small{font-size:.42em;letter-spacing:.06em;margin-left:6px;color:var(--c55)}
+.gv .stat.sm b{font-size:clamp(26px,2.3vw,34px)}
+.gv .rail{position:absolute;right:var(--gut);top:236px;width:330px}
+.gv .rail h3{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c55);display:flex;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid var(--c35)}
+.gv .tot{padding:16px 0 18px;border-bottom:1px solid var(--c18)}
+.gv .tot b{font-family:var(--disp);font-weight:800;font-size:44px;line-height:.9;font-variant-numeric:tabular-nums}
+.gv .tot span{display:block;font-size:14px;color:var(--c80);margin-top:6px}
+.gv ul{list-style:none}
+.gv li{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--c18);font-family:var(--mono);font-size:12.5px;color:var(--c55);cursor:pointer;transition:color .3s}
+.gv li .bar{height:2px;background:var(--c18);position:relative;align-self:center}.gv li .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--core)}
+.gv li.on,.gv li:hover{color:var(--core)}
+.gv li em{font-style:normal;font-variant-numeric:tabular-nums}
+.gv .tl{position:absolute;left:var(--gut);right:var(--gut);bottom:44px;height:130px}
+.gv .tl canvas{width:100%;height:100%;display:block;cursor:ew-resize}
+.gv .legend{position:absolute;left:var(--gut);right:var(--gut);bottom:178px;display:flex;gap:26px;justify-content:flex-end;pointer-events:none}
+.gv .legend span{display:flex;align-items:center;gap:8px}
+.gv .legend i{display:inline-block;width:22px;height:0;border-top:1px solid var(--core)}
+.gv .legend i.dash{border-top:1px dashed var(--core)}.gv .legend i.dot{border-top:1px dotted var(--c80)}.gv .legend i.fill{height:9px;border:0;background:var(--core)}
+.gv .src{position:absolute;left:var(--gut);bottom:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--c35)}
+.gv .tip{position:absolute;pointer-events:none;background:#000;border:1px solid var(--c80);padding:10px 12px;font-family:var(--mono);font-size:12px;line-height:1.6;opacity:0;transition:opacity .15s;min-width:170px}
+.gv .tip b{font-weight:500;letter-spacing:.06em}
+.gv .play{position:absolute;right:var(--gut);bottom:16px;background:none;border:0;color:var(--c55);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+@media (max-width:860px){.gv{height:auto;min-height:0;padding:96px 20px 30px}.gv canvas.map{position:relative;height:62vh}.gv .hd,.gv .clock,.gv .stats,.gv .rail,.gv .tl,.gv .legend,.gv .src,.gv .play{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:auto;max-width:none;text-align:left}
+.gv{display:flex;flex-direction:column}.gv .hd{order:1}.gv .clock{order:2}.gv canvas.map{order:3}.gv .stats{order:4}.gv .rail{order:5}.gv .legend{order:6}.gv .tl{order:7}.gv .src{order:8}.gv .play{order:9;align-self:flex-start;margin-top:8px}.gv .clock{margin-top:16px}.gv .clock .foot{justify-content:flex-start}.gv .stats{grid-template-columns:1fr 1fr;margin-top:12px}.gv .rail{margin-top:24px}.gv .tl{height:110px;margin-top:20px}.gv .legend{flex-wrap:wrap;justify-content:flex-start;margin-top:10px;gap:14px}.gv .src{margin-top:14px}}
+</style>
+<style>
+  .feat{padding:var(--s6) var(--gut) var(--s5);border-top:1px solid var(--c18)}
+  .feat .foot{color:var(--c55)}
+  .feat h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:var(--t-say);line-height:.92;letter-spacing:.01em;margin:14px 0 var(--s5);max-width:14ch}
+  .feat .grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--c35)}
+  .feat .grid div{padding:var(--s3) var(--s3) var(--s4) 0;border-bottom:1px solid var(--c18)}
+  .feat .grid div:not(:nth-child(3n+1)){padding-left:var(--s3);border-left:1px solid var(--c18)}
+  .feat h3{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+  .feat p{color:var(--c80);font-size:16px;line-height:1.55;max-width:34ch}
+  .cta{padding:var(--s6) var(--gut);text-align:center;border-top:1px solid var(--c18)}
+  .cta h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:var(--t-say);line-height:.92}
+  .cta p{color:var(--c80);margin:18px auto 28px;max-width:40ch}
+  .cta a{display:inline-block;background:var(--core);color:#000;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:14px 26px;text-decoration:none}
+  nav a{color:inherit;text-decoration:none}
+  @media (max-width:860px){.feat{padding:72px 20px 48px}.feat .grid{grid-template-columns:1fr}.feat .grid div,.feat .grid div:not(:nth-child(3n+1)){padding:20px 0;border-left:0}.cta{padding:72px 20px}}
+</style><style>
+  /* Laplace full-view app */
+  .stage{padding:0;position:relative}
+  #lx{position:relative;height:100vh;min-height:780px;display:grid;grid-template-rows:56px 1fr;background:#060607;font-family:Geist,system-ui,sans-serif;color:#F6F8FF;font-feature-settings:"tnum" 1;-webkit-font-smoothing:antialiased;border-bottom:1px solid rgba(246,248,255,.08);overflow:hidden}
+  #lx button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+  #lx .bar-top{display:flex;align-items:center;gap:20px;padding:0 20px;border-bottom:1px solid rgba(246,248,255,.08)}
+  #lx .brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;letter-spacing:-.01em;width:200px;color:#F6F8FF;text-decoration:none}
+  #lx .brand img{width:18px;height:18px}
+  #lx .plant{display:flex;align-items:center;gap:10px;font-size:14px;padding:7px 12px;border:1px solid rgba(246,248,255,.12);border-radius:8px}
+  #lx .plant small{color:rgba(246,248,255,.45);font-size:12.5px}
+  #lx .plant svg{width:10px;opacity:.6}
+  #lx .right{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:13px;color:rgba(246,248,255,.55)}
+  #lx .right b{font-weight:500;color:#F6F8FF;font-size:14px}
+  #lx .live{display:flex;align-items:center;gap:7px;font-size:12px;padding:5px 10px;border-radius:20px;border:1px solid rgba(246,248,255,.18);color:#F6F8FF}
+  #lx .live i{width:6px;height:6px;border-radius:50%;background:#F6F8FF;animation:lxb 1.4s steps(1) infinite}@keyframes lxb{50%{opacity:.15}}
+  #lx .pv{font-size:12px;color:rgba(246,248,255,.45);border:1px dashed rgba(246,248,255,.2);padding:4px 9px;border-radius:20px}
+  #lx .av{width:28px;height:28px;border-radius:50%;background:rgba(246,248,255,.1);display:grid;place-items:center;font-size:11px;color:#F6F8FF}
+  #lx .shell{display:grid;grid-template-columns:232px 1fr;min-height:0}
+  #lx .sb{border-right:1px solid rgba(246,248,255,.08);padding:14px 12px;display:flex;flex-direction:column;gap:1px;overflow:auto}
+  #lx .sb h6{font-size:11.5px;font-weight:400;color:rgba(246,248,255,.38);padding:14px 10px 6px;margin:0}
+  #lx .sb button{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:rgba(246,248,255,.6);text-align:left;transition:background .15s,color .15s}
+  #lx .sb button svg{width:16px;height:16px;flex:none;opacity:.8}
+  #lx .sb button:hover{color:#F6F8FF;background:rgba(246,248,255,.04)}
+  #lx .sb button.on{color:#F6F8FF;background:rgba(246,248,255,.09)}
+  #lx .sb button i{margin-left:auto;font-style:normal;font-size:11px;padding:1px 7px;border-radius:10px;background:#F6F8FF;color:#000}
+  #lx .sb button i:empty{display:none}
+  #lx .sb .conn{margin-top:auto;padding:14px 10px 4px;font-size:12.5px;color:rgba(246,248,255,.45);line-height:1.7;border-top:1px solid rgba(246,248,255,.08)}
+  #lx .sb .conn b{font-weight:500;color:#F6F8FF}
+  #lx .main{min-width:0;min-height:0;overflow:auto}
+  #lx .view{padding:22px 24px;display:flex;flex-direction:column;gap:18px;min-height:100%}
+  #lx .view[hidden]{display:none}
+  #lx .ttl{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+  #lx .ttl h3{font-size:22px;font-weight:500;letter-spacing:-.02em;margin:0}
+  #lx .ttl p{font-size:13.5px;color:rgba(246,248,255,.5);margin:0}
+  #lx .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  #lx .card{border:1px solid rgba(246,248,255,.09);border-radius:12px;background:#0a0a0c;position:relative;min-width:0}
+  #lx .kpi{padding:16px 20px}
+  #lx .kpi .l{font-size:13px;color:rgba(246,248,255,.55)}
+  #lx .kpi .v{font-size:32px;font-weight:500;letter-spacing:-.03em;line-height:1;margin-top:12px}
+  #lx .kpi .v small{font-size:14px;font-weight:400;color:rgba(246,248,255,.5);margin-left:6px;letter-spacing:0}
+  #lx .kpi .s{font-size:12.5px;color:rgba(246,248,255,.45);margin-top:8px}
+  #lx .row{display:grid;grid-template-columns:1fr 330px;gap:16px;flex:1;min-height:340px}
+  #lx .hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px 0}
+  #lx .hd h4{font-size:14px;font-weight:500;margin:0}
+  #lx .hd span{font-size:12.5px;color:rgba(246,248,255,.45)}
+  #lx .tool{display:flex;gap:8px}
+  #lx .tool button{font-size:12.5px;padding:6px 11px;border-radius:7px;border:1px solid rgba(246,248,255,.16);color:rgba(246,248,255,.8)}
+  #lx .tool button:hover{border-color:#F6F8FF;color:#F6F8FF}
+  #lx .tool button.on{background:#F6F8FF;color:#000;border-color:#F6F8FF}
+  #lx .mapcard{display:flex;flex-direction:column}
+  #lx .slot{flex:1;min-height:300px;position:relative}
+  #lx #lxMap{position:absolute;inset:0;width:100%;height:100%;display:block}
+  #lx .att{display:flex;flex-direction:column}
+  #lx .att ul{list-style:none;padding:6px 10px 0;margin:0}
+  #lx .att li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 10px;border-radius:8px;cursor:pointer;transition:background .15s}
+  #lx .att li:hover,#lx .att li.sel{background:rgba(246,248,255,.06)}
+  #lx .att li div{display:grid;gap:2px}
+  #lx .att li b{font-weight:500;font-size:14px}
+  #lx .att li span{font-size:12.5px;color:rgba(246,248,255,.5)}
+  #lx .att li em{font-style:normal;font-size:14px}
+  #lx .att li.empty{color:rgba(246,248,255,.5);font-size:13px;cursor:default}
+  #lx .sugg{margin:auto 16px 16px;padding:14px;border-radius:10px;border:1px solid rgba(246,248,255,.22)}
+  #lx .sugg .l{font-size:12px;color:rgba(246,248,255,.5)}
+  #lx .sugg p{font-size:13.5px;line-height:1.5;margin:6px 0 12px}
+  #lx .sugg button,#lx .dr .acts button,#lx .pri{background:#F6F8FF;color:#000;font-size:13px;font-weight:500;padding:8px 14px;border-radius:8px}
+  #lx .play{display:flex;align-items:center;gap:10px}
+  #lx #lxPlay{width:30px;height:30px;border-radius:50%;background:#F6F8FF;color:#000;display:grid;place-items:center}
+  #lx #lxPlay svg{width:11px;height:11px}
+  #lx .seg{display:flex;border:1px solid rgba(246,248,255,.14);border-radius:8px;overflow:hidden}
+  #lx .seg button{font-size:12.5px;padding:5px 10px;color:rgba(246,248,255,.6)}
+  #lx .seg button.on{background:rgba(246,248,255,.1);color:#F6F8FF}
+  #lx .chips{display:flex;gap:8px;flex-wrap:wrap}
+  #lx .chips button{font-size:12.5px;padding:5px 11px;border-radius:20px;border:1px solid rgba(246,248,255,.16);color:rgba(246,248,255,.75)}
+  #lx .chips button:hover{border-color:#F6F8FF;color:#F6F8FF}
+  #lx #lxTl{display:block;width:100%;height:130px}
+  #lx .pad{padding:6px 18px 14px}
+  #lx table{width:100%;border-collapse:collapse;font-size:14px}
+  #lx th{font-weight:400;font-size:12.5px;color:rgba(246,248,255,.45);text-align:left;padding:12px 18px;border-bottom:1px solid rgba(246,248,255,.08)}
+  #lx td{padding:12px 18px;border-bottom:1px solid rgba(246,248,255,.05)}
+  #lx tr[data-i]{cursor:pointer}#lx tr[data-i]:hover td{background:rgba(246,248,255,.04)}
+  #lx td .bar{display:inline-block;width:90px;height:3px;background:rgba(246,248,255,.12);margin-right:10px;vertical-align:middle;position:relative}
+  #lx td .bar i{position:absolute;left:0;top:0;bottom:0;background:#F6F8FF}
+  #lx .pill{display:inline-block;font-size:12px;padding:2px 9px;border-radius:20px;border:1px solid rgba(246,248,255,.3)}
+  #lx .pill.solid{background:#F6F8FF;color:#000;border-color:#F6F8FF}
+  #lx .price{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(246,248,255,.6)}
+  #lx .price input{width:70px;background:transparent;border:1px solid rgba(246,248,255,.2);border-radius:7px;padding:6px 8px;color:#F6F8FF;font:inherit;font-size:13px;outline:none}
+  #lx #lxHm{display:block;width:100%;height:560px}
+  #lx #lxSch{display:block;width:100%;height:400px}
+  #lx .wo ul{list-style:none;padding:6px 10px 10px;margin:0}
+  #lx .wo li{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 10px;border-bottom:1px solid rgba(246,248,255,.06)}
+  #lx .wo li div{display:grid;gap:3px}#lx .wo li b{font-weight:500}#lx .wo li small{font-size:12.5px;color:rgba(246,248,255,.45)}
+  #lx .wo li button{font-size:12.5px;padding:6px 12px;border-radius:20px;border:1px solid rgba(246,248,255,.3)}
+  #lx .wo li.empty{color:rgba(246,248,255,.5);font-size:14px;border:0}
+  #lx .sum{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  #lx .stg{display:grid;gap:6px}
+  #lx .stg .r{display:grid;grid-template-columns:70px repeat(9,1fr);gap:6px;align-items:center;font-size:12.5px;color:rgba(246,248,255,.5)}
+  #lx .stg .c{height:30px;border-radius:5px;display:grid;place-items:center;font-size:11.5px;color:#000}
+  #lx .stg .c.lo{background:transparent!important;border:1px solid #F6F8FF;color:#F6F8FF}
+  #lx .wi{display:grid;grid-template-columns:1fr 330px;gap:16px;flex:1;min-height:420px}
+  #lx .wi ol{margin:0;padding:6px 18px 0 36px;font-size:13.5px;line-height:1.7;color:rgba(246,248,255,.75)}
+  #lx .dr{position:absolute;top:56px;right:0;bottom:0;width:380px;background:#08080a;border-left:1px solid rgba(246,248,255,.1);transform:translateX(102%);transition:transform .35s cubic-bezier(.16,1,.3,1);padding:22px;display:flex;flex-direction:column;gap:18px;z-index:4}
+  #lx .dr.on{transform:none}
+  #lx .dr .top{display:flex;justify-content:space-between;align-items:flex-start}
+  #lx .dr h5{font-size:20px;font-weight:500;letter-spacing:-.02em;margin:0}
+  #lx .dr .st{font-size:13px;color:rgba(246,248,255,.55);margin-top:4px}
+  #lx .dr dl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0}
+  #lx .dr dl div{border:1px solid rgba(246,248,255,.09);border-radius:10px;padding:12px 14px}
+  #lx .dr dt{font-size:12px;color:rgba(246,248,255,.5)}#lx .dr dd{margin:6px 0 0;font-size:18px;font-weight:500;letter-spacing:-.02em}
+  #lx #lxDrC{display:block;width:100%;height:150px}
+  #lx .dr .acts{display:flex;gap:10px;flex-wrap:wrap}
+  #lx .dr .acts .ghost{background:none;color:#F6F8FF;border:1px solid rgba(246,248,255,.3)}
+  #lx #lxDrX{font-size:20px;line-height:1;color:rgba(246,248,255,.6)}
+  #lx .tip{position:absolute;pointer-events:none;background:#0d0d10;border:1px solid rgba(246,248,255,.2);border-radius:8px;padding:10px 12px;display:grid;gap:3px;font-size:13px;opacity:0;transition:opacity .12s;z-index:5;min-width:170px}
+  #lx .tip b{font-weight:500}#lx .tip span{color:rgba(246,248,255,.75)}#lx .tip small{font-size:11.5px;color:rgba(246,248,255,.45)}
+  #lx .toast{position:absolute;left:50%;bottom:22px;transform:translate(-50%,20px);background:#F6F8FF;color:#000;font-size:13.5px;font-weight:500;padding:10px 16px;border-radius:10px;opacity:0;transition:all .3s;z-index:6;pointer-events:none;white-space:nowrap}
+  #lx .toast.on{opacity:1;transform:translate(-50%,0)}
+  .after{padding:96px var(--gut) 24px;text-align:center}
+  .after .foot{color:var(--c55)}
+  .after h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(48px,5.6vw,88px);line-height:.9;letter-spacing:.01em;margin:14px auto 0;max-width:18ch}
+  .after p{color:var(--c80);font-size:19px;max-width:48ch;margin:20px auto 0}
+  .after .acts{display:flex;gap:12px;justify-content:center;margin-top:28px}
+  .after .acts a{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:14px 24px;text-decoration:none;border:1px solid var(--core);color:var(--core)}
+  .after .acts a.fill{background:var(--core);color:#000}
+  .after small{display:block;margin:28px auto 0;max-width:80ch;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--c35)}
+  @media (max-width:1100px){#lx .shell{grid-template-columns:64px 1fr}#lx .sb h6,#lx .sb .conn{display:none}#lx .sb button span{display:none}#lx .sb button{justify-content:center}#lx .brand{width:auto}#lx .plant small{display:none}}
+  @media (max-width:860px){#lx{height:auto;min-height:0;grid-template-rows:auto 1fr}#lx .bar-top{flex-wrap:wrap;gap:10px;padding:10px 14px}#lx .right .pv,#lx .right span:first-child{display:none}#lx .shell{grid-template-columns:1fr}#lx .sb{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid rgba(246,248,255,.08);padding:8px}#lx .sb button span{display:inline}#lx .sb button{white-space:nowrap}#lx .view{padding:14px;gap:14px}#lx .kpis{grid-template-columns:1fr 1fr;gap:12px}#lx .kpi .v{font-size:24px}#lx .row,#lx .sum,#lx .wi{grid-template-columns:1fr}#lx .slot{min-height:320px}#lx .dr{width:100%;top:0}#lx td,#lx th{padding:10px}#lx td .bar{display:none}.after{padding:72px 20px 24px}}
+
+  body > nav{position:absolute}
+  .demo{padding:124px var(--gut) 40px}
+  .demo-hd{max-width:1400px;margin:0 auto 28px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+  .demo-hd .foot{color:var(--c55)}
+  .demo-hd h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(48px,5vw,80px);line-height:.9;margin-top:12px}
+  .demo-hd p{max-width:46ch;color:var(--c80);font-size:17px;line-height:1.55}
+  .win{max-width:1400px;margin:0 auto;border:1px solid rgba(246,248,255,.2);border-radius:14px;overflow:hidden;box-shadow:0 50px 140px rgba(0,0,0,.85),0 0 0 7px rgba(246,248,255,.035);height:min(860px,calc(100vh - 120px));min-height:720px;display:flex;flex-direction:column;background:#060607}
+  .chrome{height:38px;flex:none;display:flex;align-items:center;gap:14px;padding:0 14px;background:#0d0d10;border-bottom:1px solid rgba(246,248,255,.08);font:12.5px Geist,system-ui,sans-serif;color:rgba(246,248,255,.5)}
+  .chrome .dots i{width:10px;height:10px;border-radius:50%;background:rgba(246,248,255,.16);display:inline-block;margin-right:7px}
+  .chrome .url{margin:0 auto;padding:4px 14px;border-radius:6px;background:rgba(246,248,255,.05)}
+  .chrome .tag{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#000;background:#F6F8FF;padding:3px 9px;border-radius:4px}
+  .win #lx{height:auto;min-height:0;flex:1;border-bottom:0}
+  .win #lx .dr{top:56px}
+  @media (max-width:860px){.demo{padding:100px 12px 30px}.demo-hd{flex-direction:column;align-items:flex-start;gap:12px;padding:0 8px}.win{height:auto;min-height:0}.chrome .url{display:none}.chrome{justify-content:space-between}}
+
+  /* polish: lit edge, glass chrome, quiet scrollbars */
+  .win{border:1px solid transparent;border-radius:18px;background:linear-gradient(#060607,#060607) padding-box,linear-gradient(180deg,rgba(246,248,255,.42),rgba(246,248,255,.1) 22%,rgba(246,248,255,.05) 70%,rgba(246,248,255,.14)) border-box;box-shadow:0 0 0 1px rgba(0,0,0,.7),0 30px 70px rgba(0,0,0,.75),0 0 140px rgba(246,248,255,.05)}
+  .chrome{background:linear-gradient(180deg,#121216,#0b0b0d);box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+  #lx .card{box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+  #lx *{scrollbar-width:thin;scrollbar-color:rgba(246,248,255,.16) transparent}
+  #lx ::-webkit-scrollbar{width:10px;height:10px}
+  #lx ::-webkit-scrollbar-track{background:transparent}
+  #lx ::-webkit-scrollbar-thumb{background:rgba(246,248,255,.13);border-radius:10px;border:3px solid transparent;background-clip:content-box}
+  #lx ::-webkit-scrollbar-thumb:hover{background-color:rgba(246,248,255,.32)}
+  #lx .main{overscroll-behavior:contain}
+  #lx .main::after{content:"";position:sticky;display:block;bottom:0;height:28px;margin-top:-28px;background:linear-gradient(transparent,#060607);pointer-events:none}
+</style>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{colors:{core:'#F6F8FF'},fontFamily:{disp:['"Big Shoulders Display"','Geist','sans-serif'],mono:['"Geist Mono"','ui-monospace','monospace'],sans:['Geist','system-ui','sans-serif']}}}}</script>
+<style>
+  *,::before,::after{border-width:0;border-style:solid;border-color:rgba(246,248,255,.2)}
+  .chain .steps{border-top:0;position:relative;padding:14px 22px 14px 46px;border:1px solid var(--c18);border-radius:16px;background:rgba(0,0,0,.38);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .chain .steps::before{content:"";position:absolute;left:28px;top:30px;bottom:30px;width:1px;background:var(--c18)}
+  .chain .steps li{position:relative;border-bottom:0!important;padding:11px 0}
+  .chain .steps li::before{content:"";position:absolute;left:-23px;top:50%;width:9px;height:9px;margin-top:-5px;border-radius:50%;border:1px solid var(--c35);background:#000;transition:all .4s}
+  .chain .steps li.done::before{background:var(--c55);border-color:var(--c55)}
+  .chain .steps li.cur::before{background:var(--core);border-color:var(--core);box-shadow:0 0 14px rgba(246,248,255,.85)}
+  .tw-in{border:1px solid rgba(246,248,255,.2);background:transparent;border-radius:10px;padding:12px 14px;font:15px/1.4 Geist,system-ui,sans-serif;color:#F6F8FF;width:100%;outline:none;transition:border-color .2s}
+  .tw-in:focus{border-color:#F6F8FF}.tw-in::placeholder{color:rgba(246,248,255,.3)}
+  select.tw-in option{background:#000}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs><filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.56  0 0 0 0 0.66  0 0 0 0 1  0 0 0 0.9 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
+<nav><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><span class="links"><a href="laplace.html">Laplace</a><a href="who.html">Who it's for</a><a href="contact.html">Contact</a></span></nav>
+<section class="demo" id="product">
+  <div class="demo-hd"><div><div class="foot">Laplace</div><h2>See it run.</h2></div><p>One plant, one day, every inverter. Click anything. Trip an inverter in What-if and watch the plant respond.</p></div>
+  <div class="win"><div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">Laplace · Juniper Flats Solar Park</span></div>
+  <div id="lx">
+    <div class="bar-top">
+      <a class="brand" href="index.html"><img src="assets/hypersun-icon.svg" alt="">Laplace</a>
+      <div class="plant">Juniper Flats Solar Park <small>38.7 MWp · 40 inverters</small><svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" fill="none"/></svg></div>
+      <div class="right"><span>29 Sep 2026</span><b id="lxClock">10:15</b><span class="live"><i></i>Live</span><span class="av">JF</span></div>
+    </div>
+    <div class="shell">
+      <aside class="sb">
+        <h6>Monitor</h6>
+        <button data-tab="overview" class="on"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg><span>Overview</span></button>
+        <button data-tab="map"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M1.5 4l4-1.5 5 1.5 4-1.5v9.5l-4 1.5-5-1.5-4 1.5z"/><path d="M5.5 2.5v9.5M10.5 4v9.5"/></svg><span>Plant map</span></button>
+        <button data-tab="inverters"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><rect x="2" y="3" width="12" height="10" rx="1"/><path d="M5 6h6M5 8h6M5 10h3"/></svg><span>Inverters &amp; strings</span></button>
+        <button data-tab="alarms"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M8 2a4 4 0 0 1 4 4v3l1.5 2.5h-11L4 9V6a4 4 0 0 1 4-4zM6.5 13.5a1.5 1.5 0 0 0 3 0"/></svg><span>Alarms</span><i id="lxBadge"></i></button>
+        <h6>Operate</h6>
+        <button data-tab="ops"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M10 2.5a3 3 0 0 0-3.6 3.9L2.5 10.3l1.4 1.4 1.8-1.8 1 1-1.8 1.8 1.4 1.4 3.9-3.9A3 3 0 0 0 13.5 6l-1.8 1.8-2.2-.5-.5-2.2z"/></svg><span>Control &amp; O&amp;M</span><i id="lxWoB"></i></button>
+        <button data-tab="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><rect x="2" y="3" width="12" height="11" rx="1"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg><span>Schedule &amp; DSM</span></button>
+        <h6>Analyse</h6>
+        <button data-tab="losses"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M2 13.5h12M4 11V7M8 11V4M12 11V8"/></svg><span>Performance</span></button>
+        <button data-tab="whatif"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M8.5 1.5L3.5 9h4l-1 5.5L12.5 7h-4z"/></svg><span>What-if</span></button>
+        <button data-tab="health"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M1.5 8.5h3l2-5 3 9 2-4h3"/></svg><span>Long-term health</span></button>
+        <button data-tab="reports"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M4 1.5h5.5L12.5 4.5v10H4z"/><path d="M9.5 1.5v3h3M6 8h4.5M6 10.5h4.5"/></svg><span>Reports</span></button>
+        <div class="conn">OPC UA <b>connected</b><br>Read-only · 5 min scan</div>
+      </aside>
+      <div class="main"><div class="mc">
+        <div class="view" data-view="overview">
+          <div class="kpis">
+            <div class="card kpi"><div class="l">Output now</div><div class="v"><span id="kN">0</span><small>MW</small></div><div class="s" id="kNs"></div></div>
+            <div class="card kpi"><div class="l">Physics expects</div><div class="v"><span id="kE">0</span><small>MW</small></div><div class="s">From sunlight and temperature</div></div>
+            <div class="card kpi"><div class="l">Today vs physics</div><div class="v"><span id="kR">0</span><small>%</small></div><div class="s" id="kRs"></div></div>
+            <div class="card kpi"><div class="l">Lost today</div><div class="v"><span id="kL">$0</span></div><div class="s" id="kLs"></div></div>
+          </div>
+          <div class="row">
+            <div class="card mapcard"><div class="hd"><h4>Plant</h4><span>Brightness is measured output</span></div><div class="slot" data-mapslot="overview"><canvas id="lxMap"></canvas></div></div>
+            <div class="card att"><div class="hd"><h4>Needs attention</h4><span>Lost so far</span></div><ul id="lxAtt"></ul><div class="sugg"><div class="l">Suggested next step</div><div id="lxAct"></div></div></div>
+          </div>
+          <div class="card"><div class="hd"><div class="play"><button id="lxPlay" aria-label="Play or pause"></button><div class="seg"><button data-speed="0.5">0.5×</button><button data-speed="1" class="on">1×</button><button data-speed="3">3×</button></div></div>
+            <div class="chips"><button data-jump="7.5">07:30 · control room 10 offline</button><button data-jump="12.6">12:36 · back online</button><button data-jump="16.5" data-sel="03">16:30 · inverter 03 sags</button></div></div>
+            <div class="pad"><canvas id="lxTl"></canvas></div></div>
+        </div>
+        <div class="view" data-view="map" hidden>
+          <div class="ttl"><h3>Plant map</h3><p>All 5,283 tables. Hover an inverter block, click for details.</p></div>
+          <div class="card mapcard" style="flex:1"><div class="slot" data-mapslot="map" style="min-height:560px"></div></div>
+        </div>
+        <div class="view" data-view="inverters" hidden>
+          <div class="ttl"><h3>Inverters</h3><p>Output as a share of physics, every 15 minutes. Outlined cells are offline. Click a row to see its strings.</p></div>
+          <div class="card"><div class="pad" style="padding-top:16px"><canvas id="lxHm" style="height:420px"></canvas></div></div>
+          <div class="card"><div class="hd"><h4 id="stT">Strings · inverter 01</h4><span>Current per string now, against its combiner peers</span></div><div class="pad"><div id="stGrid" class="stg"></div></div></div>
+        </div>
+        <div class="view" data-view="alarms" hidden>
+          <div class="ttl"><h3>Alarms</h3><p>Raised when an inverter falls more than 12% below physics.</p></div>
+          <div class="card"><table><thead><tr><th>Inverter</th><th>Status</th><th>First seen</th><th>Duration</th><th>Lost</th></tr></thead><tbody id="alRows"></tbody></table></div>
+        </div>
+        <div class="view" data-view="ops" hidden>
+          <div class="ttl"><h3>Control &amp; O&amp;M</h3><p id="lxWoN">Work orders are created from alarms, the plant map and the drawer.</p></div>
+          <div class="row" style="flex:none;min-height:0;grid-template-columns:1fr 360px">
+            <div class="card wo"><div class="hd"><h4>Work orders</h4><span id="woCount"></span></div><ul id="lxWo"></ul></div>
+            <div class="card wo"><div class="hd"><h4>Crews on shift</h4><span></span></div><ul id="crew"></ul></div>
+          </div>
+          <div class="card"><div class="hd"><h4>Spares</h4><span></span></div><table><thead><tr><th>Part</th><th>On hand</th><th>Minimum</th><th>Status</th></tr></thead><tbody id="spares"></tbody></table></div>
+        </div>
+        <div class="view" data-view="schedule" hidden>
+          <div class="ttl"><h3>Schedule &amp; DSM</h3><p><b id="lxSchOut">0</b> of <b id="lxSchBlk">0</b> blocks so far outside the ±10% band</p></div>
+          <div class="card"><div class="hd"><h4>Day-ahead schedule vs delivered, 15-minute blocks</h4><span>Boxes show the band. Solid bars are outside it.</span></div><div class="pad"><canvas id="lxSch"></canvas></div></div>
+        </div>
+        <div class="view" data-view="losses" hidden>
+          <div class="ttl"><h3>Performance</h3><label class="price">Price $/MWh <input id="lsPrice" type="number" value="50" min="0" step="5"></label></div>
+          <div class="sum">
+            <div class="card kpi"><div class="l">Lost to physics so far</div><div class="v" id="lsTot">$0</div><div class="s" id="lsMwh"></div></div>
+            <div class="card kpi"><div class="l">From inverters offline</div><div class="v" id="lsOff">$0</div><div class="s">Below 60% of physics</div></div>
+            <div class="card kpi"><div class="l">From underperformance</div><div class="v" id="lsRest">$0</div><div class="s">Everything else</div></div>
+          </div>
+          <div class="card"><table><thead><tr><th>Inverter</th><th>Actual MWh</th><th>Physics MWh</th><th>Of physics</th><th>Lost</th></tr></thead><tbody id="lsRows"></tbody></table></div>
+        </div>
+        <div class="view" data-view="health" hidden>
+          <div class="ttl"><h3>Long-term health</h3><p>Five years of performance, corrected for weather</p></div>
+          <div class="sum">
+            <div class="card kpi"><div class="l">Degradation</div><div class="v">−0.52<small>% / year</small></div><div class="s">Within the module warranty of −0.7%</div></div>
+            <div class="card kpi"><div class="l">Soiling loss, last 30 days</div><div class="v">2.1<small>%</small></div><div class="s">About 0.8 MWh a day</div></div>
+            <div class="card kpi"><div class="l">Next cleaning</div><div class="v">9<small>days</small></div><div class="s">When soiling cost passes cleaning cost</div></div>
+          </div>
+          <div class="card"><div class="hd"><h4>Performance ratio, monthly</h4><span>Dashed: degradation trend. Dips: soiling before each cleaning.</span></div><div class="pad"><canvas id="lxHl" style="display:block;width:100%;height:320px"></canvas></div></div>
+        </div>
+        <div class="view" data-view="reports" hidden>
+          <div class="ttl"><h3>Reports</h3><p>Generated from the twin, ready for lenders, offtakers and the grid operator.</p></div>
+          <div class="card"><table><thead><tr><th>Report</th><th>Period</th><th>For</th><th></th></tr></thead><tbody id="reps"></tbody></table></div>
+        </div>
+        <div class="view" data-view="whatif" hidden>
+          <div class="ttl"><h3>What-if</h3><div class="tool"><button id="lxFault" class="on">Pick an inverter to trip</button><button id="lxReset">Reset</button></div></div>
+          <div class="wi">
+            <div class="card mapcard"><div class="slot" data-mapslot="whatif"></div></div>
+            <div class="card att"><div class="hd"><h4>Simulated faults</h4><span>Lost so far</span></div><ul id="wiList"></ul>
+              <ol><li>Pick a time on the Overview timeline.</li><li>Click any inverter block here to trip it.</li><li>Watch alarms, losses and the schedule react.</li></ol><div style="height:16px"></div></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+    <aside class="dr" id="lxDr">
+      <div class="top"><div><h5 id="drT">Inverter</h5><div class="st" id="drS"></div></div><button id="lxDrX" aria-label="Close">×</button></div>
+      <dl><div><dt>Output now</dt><dd id="drNow"></dd></div><div><dt>Of physics</dt><dd id="drPh"></dd></div><div><dt>Today</dt><dd id="drE"></dd></div><div><dt>Lost today</dt><dd id="drL"></dd></div></dl>
+      <div><div style="font-size:12.5px;color:rgba(246,248,255,.5);margin-bottom:8px">Output vs physics today</div><canvas id="lxDrC"></canvas></div>
+      <div class="acts"><button id="drWo">Create work order</button><button id="drFault" class="ghost">Simulate a fault here</button></div>
+    </aside>
+    <div class="tip" id="lxTip"></div>
+    <div class="toast" id="lxToast"></div>
+  </div>
+  </div>
+</section>
+<header class="after">
+  <div class="foot">Laplace by Hypersun</div>
+  <h1>Every plant, seen whole.</h1>
+  <p>A living physics twin of your plant. It knows what every inverter should make right now, and tells you what to fix first.</p>
+  <div class="acts"><a class="fill" href="contact.html">Book a demo</a><a href="#what">What it runs</a></div>
+  <small>The preview above runs on recorded data from a real 38.7 MWp plant (NREL PVDAQ 9069), shown as the fictional Juniper Flats Solar Park. Work orders, crews, spares and reports are synthetic. Faults you simulate are not in the data.</small>
+</header>
+<section id="what" class="border-t border-white/10 px-[var(--gut)] py-28 sm:py-32"><div class="mx-auto max-w-[1328px]">
+  <div class="grid items-end gap-8 lg:grid-cols-2"><h2 class="font-disp text-[clamp(52px,6vw,96px)] font-extrabold uppercase leading-[.88]">Everything a plant runs on.</h2><p class="max-w-[44ch] text-[19px] leading-relaxed text-white/75 lg:justify-self-end">One product for the engineers, the commercial team and the people in the field.</p></div>
+  <div class="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3"><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Physics twin</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Every string, every five minutes, checked against physics and reconciled to the export meter.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Losses, priced</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Every lost megawatt-hour located to the inverter, combiner or string, with its value in dollars.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Scheduling</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Day-ahead and intraday schedules in 15-minute blocks. Deviation penalties calculated before they land.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Invoicing</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">PPA invoices, revenue-meter reconciliation, and performance guarantees tracked every day.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Field work</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Work orders to the exact string, a phone view for technicians, and sync with SAP PM or Maximo.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Read-only by design</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Connects over OPC UA or MQTT without control access, built to central cyber-security rules.</p></div></div></div></section>
+<section class="cta">
+  <h2>See your plant like this.</h2>
+  <p>Send us one site's data. We will show you its twin.</p>
+  <a href="mailto:rushantashtputre2002@gmail.com">Talk to us</a>
+</section>
+<footer class="foot"><span>Hypersun</span><span>Archival photography public domain and Wikimedia Commons, regraded. Plant example illustrative.</span></footer>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/laplace-app.js?v=6"></script>
+</body>
+</html>
