@@ -351,10 +351,12 @@
   .tw-in:focus{border-color:#F6F8FF}.tw-in::placeholder{color:rgba(246,248,255,.3)}
   select.tw-in option{background:#000}
 </style>
+<link rel="stylesheet" href="assets/navigation.css">
+<script src="assets/navigation.js" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs><filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.56  0 0 0 0 0.66  0 0 0 0 1  0 0 0 0.9 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
-<nav><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><span class="links"><a href="laplace.html">Laplace</a><a href="who.html">Who it's for</a><a href="contact.html">Contact</a></span></nav>
+<nav aria-label="Main navigation"><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html">Laplace</a><a href="who.html">Who it's for</a><a href="contact.html">Contact</a></span></nav>
 <section class="demo" id="product">
   <div class="demo-hd"><div><div class="foot">Laplace</div><h2>See it run.</h2></div><p><span class="dk">One plant, one day, every inverter. Click anything. Trip an inverter in What-if and watch the plant respond.</span><span class="mb">One plant, one day, every inverter, measured against physics.</span></p></div>
   <div class="win"><div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">Laplace · Juniper Flats Solar Park</span></div>

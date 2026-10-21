@@ -239,17 +239,19 @@
   .tw-in:focus{border-color:#F6F8FF}.tw-in::placeholder{color:rgba(246,248,255,.3)}
   select.tw-in option{background:#000}
 </style>
+<link rel="stylesheet" href="assets/navigation.css">
+<script src="assets/navigation.js" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs><filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.56  0 0 0 0 0.66  0 0 0 0 1  0 0 0 0.9 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
 
-<nav><span class="mark"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></span><span class="links"><a href="laplace.html" style="color:inherit;text-decoration:none">Laplace</a><a href="who.html" style="color:inherit;text-decoration:none">Who it's for</a><a href="contact.html" style="color:inherit;text-decoration:none">Contact</a></span></nav>
+<nav aria-label="Main navigation"><span class="mark"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></span><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html" style="color:inherit;text-decoration:none">Laplace</a><a href="who.html" style="color:inherit;text-decoration:none">Who it's for</a><a href="contact.html" style="color:inherit;text-decoration:none">Contact</a></span></nav>
 
 <header class="hero film">
   <video autoplay muted loop playsinline poster="assets/video/hero-film.jpg"><source src="assets/video/hero-film.mp4" type="video/mp4"></video>
   <div class="veil"></div>
   <div class="copy">
-    <h1 class="rv">Energy without limit.</h1>
+    <h1 class="rv">Energy without limit</h1>
     <p class="lead rv">A living physics twin of every power plant and grid on Earth.</p>
     <div class="btns rv"><button class="btn fill" id="watch">Watch the film</button></div>
   </div>

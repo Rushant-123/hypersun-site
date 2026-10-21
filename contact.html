@@ -239,9 +239,11 @@
   .tw-in:focus{border-color:#F6F8FF}.tw-in::placeholder{color:rgba(246,248,255,.3)}
   select.tw-in option{background:#000}
 </style>
+<link rel="stylesheet" href="assets/navigation.css">
+<script src="assets/navigation.js" defer></script>
 </head>
 <body>
-<nav><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><span class="links"><a href="laplace.html" style="color:inherit;text-decoration:none">Laplace</a><a href="who.html" style="color:inherit;text-decoration:none">Who it's for</a><a href="contact.html" style="color:inherit;text-decoration:none">Contact</a></span></nav>
+<nav aria-label="Main navigation"><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html" style="color:inherit;text-decoration:none">Laplace</a><a href="who.html" style="color:inherit;text-decoration:none">Who it's for</a><a href="contact.html" style="color:inherit;text-decoration:none">Contact</a></span></nav>
 <section class="px-[var(--gut)] pt-40 pb-28"><div class="mx-auto max-w-[1180px]">
   <h1 class="font-disp text-[clamp(64px,8.5vw,140px)] font-extrabold uppercase leading-[.86] tracking-[.01em]">Talk to us.</h1>
   <div class="mt-16 grid gap-16 lg:grid-cols-[1fr_1.2fr]">
