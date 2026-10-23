@@ -1,0 +1,19 @@
+# Hypersun
+
+> Hypersun builds Laplace, a physics-based digital twin for solar PV plants and grids. Laplace checks every inverter and string against what physics expects for the current sunlight and temperature, locates each loss to the inverter, combiner or string, and prices it in dollars.
+
+- Laplace models every asset from the panels to the grid connection and checks it every five minutes, reconciled to the export meter.
+- It connects read-only over OPC UA or MQTT, without control access. A CSV export of a month of inverter and meter data is enough to start.
+- Beyond monitoring it runs day-ahead and intraday schedules in 15-minute blocks with deviation penalties, PPA invoicing and revenue-meter reconciliation, and work orders with SAP PM or Maximo sync.
+- It is built for solar developers and independent power producers, utilities and governments, developers and planners, and data centres.
+
+## Pages
+
+- [Home](https://hypersun.si/): what Hypersun is building
+- [Laplace](https://hypersun.si/laplace.html): the product, a recorded walkthrough, features and FAQ
+- [Industries](https://hypersun.si/who.html): who Laplace is for and what each group gets
+- [Contact](https://hypersun.si/contact.html): how to send one site's data and get its twin
+
+## Contact
+
+- Email: rushantashtputre2002@gmail.com

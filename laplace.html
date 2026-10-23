@@ -3,7 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Laplace · Hypersun</title>
+<title>Laplace · Solar plant performance monitoring against physics | Hypersun</title>
+<meta name="description" content="Laplace monitors solar PV plants against physics. Every inverter and string is checked every five minutes, and each loss is located and priced.">
+<link rel="canonical" href="https://hypersun.si/laplace.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hypersun">
+<meta property="og:title" content="Laplace · Solar plant performance monitoring against physics | Hypersun">
+<meta property="og:description" content="Laplace monitors solar PV plants against physics. Every inverter and string is checked every five minutes, and each loss is located and priced.">
+<meta property="og:url" content="https://hypersun.si/laplace.html">
+<meta property="og:image" content="https://hypersun.si/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hypersun. Energy without limit.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "Laplace", "url": "https://hypersun.si/laplace.html", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "description": "A physics-based digital twin for solar PV plants. It checks every inverter and string against what physics expects and ranks every loss by what it costs.", "featureList": ["Physics twin of every string, checked every five minutes", "Losses located to the inverter, combiner or string and priced", "Day-ahead and intraday scheduling with deviation penalties", "PPA invoicing and revenue-meter reconciliation", "Work orders with SAP PM and Maximo sync", "Read-only OPC UA and MQTT connections"], "publisher": {"@id": "https://hypersun.si/#org"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Laplace?", "acceptedAnswer": {"@type": "Answer", "text": "Laplace is a physics-based digital twin for solar PV plants. It models every asset from the panels to the grid connection, checks each inverter and string against what physics expects for the current sunlight and temperature, and ranks every loss by what it costs."}}, {"@type": "Question", "name": "How does Laplace find lost energy?", "acceptedAnswer": {"@type": "Answer", "text": "Every five minutes it compares each inverter's measured output with the output the physics model expects, reconciled to the export meter. Each loss is located to the inverter, combiner or string and priced in dollars, so crews fix the most valuable problem first."}}, {"@type": "Question", "name": "What data does Laplace need?", "acceptedAnswer": {"@type": "Answer", "text": "A month of inverter and meter data is enough to start. A CSV export works, and so does a read-only OPC UA or MQTT connection."}}, {"@type": "Question", "name": "Does Laplace control my plant?", "acceptedAnswer": {"@type": "Answer", "text": "No. Laplace connects read-only over OPC UA or MQTT, without control access, and is built to central cyber-security rules."}}, {"@type": "Question", "name": "What does Laplace do beyond monitoring?", "acceptedAnswer": {"@type": "Answer", "text": "It runs day-ahead and intraday schedules in 15-minute blocks and calculates deviation penalties before they land. It also prepares PPA invoices, reconciles revenue meters, and sends work orders to the exact string, with sync to SAP PM or Maximo."}}, {"@type": "Question", "name": "Who is Laplace for?", "acceptedAnswer": {"@type": "Answer", "text": "Solar developers and independent power producers, utilities and governments, developers and planners testing new projects, and data centres that need round-the-clock supply."}}, {"@type": "Question", "name": "How do I get started?", "acceptedAnswer": {"@type": "Answer", "text": "Send us one site's data. We build the twin of that site and walk you through what it found."}}]}]}</script>
 <link rel="icon" href="assets/hypersun-icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -292,7 +307,7 @@
   #lx .toast.on{opacity:1;transform:translate(-50%,0)}
   .after{padding:96px var(--gut) 24px;text-align:center}
   .after .foot{color:var(--c55)}
-  .after h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(48px,5.6vw,88px);line-height:.9;letter-spacing:.01em;margin:14px auto 0;max-width:18ch}
+  .after h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(48px,5.6vw,88px);line-height:.9;letter-spacing:.01em;margin:14px auto 0;max-width:18ch}
   .after p{color:var(--c80);font-size:19px;max-width:48ch;margin:20px auto 0}
   .after .acts{display:flex;gap:12px;justify-content:center;margin-top:28px}
   .after .acts a{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:14px 24px;text-decoration:none;border:1px solid var(--core);color:var(--core)}
@@ -332,8 +347,7 @@
   .win.film video{display:block;width:100%;height:auto;aspect-ratio:16/10;background:#060607}
   .demo-go{display:flex;justify-content:center;margin-top:32px}.demo-go .btn{gap:10px}
 </style>
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{colors:{core:'#F6F8FF'},fontFamily:{disp:['"Big Shoulders Display"','Geist','sans-serif'],mono:['"Geist Mono"','ui-monospace','monospace'],sans:['Geist','system-ui','sans-serif']}}}}</script>
+<link rel="stylesheet" href="assets/site.css">
 <style>
   *,::before,::after{border-width:0;border-style:solid;border-color:rgba(246,248,255,.2)}
   .chain .steps{border-top:0;position:relative;padding:14px 22px 14px 46px;border:1px solid var(--c18);border-radius:16px;background:rgba(0,0,0,.38);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -352,8 +366,9 @@
 <body>
 <svg width="0" height="0" style="position:absolute"><defs><filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.56  0 0 0 0 0.66  0 0 0 0 1  0 0 0 0.9 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
 <nav aria-label="Main navigation"><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html">Laplace</a><a href="who.html">Industries</a><a href="contact.html">Contact</a></span></nav>
+<main>
 <section class="demo" id="product">
-  <div class="demo-hd"><div><div class="foot">Laplace</div><h2>See it run</h2></div><p>One plant, one day, every inverter, measured against physics. Open the live demo to click through it and trip an inverter yourself.</p></div>
+  <div class="demo-hd"><div><h1 class="foot" style="font-weight:400">Laplace · solar plant digital twin</h1><h2>See it run</h2></div><p>One plant, one day, every inverter, measured against physics. Open the live demo to click through it and trip an inverter yourself.</p></div>
   <div class="win film"><div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">Laplace · Juniper Flats Solar Park</span></div>
   <video autoplay muted loop playsinline preload="metadata" poster="assets/video/laplace-demo.jpg"><source src="assets/video/laplace-demo.mp4" type="video/mp4"></video>
   </div>
@@ -361,19 +376,32 @@
 </section>
 <header class="after">
   <div class="foot">Laplace by Hypersun</div>
-  <h1>Every plant, seen whole</h1>
-  <p>A living physics twin of your plant. It knows what every inverter should make right now, and tells you what to fix first.</p>
+  <h2>Every plant, seen whole</h2>
+  <p>Laplace is a physics-based digital twin for solar PV plants. It knows what every inverter and string should make right now, and tells you what to fix first.</p>
   <div class="acts"><a class="fill" href="contact.html">Book a demo</a><a href="#what">What it runs</a></div>
   <small>The preview above runs on recorded data from a real 38.7 MWp plant (NREL PVDAQ 9069), shown as the fictional Juniper Flats Solar Park. Work orders, crews, spares and reports are synthetic. Faults you simulate are not in the data.</small>
 </header>
 <section id="what" class="border-t border-white/10 px-[var(--gut)] py-28 sm:py-32"><div class="mx-auto max-w-[1328px]">
   <div class="grid items-end gap-8 lg:grid-cols-2"><h2 class="font-disp text-[clamp(52px,6vw,96px)] font-extrabold uppercase leading-[.88]">Everything a plant runs on</h2><p class="max-w-[44ch] text-[19px] leading-relaxed text-white/75 lg:justify-self-end">One product for the engineers, the commercial team and the people in the field.</p></div>
   <div class="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3"><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Physics twin</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Every string, every five minutes, checked against physics and reconciled to the export meter.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Losses, priced</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Every lost megawatt-hour located to the inverter, combiner or string, with its value in dollars.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Scheduling</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Day-ahead and intraday schedules in 15-minute blocks. Deviation penalties calculated before they land.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Invoicing</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">PPA invoices, revenue-meter reconciliation, and performance guarantees tracked every day.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Field work</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Work orders to the exact string, a phone view for technicians, and sync with SAP PM or Maximo.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Read-only by design</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Connects over OPC UA or MQTT without control access, built to central cyber-security rules.</p></div></div></div></section>
+<section id="faq" class="border-t border-white/10 px-[var(--gut)] py-28 sm:py-32"><div class="mx-auto max-w-[1328px] grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+  <h2 class="font-disp text-[clamp(52px,6vw,96px)] font-extrabold uppercase leading-[.88]">Questions</h2>
+  <div class="border-t border-white/10">
+    <details class="border-b border-white/10 py-6"><summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="m-0 text-[clamp(19px,1.6vw,24px)] font-medium tracking-[-.015em]">What is Laplace?</h3><span aria-hidden="true" class="faq-x text-[22px] text-white/40">+</span></summary><p class="mt-4 max-w-[64ch] text-[17px] leading-relaxed text-white/70">Laplace is a physics-based digital twin for solar PV plants. It models every asset from the panels to the grid connection, checks each inverter and string against what physics expects for the current sunlight and temperature, and ranks every loss by what it costs.</p></details>
+    <details class="border-b border-white/10 py-6"><summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="m-0 text-[clamp(19px,1.6vw,24px)] font-medium tracking-[-.015em]">How does Laplace find lost energy?</h3><span aria-hidden="true" class="faq-x text-[22px] text-white/40">+</span></summary><p class="mt-4 max-w-[64ch] text-[17px] leading-relaxed text-white/70">Every five minutes it compares each inverter&#x27;s measured output with the output the physics model expects, reconciled to the export meter. Each loss is located to the inverter, combiner or string and priced in dollars, so crews fix the most valuable problem first.</p></details>
+    <details class="border-b border-white/10 py-6"><summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="m-0 text-[clamp(19px,1.6vw,24px)] font-medium tracking-[-.015em]">What data does Laplace need?</h3><span aria-hidden="true" class="faq-x text-[22px] text-white/40">+</span></summary><p class="mt-4 max-w-[64ch] text-[17px] leading-relaxed text-white/70">A month of inverter and meter data is enough to start. A CSV export works, and so does a read-only OPC UA or MQTT connection.</p></details>
+    <details class="border-b border-white/10 py-6"><summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="m-0 text-[clamp(19px,1.6vw,24px)] font-medium tracking-[-.015em]">Does Laplace control my plant?</h3><span aria-hidden="true" class="faq-x text-[22px] text-white/40">+</span></summary><p class="mt-4 max-w-[64ch] text-[17px] leading-relaxed text-white/70">No. Laplace connects read-only over OPC UA or MQTT, without control access, and is built to central cyber-security rules.</p></details>
+    <details class="border-b border-white/10 py-6"><summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="m-0 text-[clamp(19px,1.6vw,24px)] font-medium tracking-[-.015em]">What does Laplace do beyond monitoring?</h3><span aria-hidden="true" class="faq-x text-[22px] text-white/40">+</span></summary><p class="mt-4 max-w-[64ch] text-[17px] leading-relaxed text-white/70">It runs day-ahead and intraday schedules in 15-minute blocks and calculates deviation penalties before they land. It also prepares PPA invoices, reconciles revenue meters, and sends work orders to the exact string, with sync to SAP PM or Maximo.</p></details>
+    <details class="border-b border-white/10 py-6"><summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="m-0 text-[clamp(19px,1.6vw,24px)] font-medium tracking-[-.015em]">Who is Laplace for?</h3><span aria-hidden="true" class="faq-x text-[22px] text-white/40">+</span></summary><p class="mt-4 max-w-[64ch] text-[17px] leading-relaxed text-white/70">Solar developers and independent power producers, utilities and governments, developers and planners testing new projects, and data centres that need round-the-clock supply.</p></details>
+    <details class="border-b border-white/10 py-6"><summary class="flex cursor-pointer list-none items-center justify-between gap-6"><h3 class="m-0 text-[clamp(19px,1.6vw,24px)] font-medium tracking-[-.015em]">How do I get started?</h3><span aria-hidden="true" class="faq-x text-[22px] text-white/40">+</span></summary><p class="mt-4 max-w-[64ch] text-[17px] leading-relaxed text-white/70">Send us one site&#x27;s data. We build the twin of that site and walk you through what it found.</p></details>
+  </div></div></section>
+<style>#faq summary::-webkit-details-marker{display:none}#faq .faq-x{transition:transform .3s var(--ease)}#faq details[open] .faq-x{transform:rotate(45deg)}</style>
 <section class="cta">
   <h2>See your plant like this</h2>
   <p>Send us one site's data. We will show you its twin.</p>
   <a href="mailto:rushantashtputre2002@gmail.com">Talk to us</a>
 </section>
+</main>
 <footer class="sitefoot border-t border-white/10 px-[var(--gut)] pt-16 pb-10">
   <div class="mx-auto max-w-[1328px]">
     <div class="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">

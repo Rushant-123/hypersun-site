@@ -3,7 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hypersun</title>
+<title>Hypersun · Physics digital twin for solar plants and grids</title>
+<meta name="description" content="Hypersun builds Laplace, a physics-based digital twin for solar plants and grids that checks every inverter against physics and prices each loss.">
+<link rel="canonical" href="https://hypersun.si/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hypersun">
+<meta property="og:title" content="Hypersun · Physics digital twin for solar plants and grids">
+<meta property="og:description" content="Hypersun builds Laplace, a physics-based digital twin for solar plants and grids that checks every inverter against physics and prices each loss.">
+<meta property="og:url" content="https://hypersun.si/">
+<meta property="og:image" content="https://hypersun.si/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hypersun. Energy without limit.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hypersun.si/#org", "name": "Hypersun", "url": "https://hypersun.si/", "logo": "https://hypersun.si/assets/apple-touch-icon.png", "email": "rushantashtputre2002@gmail.com", "description": "Hypersun builds Laplace, a physics-based digital twin for power plants and grids."}, {"@type": "WebSite", "@id": "https://hypersun.si/#website", "url": "https://hypersun.si/", "name": "Hypersun", "publisher": {"@id": "https://hypersun.si/#org"}}]}</script>
 <link rel="icon" href="assets/hypersun-icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -264,8 +279,7 @@
     .reveal-end video{object-fit:contain}
   }
 </style>
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{colors:{core:'#F6F8FF'},fontFamily:{disp:['"Big Shoulders Display"','Geist','sans-serif'],mono:['"Geist Mono"','ui-monospace','monospace'],sans:['Geist','system-ui','sans-serif']}}}}</script>
+<link rel="stylesheet" href="assets/site.css">
 <style>
   *,::before,::after{border-width:0;border-style:solid;border-color:rgba(246,248,255,.2)}
   .chain .steps{border-top:0;position:relative;padding:14px 22px 14px 46px;border:1px solid var(--c18);border-radius:16px;background:rgba(0,0,0,.38);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -284,7 +298,8 @@
 <body>
 <svg width="0" height="0" style="position:absolute"><defs><filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.56  0 0 0 0 0.66  0 0 0 0 1  0 0 0 0.9 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
 
-<nav aria-label="Main navigation"><span class="mark"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></span><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html" style="color:inherit;text-decoration:none">Laplace</a><a href="who.html" style="color:inherit;text-decoration:none">Industries</a><a href="contact.html" style="color:inherit;text-decoration:none">Contact</a></span></nav>
+<nav aria-label="Main navigation"><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html" style="color:inherit;text-decoration:none">Laplace</a><a href="who.html" style="color:inherit;text-decoration:none">Industries</a><a href="contact.html" style="color:inherit;text-decoration:none">Contact</a></span></nav>
+<main>
 
 <header class="hero film">
   <video autoplay muted loop playsinline poster="assets/video/hero-film.jpg"><source src="assets/video/hero-film.mp4" type="video/mp4"></video>
@@ -297,7 +312,7 @@
 </header>
 
 <section class="ch">
-  <video autoplay muted loop playsinline poster="assets/video/field.jpg"><source src="assets/video/field.mp4" type="video/mp4"></video>
+  <video data-lazy muted loop playsinline preload="none" poster="assets/video/field.jpg"><source src="assets/video/field.mp4" type="video/mp4"></video>
   <div class="txt">
     <p class="say rv">The world is building power faster than ever</p>
     <p class="lead2 rv">Sun, wind, water and atoms. Grids rebuilt for a new century. New demand from AI, factories and cities.</p>
@@ -305,7 +320,7 @@
 </section>
 
 <section class="ch">
-  <video autoplay muted loop playsinline poster="assets/video/pylons.jpg"><source src="assets/video/pylons.mp4" type="video/mp4"></video>
+  <video data-lazy muted loop playsinline preload="none" poster="assets/video/pylons.jpg"><source src="assets/video/pylons.mp4" type="video/mp4"></video>
   <div class="txt">
     <p class="say rv">Every kilowatt-hour deserves to be seen</p>
     <div class="flow rv" data-flow><div class="fl-line"><i class="pulse"></i></div><div class="fl-items"><div class="fl"><b>Generation</b><span>From the panel</span></div><div class="fl"><b>Transmission</b><span>Through the grid</span></div><div class="fl"><b>Consumption</b><span>To the socket</span></div></div></div>
@@ -315,8 +330,9 @@
 <section class="px-[var(--gut)] py-28 sm:py-36" id="laplace">
   <div class="mx-auto max-w-[1328px]">
     <div class="grid items-end gap-10 lg:grid-cols-[1.1fr_1fr]">
-      <h2 class="rv font-disp text-[clamp(64px,9vw,148px)] font-extrabold uppercase leading-[.88] tracking-[.01em]">Meet<br>Laplace</h2>
+      <h2 class="rv font-disp text-[clamp(64px,9vw,148px)] font-extrabold uppercase leading-[.88] tracking-[.01em]">Meet <br>Laplace</h2>
       <div class="rv"><p class="max-w-[46ch] text-[20px] leading-relaxed text-white/80">In 1814 a mathematician imagined an intelligence that knew the state of everything, and so could see what comes next. Laplace is that intelligence, built for energy.</p>
+        <p class="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-white/60">Laplace is a physics-based digital twin for solar plants and grids. It checks every inverter and string against what physics expects for the sunlight and temperature right now, and ranks every loss by what it costs.</p>
         <a href="laplace.html" class="inline-flex items-center gap-3 border border-core px-5 py-3 font-mono text-[12px] uppercase tracking-[.14em] text-core no-underline transition hover:bg-core hover:text-black mt-7">Open the god view <span aria-hidden="true">→</span></a></div>
     </div>
     <div class="mt-16 grid gap-4 md:grid-cols-3">
@@ -336,12 +352,12 @@
 
 <section class="chain" id="product" aria-labelledby="loss-title">
   <div class="stick">
-    <video class="layer" data-i="0" muted loop playsinline preload="auto" poster="assets/video/sun.jpg"><source src="assets/video/sun.mp4" type="video/mp4"></video>
-    <video class="layer" data-i="1" muted loop playsinline preload="auto" poster="assets/video/panel.jpg"><source src="assets/video/panel.mp4" type="video/mp4"></video>
-    <video class="layer" data-i="2" muted loop playsinline preload="auto" poster="assets/video/field.jpg"><source src="assets/video/field.mp4" type="video/mp4"></video>
-    <video class="layer" data-i="3" muted loop playsinline preload="auto" poster="assets/video/inverter.jpg"><source src="assets/video/inverter.mp4" type="video/mp4"></video>
-    <video class="layer" data-i="4" muted loop playsinline preload="auto" poster="assets/video/pylons.jpg"><source src="assets/video/pylons.mp4" type="video/mp4"></video>
-    <video class="layer" data-i="5" muted loop playsinline preload="auto" poster="assets/video/city.jpg"><source src="assets/video/city.mp4" type="video/mp4"></video>
+    <video class="layer" data-i="0" muted loop playsinline preload="metadata" poster="assets/video/sun.jpg"><source src="assets/video/sun.mp4" type="video/mp4"></video>
+    <video class="layer" data-i="1" muted loop playsinline preload="metadata" poster="assets/video/panel.jpg"><source src="assets/video/panel.mp4" type="video/mp4"></video>
+    <video class="layer" data-i="2" muted loop playsinline preload="metadata" poster="assets/video/field.jpg"><source src="assets/video/field.mp4" type="video/mp4"></video>
+    <video class="layer" data-i="3" muted loop playsinline preload="metadata" poster="assets/video/inverter.jpg"><source src="assets/video/inverter.mp4" type="video/mp4"></video>
+    <video class="layer" data-i="4" muted loop playsinline preload="metadata" poster="assets/video/pylons.jpg"><source src="assets/video/pylons.mp4" type="video/mp4"></video>
+    <video class="layer" data-i="5" muted loop playsinline preload="metadata" poster="assets/video/city.jpg"><source src="assets/video/city.mp4" type="video/mp4"></video>
     <div class="veil"></div>
     <div class="hud">
       <div class="intro">
@@ -378,7 +394,7 @@
 </section>
 
 <section class="ch">
-  <video autoplay muted loop playsinline poster="assets/video/technician.jpg"><source src="assets/video/technician.mp4" type="video/mp4"></video>
+  <video data-lazy muted loop playsinline preload="none" poster="assets/video/technician.jpg"><source src="assets/video/technician.mp4" type="video/mp4"></video>
   <div class="txt">
     <p class="say rv">Every engineer gets a superpower</p>
     <p class="lead2 rv s3a">Laplace sends them to the exact string, combiner or inverter, ranked by what it is worth. Fixed the first time.</p><div class="ntf rv s3b"><div class="n"><div class="n-top"><span class="ic"><img src="assets/hypersun-icon-black.svg" alt=""></span><span>Laplace</span><span class="n-t">now</span></div><b>Inverter 37 is offline</b><p>Combiner 37.04, string 6. $59 lost so far today. Crew 1 is 400 m away.</p></div><div class="n old"><div class="n-top"><span class="ic"><img src="assets/hypersun-icon-black.svg" alt=""></span><span>Laplace</span><span class="n-t">2h ago</span></div><b>String fuse 27.01.04 replaced</b><p>Output back to physics. Fixed on the first visit.</p></div></div>
@@ -392,9 +408,10 @@
   <p class="rv">Send us one site's data. We will show you its twin.</p>
   <div class="btns rv"><a class="btn fill" href="laplace.html">Meet Laplace</a><a class="btn" href="contact.html">Talk to us</a></div>
 </section>
-<section class="reveal-end" id="brand"><video id="revealv" muted playsinline preload="auto" poster="assets/video/reveal-hypersun-poster.jpg"><source src="assets/video/reveal-hypersun.mp4" type="video/mp4"></video></section>
+<section class="reveal-end" id="brand"><video id="revealv" muted playsinline preload="metadata" poster="assets/video/reveal-hypersun-poster.jpg"><source src="assets/video/reveal-hypersun.mp4" type="video/mp4"></video></section>
 <dialog id="film" class="player" aria-label="Hypersun film"><button class="pl-x" id="plx" aria-label="Close film"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></button><div class="pl-stage"><video id="filmv" controls playsinline preload="none"><source src="assets/video/film-hypersun.mp4" type="video/mp4"></video></div></dialog>
 <script>const dl=document.getElementById('film'),fv=document.getElementById('filmv');document.getElementById('watch').onclick=()=>{dl.showModal();document.documentElement.style.overflow='hidden';fv.currentTime=0;fv.play().catch(()=>{});if(matchMedia('(max-width:860px) and (orientation:portrait)').matches){try{fv.requestFullscreen?fv.requestFullscreen().catch(()=>{}):fv.webkitEnterFullscreen&&fv.webkitEnterFullscreen()}catch(e){}}};const plClose=()=>dl.close();document.getElementById('plx').onclick=plClose;dl.addEventListener('click',e=>{if(e.target===dl||e.target.classList.contains('pl-stage'))plClose()});dl.addEventListener('close',()=>{fv.pause();document.documentElement.style.overflow=''});</script>
+</main>
 <footer class="sitefoot border-t border-white/10 px-[var(--gut)] pt-16 pb-10">
   <div class="mx-auto max-w-[1328px]">
     <div class="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
@@ -412,6 +429,8 @@
 </footer>
 <script>
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+  const lazy=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?e.target.play().catch(()=>{}):e.target.pause()),{rootMargin:'200px 0px'});
+  document.querySelectorAll('video[data-lazy]').forEach(v=>lazy.observe(v));
   document.querySelectorAll('.rv').forEach(el=>{const sib=[...el.parentElement.children].filter(c=>c.classList.contains('rv'));el.style.transitionDelay=sib.indexOf(el)*90+'ms';io.observe(el)});
 
   const ST=[["Sunlight","1,000 W/m²","Sunlight reaching each square metre of solar panels.",null],["Solar panels","52.58 MW","Power available at the panels: the starting point.",0],["DC cables","48.40 MW","Power reaching the inverters: 4.18 MW less than at the panels.",4.18],["Inverters","47.44 MW","Another 0.96 MW is lost converting panel output into AC power.",5.14],["Transformer","47.08 MW","Another 0.36 MW is lost raising the voltage for the grid.",5.50],["Grid export","47.00 MW","Power delivered to the grid: 5.58 MW less than the panels could supply.",5.58]];
