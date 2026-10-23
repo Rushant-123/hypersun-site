@@ -164,11 +164,22 @@ const LX_DATA = new URL('gv.json', document.currentScript.src);
     const F = findings(); renderAttention(F); renderLosses(); renderAlarms(); renderWhatif(); renderStrings(); $('lxBadge').textContent = F.filter(f => f.live || f.sim).length || '';
     if (S.sel >= 0) renderDrawer();
   }
+  // rank by loss, but keep the previous order unless a row clearly overtakes the one above it, so rows don't swap back and forth
+  function steady(prev, items) {
+    const by = new Map(items.map(f => [f.i, f])), order = prev.filter(i => by.has(i));
+    items.forEach(f => { if (!order.includes(f.i)) order.push(f.i); });
+    for (let k = 1; k < order.length; k++) for (let m = k; m > 0 && by.get(order[m]).lost > by.get(order[m - 1]).lost * 1.05 + 0.02; m--) [order[m - 1], order[m]] = [order[m], order[m - 1]];
+    prev.splice(0, prev.length, ...order); return order.map(i => by.get(i));
+  }
+  const attOrder = [], lsOrder = [];
   function renderAttention(F) {
-    const ul = $('lxAtt'); const top = F.slice(0, 6);
-    const html = top.map(f => `<li data-i="${f.i}" class="${S.sel === f.i ? 'sel' : ''}"><div><b>Inverter ${G.inv[f.i]}</b><span>${f.sim ? 'Simulated fault' : f.r === null ? 'Night' : f.r < 0.02 ? 'Offline' : f.live ? Math.round(f.r * 100) + '% of physics' : 'Recovered'}</span></div><em>${usd(f.lost * S.price)}</em></li>`).join('') || '<li class="empty">Every inverter is within 12% of physics.</li>';
-    if (ul._h !== html) { ul._h = html; ul.innerHTML = html;
-    ul.querySelectorAll('li[data-i]').forEach(li => { const i = +li.dataset.i; li.onclick = () => select(i); li.onmouseenter = () => S.hover = i; li.onmouseleave = () => S.hover = -1; }); }
+    const ul = $('lxAtt'), top = steady(attOrder, F).slice(0, 6), key = top.map(f => f.i).join() + '|' + S.sel;
+    // rebuild rows only when the set changes; otherwise update their text in place
+    if (ul._k !== key) { ul._k = key;
+      ul.innerHTML = top.map(f => `<li data-i="${f.i}" class="${S.sel === f.i ? 'sel' : ''}"><div><b>Inverter ${G.inv[f.i]}</b><span></span></div><em></em></li>`).join('') || '<li class="empty">Every inverter is within 12% of physics.</li>';
+      ul.querySelectorAll('li[data-i]').forEach(li => { const i = +li.dataset.i; li.onclick = () => select(i); li.onmouseenter = () => S.hover = i; li.onmouseleave = () => S.hover = -1; }); }
+    ul.querySelectorAll('li[data-i]').forEach((li, k) => { const f = top[k], st = f.sim ? 'Simulated fault' : f.r === null ? 'Night' : f.r < 0.02 ? 'Offline' : f.live ? Math.round(f.r * 100) + '% of physics' : 'Recovered', v = usd(f.lost * S.price), sp = li.querySelector('span'), em = li.querySelector('em');
+      if (sp.textContent !== st) sp.textContent = st; if (em.textContent !== v) em.textContent = v; });
     const off = F.filter(f => f.live && f.r !== null && f.r < 0.02 && !f.sim);
     const act = $('lxAct'); let ah;
     if (off.length > 1) ah = `<p>Send a crew to control room 10. Inverters ${off.map(f => G.inv[f.i]).join(', ')} are offline while physics expects full output.</p><button data-wo="${off.map(f => f.i).join(',')}">Create work order</button>`;
@@ -179,11 +190,11 @@ const LX_DATA = new URL('gv.json', document.currentScript.src);
   function renderLosses() {
     if (S.tab !== 'losses') return;
     const rows = []; for (let i = 0; i < N; i++) { const d = invDay(i); rows.push({ i, ...d, r: d.m > 0 ? d.a / d.m : 1 }); }
-    rows.sort((a, b) => b.lost - a.lost);
+    rows.sort((a, b) => b.lost - a.lost); const ranked = steady(lsOrder, rows);
     const tot = rows.reduce((s, r) => s + r.lost, 0), off = rows.filter(r => r.r < 0.6).reduce((s, r) => s + r.lost, 0);
     $('lsTot').textContent = usd(tot * S.price); $('lsMwh').textContent = fmt(tot, 2) + ' MWh';
     $('lsOff').textContent = usd(off * S.price); $('lsRest').textContent = usd((tot - off) * S.price);
-    const rh = rows.slice(0, 12).map(r => `<tr data-i="${r.i}"><td>Inverter ${G.inv[r.i]}</td><td>${fmt(r.a, 2)}</td><td>${fmt(r.m, 2)}</td><td><span class="bar"><i style="width:${Math.round(Math.min(1, r.r) * 100)}%"></i></span>${Math.round(r.r * 100)}%</td><td>${usd(r.lost * S.price)}</td></tr>`).join('');
+    const rh = ranked.slice(0, 12).map(r => `<tr data-i="${r.i}"><td>Inverter ${G.inv[r.i]}</td><td>${fmt(r.a, 2)}</td><td>${fmt(r.m, 2)}</td><td><span class="bar"><i style="width:${Math.round(Math.min(1, r.r) * 100)}%"></i></span>${Math.round(r.r * 100)}%</td><td>${usd(r.lost * S.price)}</td></tr>`).join('');
     const tb = $('lsRows'); if (tb._h !== rh) { tb._h = rh; tb.innerHTML = rh; tb.querySelectorAll('tr').forEach(tr => tr.onclick = () => select(+tr.dataset.i)); }
   }
   function renderWOs() {
@@ -287,19 +298,21 @@ const LX_DATA = new URL('gv.json', document.currentScript.src);
   $('reps').querySelectorAll('button').forEach(b => b.onclick = () => { if (b.textContent === 'Generate') { b.textContent = 'Preparing…'; setTimeout(() => { b.textContent = 'Download'; toast(REPS[+b.dataset.r][0] + ' report is ready.'); }, 900); } else toast('Preview only. In the product this downloads a PDF.'); });
   // loop
   let vis = true; new IntersectionObserver(es => es.forEach(e => vis = e.isIntersecting), { threshold: .05 }).observe(app);
-  function frame(now) {
+  // canvases animate every frame; numbers and lists refresh five times a second so they read steadily
+  function frame(now, tick) {
     if (['overview', 'map', 'whatif'].includes(S.tab)) drawMap(now);
     if (S.tab === 'overview') drawTl();
     if (S.tab === 'inverters') drawHm();
     if (S.tab === 'schedule') drawSch();
-    hud();
+    const ck = clock(S.h), cl = $('lxClock'); if (cl.textContent !== ck) cl.textContent = ck;
+    if (!tick || now - lastHud > 200) { lastHud = now; hud(); }
   }
   let prev = performance.now(), hold = 0, lastHud = 0;
   window.lxSet = h => { S.h = h; setPlay(false); frame(performance.now()); };
   window.lxTab = t => setTab(t); window.lxSel = id => select(G.inv.indexOf(id)); window.lxFault = (id, h) => { S.faults[G.inv.indexOf(id)] = h; frame(performance.now()); };
   function loop(now) {
     const dt = Math.min(.05, (now - prev) / 1000); prev = now;
-    if (vis) { if (S.playing && !S.scrub) { if (S.h >= H1) { hold += dt; if (hold > 1.5) { S.h = H0; hold = 0; } } else S.h = Math.min(H1, S.h + dt * S.speed * (H1 - H0) / 60); } frame(now); }
+    if (vis) { if (S.playing && !S.scrub) { if (S.h >= H1) { hold += dt; if (hold > 1.5) { S.h = H0; hold = 0; } } else S.h = Math.min(H1, S.h + dt * S.speed * (H1 - H0) / 60); } frame(now, true); }
     requestAnimationFrame(loop);
   }
   S.wos = [
