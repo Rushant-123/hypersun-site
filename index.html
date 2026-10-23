@@ -106,7 +106,7 @@
   .veil{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.2) 50%,rgba(0,0,0,.35) 100%);z-index:1}
   .hero.film .copy{position:relative;z-index:2}
   .hero.film .cue{z-index:2}
-  .chain{height:620vh;position:relative}
+  .chain{height:400vh;position:relative}
   .chain .stick{position:sticky;top:0;height:100vh;overflow:hidden}
   .chain .layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s var(--ease)}
   .chain .layer.on{opacity:1}
@@ -115,7 +115,6 @@
   .chain .intro{grid-column:1/-1;max-width:64ch}
   .chain .intro h2{font-family:var(--disp);font-size:clamp(32px,4vw,56px);font-weight:800;text-transform:uppercase;line-height:1}
   .chain .intro p{margin-top:12px;font-size:17px;line-height:1.45;color:var(--c80)}
-  .chain .example{display:block;margin-bottom:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--c80)}
   .chain .lead{align-self:end;min-width:0}
   .chain .stage{font-family:var(--disp);font-size:var(--t-say);font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:.95;margin-top:var(--s2)}
   .chain .val{font-family:var(--disp);font-size:var(--t-big);font-weight:800;letter-spacing:.005em;line-height:.9;margin-top:var(--s1);text-shadow:var(--glow);font-variant-numeric:tabular-nums}
@@ -150,9 +149,23 @@
   }
   .reveal-end{position:relative;height:100vh;min-height:620px;background:#000;overflow:hidden}
   .reveal-end video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .rv{opacity:0;transform:translateY(18px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
-  .rv.in{opacity:1;transform:none}
-  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.ch::after{animation:none}}
+  .rv{opacity:0;transform:translateY(28px);filter:blur(6px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s var(--ease)}
+  .rv.in{opacity:1;transform:none;filter:none}
+
+  /* scroll-linked: chapters dip through black and their film slowly settles; statement lines light up in turn */
+  @supports (animation-timeline:view()){
+    .ch,.chain,.close{animation:dip linear both;animation-timeline:view()}
+    .ch>video{animation:settle linear both;animation-timeline:view();animation-range:cover}
+    .hero.film>video{animation:lift linear both;animation-timeline:view();animation-range:exit}
+    .hero.film .copy{animation:away linear both;animation-timeline:view();animation-range:exit 0% exit 60%}
+    .statement p{animation:light linear both;animation-timeline:view();animation-range:entry 60% cover 45%}
+  }
+  @keyframes dip{entry 0%{opacity:.15}entry 100%{opacity:1}exit 0%{opacity:1}exit 100%{opacity:.15}}
+  @keyframes settle{from{transform:scale(1.16)}to{transform:scale(1.02)}}
+  @keyframes lift{to{transform:scale(1.1)}}
+  @keyframes away{to{opacity:0;transform:translateY(-60px)}}
+  @keyframes light{from{color:var(--c35)}to{color:var(--core)}}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none}.ch::after{animation:none}.ch,.ch>video,.chain,.close,.hero.film>video,.hero.film .copy,.statement p{animation:none}}
   @media (max-width:860px){
     :root{--gut:16px}
     nav .links{gap:16px;font-size:12.5px}
@@ -271,7 +284,7 @@
 <body>
 <svg width="0" height="0" style="position:absolute"><defs><filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.56  0 0 0 0 0.66  0 0 0 0 1  0 0 0 0.9 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
 
-<nav aria-label="Main navigation"><span class="mark"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></span><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html" style="color:inherit;text-decoration:none">Laplace</a><a href="who.html" style="color:inherit;text-decoration:none">Who it's for</a><a href="contact.html" style="color:inherit;text-decoration:none">Contact</a></span></nav>
+<nav aria-label="Main navigation"><span class="mark"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></span><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html" style="color:inherit;text-decoration:none">Laplace</a><a href="who.html" style="color:inherit;text-decoration:none">Industries</a><a href="contact.html" style="color:inherit;text-decoration:none">Contact</a></span></nav>
 
 <header class="hero film">
   <video autoplay muted loop playsinline poster="assets/video/hero-film.jpg"><source src="assets/video/hero-film.mp4" type="video/mp4"></video>
@@ -281,13 +294,12 @@
     <p class="lead rv">A living physics twin of every power plant and grid on Earth.</p>
     <div class="btns rv"><button class="btn fill" id="watch">Watch the film</button></div>
   </div>
-  <span class="cue foot">Scroll</span>
 </header>
 
 <section class="ch">
   <video autoplay muted loop playsinline poster="assets/video/field.jpg"><source src="assets/video/field.mp4" type="video/mp4"></video>
   <div class="txt">
-    <p class="say rv">The world is building power faster than ever.</p>
+    <p class="say rv">The world is building power faster than ever</p>
     <p class="lead2 rv">Sun, wind, water and atoms. Grids rebuilt for a new century. New demand from AI, factories and cities.</p>
   </div>
 </section>
@@ -295,7 +307,7 @@
 <section class="ch">
   <video autoplay muted loop playsinline poster="assets/video/pylons.jpg"><source src="assets/video/pylons.mp4" type="video/mp4"></video>
   <div class="txt">
-    <p class="say rv">Every kilowatt-hour deserves to be seen.</p>
+    <p class="say rv">Every kilowatt-hour deserves to be seen</p>
     <div class="flow rv" data-flow><div class="fl-line"><i class="pulse"></i></div><div class="fl-items"><div class="fl"><b>Generation</b><span>From the panel</span></div><div class="fl"><b>Transmission</b><span>Through the grid</span></div><div class="fl"><b>Consumption</b><span>To the socket</span></div></div></div>
   </div>
 </section>
@@ -303,7 +315,7 @@
 <section class="px-[var(--gut)] py-28 sm:py-36" id="laplace">
   <div class="mx-auto max-w-[1328px]">
     <div class="grid items-end gap-10 lg:grid-cols-[1.1fr_1fr]">
-      <h2 class="rv font-disp text-[clamp(64px,9vw,148px)] font-extrabold uppercase leading-[.88] tracking-[.01em]">Meet<br>Laplace.</h2>
+      <h2 class="rv font-disp text-[clamp(64px,9vw,148px)] font-extrabold uppercase leading-[.88] tracking-[.01em]">Meet<br>Laplace</h2>
       <div class="rv"><p class="max-w-[46ch] text-[20px] leading-relaxed text-white/80">In 1814 a mathematician imagined an intelligence that knew the state of everything, and so could see what comes next. Laplace is that intelligence, built for energy.</p>
         <a href="laplace.html" class="inline-flex items-center gap-3 border border-core px-5 py-3 font-mono text-[12px] uppercase tracking-[.14em] text-core no-underline transition hover:bg-core hover:text-black mt-7">Open the god view <span aria-hidden="true">→</span></a></div>
     </div>
@@ -337,7 +349,6 @@
         <p>Laplace follows power from panels to grid, comparing expected and actual output to pinpoint underperformance.</p>
       </div>
       <div class="lead">
-        <span class="example">Example solar plant · scroll</span>
         <p class="stage" id="stage">Sunlight</p>
         <p class="val" id="val">1,000 W/m²</p>
         <p class="note" id="note">Sunlight reaching each square metre of solar panels.</p>
@@ -351,7 +362,7 @@
         <li><span>Grid export</span><span>47.00 MW</span></li>
       </ol>
       <div class="lost">
-        <div><div class="metric"><span class="foot">Power lost along the way</span><b id="lost">—</b></div><p id="loss-context">Tracking starts at the panels, once sunlight becomes electrical power.</p></div>
+        <div><div class="metric"><span class="foot">Power lost along the way</span><b id="lost">0.00 MW</b></div><p id="loss-context">Tracking starts at the panels, once sunlight becomes electrical power.</p></div>
         <a class="btn fill" href="laplace.html">Explore the demo</a>
       </div>
     </div>
@@ -369,23 +380,15 @@
 <section class="ch">
   <video autoplay muted loop playsinline poster="assets/video/technician.jpg"><source src="assets/video/technician.mp4" type="video/mp4"></video>
   <div class="txt">
-    <p class="say rv">Every engineer gets a superpower.</p>
+    <p class="say rv">Every engineer gets a superpower</p>
     <p class="lead2 rv s3a">Laplace sends them to the exact string, combiner or inverter, ranked by what it is worth. Fixed the first time.</p><div class="ntf rv s3b"><div class="n"><div class="n-top"><span class="ic"><img src="assets/hypersun-icon-black.svg" alt=""></span><span>Laplace</span><span class="n-t">now</span></div><b>Inverter 37 is offline</b><p>Combiner 37.04, string 6. $59 lost so far today. Crew 1 is 400 m away.</p></div><div class="n old"><div class="n-top"><span class="ic"><img src="assets/hypersun-icon-black.svg" alt=""></span><span>Laplace</span><span class="n-t">2h ago</span></div><b>String fuse 27.01.04 replaced</b><p>Output back to physics. Fixed on the first visit.</p></div></div>
   </div>
 </section>
 
 
 
-<section class="ch">
-  <video autoplay muted loop playsinline poster="assets/video/datacenter.jpg"><source src="assets/video/datacenter.mp4" type="video/mp4"></video>
-  <div class="txt">
-    <p class="say rv">Then we build what comes next.</p>
-    
-  </div>
-</section>
-
 <section class="close" id="contact">
-  <h2 class="rv">See your plant through Laplace.</h2>
+  <h2 class="rv">See your plant through Laplace</h2>
   <p class="rv">Send us one site's data. We will show you its twin.</p>
   <div class="btns rv"><a class="btn fill" href="laplace.html">Meet Laplace</a><a class="btn" href="contact.html">Talk to us</a></div>
 </section>
@@ -398,18 +401,18 @@
       <div class="col-span-2 md:col-span-1"><a href="index.html" class="inline-block no-underline"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" class="block h-[15px] w-auto"></a>
         <p class="mt-5 max-w-[30ch] text-[15px] leading-relaxed text-white/55">A living physics twin of every power plant and grid on Earth.</p></div>
       <div><div class="text-[13px] text-white/40">Product</div><ul class="mt-4 grid list-none gap-3 p-0 text-[15px]"><li><a href="laplace.html" class="text-white/60 no-underline transition-colors hover:text-core">Laplace</a></li><li><a href="index.html" class="text-white/60 no-underline transition-colors hover:text-core">The film</a></li></ul></div>
-      <div><div class="text-[13px] text-white/40">Company</div><ul class="mt-4 grid list-none gap-3 p-0 text-[15px]"><li><a href="who.html" class="text-white/60 no-underline transition-colors hover:text-core">Who it's for</a></li><li><a href="contact.html" class="text-white/60 no-underline transition-colors hover:text-core">Contact</a></li></ul></div>
+      <div><div class="text-[13px] text-white/40">Company</div><ul class="mt-4 grid list-none gap-3 p-0 text-[15px]"><li><a href="who.html" class="text-white/60 no-underline transition-colors hover:text-core">Industries</a></li><li><a href="contact.html" class="text-white/60 no-underline transition-colors hover:text-core">Contact</a></li></ul></div>
       <div class="col-span-2 md:col-span-1"><div class="text-[13px] text-white/40">Get in touch</div><a href="mailto:rushantashtputre2002@gmail.com" class="mt-4 inline-block break-all text-[15px] text-core no-underline border-b border-white/25 pb-0.5 transition hover:border-core">rushantashtputre2002@gmail.com</a></div>
     </div>
     <div class="mt-16 flex flex-col gap-3 border-t border-white/10 pt-6 text-[12.5px] leading-relaxed text-white/40 md:flex-row md:items-start md:justify-between">
       <span>© 2026 Hypersun</span>
-      <span class="max-w-[70ch] md:text-right">Photography from public domain archives and Wikimedia Commons, regraded. Plant data recorded by NREL PVDAQ, shown as a fictional plant.</span>
+      <span class="max-w-[70ch] md:text-right">Photography from public domain archives and Wikimedia Commons, regraded.</span>
     </div>
   </div>
 </footer>
 <script>
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
-  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  document.querySelectorAll('.rv').forEach(el=>{const sib=[...el.parentElement.children].filter(c=>c.classList.contains('rv'));el.style.transitionDelay=sib.indexOf(el)*90+'ms';io.observe(el)});
 
   const ST=[["Sunlight","1,000 W/m²","Sunlight reaching each square metre of solar panels.",null],["Solar panels","52.58 MW","Power available at the panels: the starting point.",0],["DC cables","48.40 MW","Power reaching the inverters: 4.18 MW less than at the panels.",4.18],["Inverters","47.44 MW","Another 0.96 MW is lost converting panel output into AC power.",5.14],["Transformer","47.08 MW","Another 0.36 MW is lost raising the voltage for the grid.",5.50],["Grid export","47.00 MW","Power delivered to the grid: 5.58 MW less than the panels could supply.",5.58]];
   const chain=document.querySelector('.chain'),layers=[...chain.querySelectorAll('.layer')],lis=[...document.querySelectorAll('#steps li')];
@@ -417,7 +420,7 @@
   function setStage(i){ if(i===cur)return; cur=i;
     layers.forEach((v,k)=>{if(k===i){v.classList.add('on');v.play().catch(()=>{})}else{v.classList.remove('on');setTimeout(()=>{if(k!==cur)v.pause()},900)}});
     lis.forEach((l,k)=>{l.classList.toggle('cur',k===i);l.classList.toggle('done',k<i)});
-    stage.textContent=ST[i][0];val.textContent=ST[i][1];note.textContent=ST[i][2];lost.textContent=ST[i][3]===null?'—':ST[i][3].toFixed(2)+' MW';document.getElementById('loss-context').textContent=i===0?'Tracking starts at the panels, once sunlight becomes electrical power.':'Total drop from panel output. Includes normal conversion losses; not all of it can be recovered.';}
+    stage.textContent=ST[i][0];val.textContent=ST[i][1];note.textContent=ST[i][2];lost.textContent=(ST[i][3]||0).toFixed(2)+' MW';document.getElementById('loss-context').textContent=i===0?'Tracking starts at the panels, once sunlight becomes electrical power.':'Total drop from panel output. Includes normal conversion losses; not all of it can be recovered.';}
   function onScroll(){const r=chain.getBoundingClientRect(),h=chain.offsetHeight-innerHeight;const p=Math.min(.999,Math.max(0,-r.top/h));setStage(Math.floor(p*ST.length));}
   addEventListener('scroll',onScroll,{passive:true});onScroll();
   const rvv=document.getElementById('revealv'), navel=document.querySelector('nav'); navel.style.transition='opacity .6s'; new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){rvv.currentTime=0;rvv.play().catch(()=>{});navel.style.opacity=0}else{rvv.pause();navel.style.opacity=1}}),{threshold:.6}).observe(rvv);

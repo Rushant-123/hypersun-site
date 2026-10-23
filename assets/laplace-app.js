@@ -1,6 +1,7 @@
 // Laplace interactive product preview. Recorded data: NREL PVDAQ 9069 (via surya-devta), one day.
+const LX_DATA = new URL('gv.json', document.currentScript.src);
 (async () => {
-  const G = await (await fetch('assets/gv.json')).json();
+  const G = await (await fetch(LX_DATA)).json();
   const $ = id => document.getElementById(id);
   const app = $('lx');
   const N = G.inv.length, T = G.T, NT = T.length / 5, PEAK = 0.72, CAP = 32, H0 = 5.5, H1 = 19.25;
@@ -27,7 +28,8 @@
   }
   // ---------- canvases
   let DPR = 1;
-  function fit(c) { const r = c.getBoundingClientRect(); DPR = Math.min(2, devicePixelRatio || 1); c.width = Math.max(1, r.width * DPR); c.height = Math.max(1, r.height * DPR); const x = c.getContext('2d'); x.setTransform(DPR, 0, 0, DPR, 0, 0); return [x, r.width, r.height]; }
+  // resizing a canvas reallocates it, so only do that when its size changes; otherwise just reset it
+  function fit(c) { const r = c.getBoundingClientRect(); DPR = Math.min(2, devicePixelRatio || 1); const W = Math.max(1, Math.floor(r.width * DPR)), H = Math.max(1, Math.floor(r.height * DPR)), x = c.getContext('2d'); if (c.width !== W || c.height !== H) { c.width = W; c.height = H; } else if (x.reset) x.reset(); else c.width = W; x.setTransform(DPR, 0, 0, DPR, 0, 0); return [x, r.width, r.height]; }
   // map projection
   const map = $('lxMap'); let M = [1, 0, 0, 1, 0, 0], Mi = M, MW = 0, MH = 0;
   function project() {
@@ -43,7 +45,7 @@
   const poly = (c, pts) => { c.beginPath(); pts.forEach(([x, y], j) => { const [p, q] = P(x, y); j ? c.lineTo(p, q) : c.moveTo(p, q); }); c.closePath(); };
   const cent = pts => { let x = 0, y = 0; pts.forEach(p => { x += p[0]; y += p[1]; }); return [x / pts.length, y / pts.length]; };
   function drawMap(now) {
-    const [ctx, w, h] = fit(map); off.width = map.width; off.height = map.height;
+    const [ctx, w, h] = fit(map); if (off.width !== map.width || off.height !== map.height) { off.width = map.width; off.height = map.height; } else { oc.setTransform(1, 0, 0, 1, 0, 0); oc.clearRect(0, 0, off.width, off.height); }
     const j = S.h * 4;
     for (let i = 0; i < N; i++) {
       const I = Math.max(0, Math.min(1, actAt(i, j) / PEAK));

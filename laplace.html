@@ -328,14 +328,9 @@
   #lx .main{overscroll-behavior:contain}
   #lx .main::after{content:"";position:sticky;display:block;bottom:0;height:28px;margin-top:-28px;background:linear-gradient(transparent,#060607);pointer-events:none}
 
-  .lp-shot,.demo-hd .mb{display:none}
-  @media (max-width:860px){
-    .win{display:none}
-    .demo-hd .dk{display:none}.demo-hd .mb{display:inline}
-    .lp-shot{display:block;margin:4px auto 0;max-width:640px}
-    .lp-shot img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid rgba(246,248,255,.2);box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 80px rgba(246,248,255,.05)}
-    .lp-shot figcaption{margin-top:14px;font-size:13px;color:rgba(246,248,255,.5);text-align:center}
-  }
+  .win.film{height:auto;min-height:0}
+  .win.film video{display:block;width:100%;height:auto;aspect-ratio:16/10;background:#060607}
+  .demo-go{display:flex;justify-content:center;margin-top:32px}.demo-go .btn{gap:10px}
 </style>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{colors:{core:'#F6F8FF'},fontFamily:{disp:['"Big Shoulders Display"','Geist','sans-serif'],mono:['"Geist Mono"','ui-monospace','monospace'],sans:['Geist','system-ui','sans-serif']}}}}</script>
@@ -356,130 +351,26 @@
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs><filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.56  0 0 0 0 0.66  0 0 0 0 1  0 0 0 0.9 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
-<nav aria-label="Main navigation"><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html">Laplace</a><a href="who.html">Who it's for</a><a href="contact.html">Contact</a></span></nav>
+<nav aria-label="Main navigation"><a class="mark" href="index.html"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;opacity:1;display:block"></a><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="laplace.html">Laplace</a><a href="who.html">Industries</a><a href="contact.html">Contact</a></span></nav>
 <section class="demo" id="product">
-  <div class="demo-hd"><div><div class="foot">Laplace</div><h2>See it run.</h2></div><p><span class="dk">One plant, one day, every inverter. Click anything. Trip an inverter in What-if and watch the plant respond.</span><span class="mb">One plant, one day, every inverter, measured against physics.</span></p></div>
-  <div class="win"><div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">Laplace · Juniper Flats Solar Park</span></div>
-  <div id="lx">
-    <div class="bar-top">
-      <a class="brand" href="index.html"><img src="assets/hypersun-icon.svg" alt="">Laplace</a>
-      <div class="plant">Juniper Flats Solar Park <small>38.7 MWp · 40 inverters</small><svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" fill="none"/></svg></div>
-      <div class="right"><span>29 Sep 2026</span><b id="lxClock">10:15</b><span class="live"><i></i>Live</span><span class="av">JF</span></div>
-    </div>
-    <div class="shell">
-      <aside class="sb">
-        <h6>Monitor</h6>
-        <button data-tab="overview" class="on"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg><span>Overview</span></button>
-        <button data-tab="map"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M1.5 4l4-1.5 5 1.5 4-1.5v9.5l-4 1.5-5-1.5-4 1.5z"/><path d="M5.5 2.5v9.5M10.5 4v9.5"/></svg><span>Plant map</span></button>
-        <button data-tab="inverters"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><rect x="2" y="3" width="12" height="10" rx="1"/><path d="M5 6h6M5 8h6M5 10h3"/></svg><span>Inverters &amp; strings</span></button>
-        <button data-tab="alarms"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M8 2a4 4 0 0 1 4 4v3l1.5 2.5h-11L4 9V6a4 4 0 0 1 4-4zM6.5 13.5a1.5 1.5 0 0 0 3 0"/></svg><span>Alarms</span><i id="lxBadge"></i></button>
-        <h6>Operate</h6>
-        <button data-tab="ops"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M10 2.5a3 3 0 0 0-3.6 3.9L2.5 10.3l1.4 1.4 1.8-1.8 1 1-1.8 1.8 1.4 1.4 3.9-3.9A3 3 0 0 0 13.5 6l-1.8 1.8-2.2-.5-.5-2.2z"/></svg><span>Control &amp; O&amp;M</span><i id="lxWoB"></i></button>
-        <button data-tab="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><rect x="2" y="3" width="12" height="11" rx="1"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg><span>Schedule &amp; DSM</span></button>
-        <h6>Analyse</h6>
-        <button data-tab="losses"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M2 13.5h12M4 11V7M8 11V4M12 11V8"/></svg><span>Performance</span></button>
-        <button data-tab="whatif"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M8.5 1.5L3.5 9h4l-1 5.5L12.5 7h-4z"/></svg><span>What-if</span></button>
-        <button data-tab="health"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M1.5 8.5h3l2-5 3 9 2-4h3"/></svg><span>Long-term health</span></button>
-        <button data-tab="reports"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M4 1.5h5.5L12.5 4.5v10H4z"/><path d="M9.5 1.5v3h3M6 8h4.5M6 10.5h4.5"/></svg><span>Reports</span></button>
-        <div class="conn">OPC UA <b>connected</b><br>Read-only · 5 min scan</div>
-      </aside>
-      <div class="main"><div class="mc">
-        <div class="view" data-view="overview">
-          <div class="kpis">
-            <div class="card kpi"><div class="l">Output now</div><div class="v"><span id="kN">0</span><small>MW</small></div><div class="s" id="kNs"></div></div>
-            <div class="card kpi"><div class="l">Physics expects</div><div class="v"><span id="kE">0</span><small>MW</small></div><div class="s">From sunlight and temperature</div></div>
-            <div class="card kpi"><div class="l">Today vs physics</div><div class="v"><span id="kR">0</span><small>%</small></div><div class="s" id="kRs"></div></div>
-            <div class="card kpi"><div class="l">Lost today</div><div class="v"><span id="kL">$0</span></div><div class="s" id="kLs"></div></div>
-          </div>
-          <div class="row">
-            <div class="card mapcard"><div class="hd"><h4>Plant</h4><span>Brightness is measured output</span></div><div class="slot" data-mapslot="overview"><canvas id="lxMap"></canvas></div></div>
-            <div class="card att"><div class="hd"><h4>Needs attention</h4><span>Lost so far</span></div><ul id="lxAtt"></ul><div class="sugg"><div class="l">Suggested next step</div><div id="lxAct"></div></div></div>
-          </div>
-          <div class="card"><div class="hd"><div class="play"><button id="lxPlay" aria-label="Play or pause"></button><div class="seg"><button data-speed="0.5">0.5×</button><button data-speed="1" class="on">1×</button><button data-speed="3">3×</button></div></div>
-            <div class="chips"><button data-jump="7.5">07:30 · control room 10 offline</button><button data-jump="12.6">12:36 · back online</button><button data-jump="16.5" data-sel="03">16:30 · inverter 03 sags</button></div></div>
-            <div class="pad"><canvas id="lxTl"></canvas></div></div>
-        </div>
-        <div class="view" data-view="map" hidden>
-          <div class="ttl"><h3>Plant map</h3><p>All 5,283 tables. Hover an inverter block, click for details.</p></div>
-          <div class="card mapcard" style="flex:1"><div class="slot" data-mapslot="map" style="min-height:560px"></div></div>
-        </div>
-        <div class="view" data-view="inverters" hidden>
-          <div class="ttl"><h3>Inverters</h3><p>Output as a share of physics, every 15 minutes. Outlined cells are offline. Click a row to see its strings.</p></div>
-          <div class="card"><div class="pad" style="padding-top:16px"><canvas id="lxHm" style="height:420px"></canvas></div></div>
-          <div class="card"><div class="hd"><h4 id="stT">Strings · inverter 01</h4><span>Current per string now, against its combiner peers</span></div><div class="pad"><div id="stGrid" class="stg"></div></div></div>
-        </div>
-        <div class="view" data-view="alarms" hidden>
-          <div class="ttl"><h3>Alarms</h3><p>Raised when an inverter falls more than 12% below physics.</p></div>
-          <div class="card"><table><thead><tr><th>Inverter</th><th>Status</th><th>First seen</th><th>Duration</th><th>Lost</th></tr></thead><tbody id="alRows"></tbody></table></div>
-        </div>
-        <div class="view" data-view="ops" hidden>
-          <div class="ttl"><h3>Control &amp; O&amp;M</h3><p id="lxWoN">Work orders are created from alarms, the plant map and the drawer.</p></div>
-          <div class="row" style="flex:none;min-height:0;grid-template-columns:1fr 360px">
-            <div class="card wo"><div class="hd"><h4>Work orders</h4><span id="woCount"></span></div><ul id="lxWo"></ul></div>
-            <div class="card wo"><div class="hd"><h4>Crews on shift</h4><span></span></div><ul id="crew"></ul></div>
-          </div>
-          <div class="card"><div class="hd"><h4>Spares</h4><span></span></div><table><thead><tr><th>Part</th><th>On hand</th><th>Minimum</th><th>Status</th></tr></thead><tbody id="spares"></tbody></table></div>
-        </div>
-        <div class="view" data-view="schedule" hidden>
-          <div class="ttl"><h3>Schedule &amp; DSM</h3><p><b id="lxSchOut">0</b> of <b id="lxSchBlk">0</b> blocks so far outside the ±10% band</p></div>
-          <div class="card"><div class="hd"><h4>Day-ahead schedule vs delivered, 15-minute blocks</h4><span>Boxes show the band. Solid bars are outside it.</span></div><div class="pad"><canvas id="lxSch"></canvas></div></div>
-        </div>
-        <div class="view" data-view="losses" hidden>
-          <div class="ttl"><h3>Performance</h3><label class="price">Price $/MWh <input id="lsPrice" type="number" value="50" min="0" step="5"></label></div>
-          <div class="sum">
-            <div class="card kpi"><div class="l">Lost to physics so far</div><div class="v" id="lsTot">$0</div><div class="s" id="lsMwh"></div></div>
-            <div class="card kpi"><div class="l">From inverters offline</div><div class="v" id="lsOff">$0</div><div class="s">Below 60% of physics</div></div>
-            <div class="card kpi"><div class="l">From underperformance</div><div class="v" id="lsRest">$0</div><div class="s">Everything else</div></div>
-          </div>
-          <div class="card"><table><thead><tr><th>Inverter</th><th>Actual MWh</th><th>Physics MWh</th><th>Of physics</th><th>Lost</th></tr></thead><tbody id="lsRows"></tbody></table></div>
-        </div>
-        <div class="view" data-view="health" hidden>
-          <div class="ttl"><h3>Long-term health</h3><p>Five years of performance, corrected for weather</p></div>
-          <div class="sum">
-            <div class="card kpi"><div class="l">Degradation</div><div class="v">−0.52<small>% / year</small></div><div class="s">Within the module warranty of −0.7%</div></div>
-            <div class="card kpi"><div class="l">Soiling loss, last 30 days</div><div class="v">2.1<small>%</small></div><div class="s">About 0.8 MWh a day</div></div>
-            <div class="card kpi"><div class="l">Next cleaning</div><div class="v">9<small>days</small></div><div class="s">When soiling cost passes cleaning cost</div></div>
-          </div>
-          <div class="card"><div class="hd"><h4>Performance ratio, monthly</h4><span>Dashed: degradation trend. Dips: soiling before each cleaning.</span></div><div class="pad"><canvas id="lxHl" style="display:block;width:100%;height:320px"></canvas></div></div>
-        </div>
-        <div class="view" data-view="reports" hidden>
-          <div class="ttl"><h3>Reports</h3><p>Generated from the twin, ready for lenders, offtakers and the grid operator.</p></div>
-          <div class="card"><table><thead><tr><th>Report</th><th>Period</th><th>For</th><th></th></tr></thead><tbody id="reps"></tbody></table></div>
-        </div>
-        <div class="view" data-view="whatif" hidden>
-          <div class="ttl"><h3>What-if</h3><div class="tool"><button id="lxFault" class="on">Pick an inverter to trip</button><button id="lxReset">Reset</button></div></div>
-          <div class="wi">
-            <div class="card mapcard"><div class="slot" data-mapslot="whatif"></div></div>
-            <div class="card att"><div class="hd"><h4>Simulated faults</h4><span>Lost so far</span></div><ul id="wiList"></ul>
-              <ol><li>Pick a time on the Overview timeline.</li><li>Click any inverter block here to trip it.</li><li>Watch alarms, losses and the schedule react.</li></ol><div style="height:16px"></div></div>
-          </div>
-        </div>
-      </div></div>
-    </div>
-    <aside class="dr" id="lxDr">
-      <div class="top"><div><h5 id="drT">Inverter</h5><div class="st" id="drS"></div></div><button id="lxDrX" aria-label="Close">×</button></div>
-      <dl><div><dt>Output now</dt><dd id="drNow"></dd></div><div><dt>Of physics</dt><dd id="drPh"></dd></div><div><dt>Today</dt><dd id="drE"></dd></div><div><dt>Lost today</dt><dd id="drL"></dd></div></dl>
-      <div><div style="font-size:12.5px;color:rgba(246,248,255,.5);margin-bottom:8px">Output vs physics today</div><canvas id="lxDrC"></canvas></div>
-      <div class="acts"><button id="drWo">Create work order</button><button id="drFault" class="ghost">Simulate a fault here</button></div>
-    </aside>
-    <div class="tip" id="lxTip"></div>
-    <div class="toast" id="lxToast"></div>
+  <div class="demo-hd"><div><div class="foot">Laplace</div><h2>See it run</h2></div><p>One plant, one day, every inverter, measured against physics. Open the live demo to click through it and trip an inverter yourself.</p></div>
+  <div class="win film"><div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">Laplace · Juniper Flats Solar Park</span></div>
+  <video autoplay muted loop playsinline preload="metadata" poster="assets/video/laplace-demo.jpg"><source src="assets/video/laplace-demo.mp4" type="video/mp4"></video>
   </div>
-  </div>
-  <figure class="lp-shot"><img src="assets/laplace-preview.jpg" alt="Laplace showing Juniper Flats Solar Park: output now, the physics expectation, and four offline inverters flagged on the plant map" loading="lazy"><figcaption>Open this page on a larger screen to explore it.</figcaption></figure>
+  <div class="demo-go"><a class="btn fill" href="demo/">Open the live demo <span aria-hidden="true">→</span></a></div>
 </section>
 <header class="after">
   <div class="foot">Laplace by Hypersun</div>
-  <h1>Every plant, seen whole.</h1>
+  <h1>Every plant, seen whole</h1>
   <p>A living physics twin of your plant. It knows what every inverter should make right now, and tells you what to fix first.</p>
   <div class="acts"><a class="fill" href="contact.html">Book a demo</a><a href="#what">What it runs</a></div>
   <small>The preview above runs on recorded data from a real 38.7 MWp plant (NREL PVDAQ 9069), shown as the fictional Juniper Flats Solar Park. Work orders, crews, spares and reports are synthetic. Faults you simulate are not in the data.</small>
 </header>
 <section id="what" class="border-t border-white/10 px-[var(--gut)] py-28 sm:py-32"><div class="mx-auto max-w-[1328px]">
-  <div class="grid items-end gap-8 lg:grid-cols-2"><h2 class="font-disp text-[clamp(52px,6vw,96px)] font-extrabold uppercase leading-[.88]">Everything a plant runs on.</h2><p class="max-w-[44ch] text-[19px] leading-relaxed text-white/75 lg:justify-self-end">One product for the engineers, the commercial team and the people in the field.</p></div>
+  <div class="grid items-end gap-8 lg:grid-cols-2"><h2 class="font-disp text-[clamp(52px,6vw,96px)] font-extrabold uppercase leading-[.88]">Everything a plant runs on</h2><p class="max-w-[44ch] text-[19px] leading-relaxed text-white/75 lg:justify-self-end">One product for the engineers, the commercial team and the people in the field.</p></div>
   <div class="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3"><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Physics twin</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Every string, every five minutes, checked against physics and reconciled to the export meter.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Losses, priced</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Every lost megawatt-hour located to the inverter, combiner or string, with its value in dollars.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Scheduling</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Day-ahead and intraday schedules in 15-minute blocks. Deviation penalties calculated before they land.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Invoicing</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">PPA invoices, revenue-meter reconciliation, and performance guarantees tracked every day.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Field work</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Work orders to the exact string, a phone view for technicians, and sync with SAP PM or Maximo.</p></div><div class="rounded-2xl border border-white/10 bg-[#060608] p-7"><h3 class="font-disp text-[30px] font-extrabold uppercase leading-none">Read-only by design</h3><p class="mt-4 text-[16px] leading-relaxed text-white/70">Connects over OPC UA or MQTT without control access, built to central cyber-security rules.</p></div></div></div></section>
 <section class="cta">
-  <h2>See your plant like this.</h2>
+  <h2>See your plant like this</h2>
   <p>Send us one site's data. We will show you its twin.</p>
   <a href="mailto:rushantashtputre2002@gmail.com">Talk to us</a>
 </section>
@@ -489,16 +380,14 @@
       <div class="col-span-2 md:col-span-1"><a href="index.html" class="inline-block no-underline"><img src="assets/hypersun-wordmark.svg" alt="Hypersun" class="block h-[15px] w-auto"></a>
         <p class="mt-5 max-w-[30ch] text-[15px] leading-relaxed text-white/55">A living physics twin of every power plant and grid on Earth.</p></div>
       <div><div class="text-[13px] text-white/40">Product</div><ul class="mt-4 grid list-none gap-3 p-0 text-[15px]"><li><a href="laplace.html" class="text-white/60 no-underline transition-colors hover:text-core">Laplace</a></li><li><a href="index.html" class="text-white/60 no-underline transition-colors hover:text-core">The film</a></li></ul></div>
-      <div><div class="text-[13px] text-white/40">Company</div><ul class="mt-4 grid list-none gap-3 p-0 text-[15px]"><li><a href="who.html" class="text-white/60 no-underline transition-colors hover:text-core">Who it's for</a></li><li><a href="contact.html" class="text-white/60 no-underline transition-colors hover:text-core">Contact</a></li></ul></div>
+      <div><div class="text-[13px] text-white/40">Company</div><ul class="mt-4 grid list-none gap-3 p-0 text-[15px]"><li><a href="who.html" class="text-white/60 no-underline transition-colors hover:text-core">Industries</a></li><li><a href="contact.html" class="text-white/60 no-underline transition-colors hover:text-core">Contact</a></li></ul></div>
       <div class="col-span-2 md:col-span-1"><div class="text-[13px] text-white/40">Get in touch</div><a href="mailto:rushantashtputre2002@gmail.com" class="mt-4 inline-block break-all text-[15px] text-core no-underline border-b border-white/25 pb-0.5 transition hover:border-core">rushantashtputre2002@gmail.com</a></div>
     </div>
     <div class="mt-16 flex flex-col gap-3 border-t border-white/10 pt-6 text-[12.5px] leading-relaxed text-white/40 md:flex-row md:items-start md:justify-between">
       <span>© 2026 Hypersun</span>
-      <span class="max-w-[70ch] md:text-right">Photography from public domain archives and Wikimedia Commons, regraded. Plant data recorded by NREL PVDAQ, shown as a fictional plant.</span>
+      <span class="max-w-[70ch] md:text-right">Photography from public domain archives and Wikimedia Commons, regraded.</span>
     </div>
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/laplace-app.js?v=6"></script>
 </body>
 </html>
