@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>One terawatt · Hypersun</title>
 <meta name="robots" content="noindex">
+<meta name="author" content="Rushant Ashtputre, Monali Dambre, Manthan Gupta">
 <meta name="description" content="The Hypersun manifesto: build the world's first intelligent energy company, and produce one terawatt.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Hypersun">
@@ -56,18 +57,13 @@
   .body p.lead+p{margin-top:1.4em}
   .body b{font-weight:500;color:var(--core)}
 
-  .ladder{list-style:none;margin-top:36px;border-top:1px solid var(--c35);max-width:60ch}
-  .ladder li{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--c18)}
-  .ladder b{font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--c55);padding-top:5px}
-  .ladder span{color:var(--c80)}
-  .ladder span strong{display:block;font-weight:500;color:var(--core);font-size:21px;line-height:1.3;margin-bottom:4px}
 
   .tw{padding:120px 0;border-top:1px solid var(--c18);text-align:center}
   .tw .num{margin-bottom:36px}
   .tw b{display:block;font-family:var(--disp);font-weight:800;font-size:clamp(120px,22vw,360px);line-height:.8;letter-spacing:-.01em;text-shadow:var(--glow)}
   .tw p{margin:32px auto 0;max-width:40ch;font-size:clamp(20px,1.7vw,24px);line-height:1.45;color:var(--c80)}
 
-  .beliefs{list-style:none;counter-reset:b;max-width:60ch}
+  .beliefs{list-style:none;counter-reset:b;max-width:60ch;margin-top:1.6em}
   .beliefs li{counter-increment:b;position:relative;padding:22px 0 22px 64px;border-bottom:1px solid var(--c18)}
   .beliefs li:first-child{border-top:1px solid var(--c35)}
   .beliefs li::before{content:counter(b,decimal-leading-zero);position:absolute;left:0;top:27px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--c55)}
@@ -76,6 +72,19 @@
 
   .close{padding:140px var(--gut) 120px;text-align:center;border-top:1px solid var(--c18)}
   .close h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(64px,9vw,148px);line-height:.88;letter-spacing:.01em}
+  .close .final{max-width:30ch;margin:0 auto 56px;font-size:clamp(23px,2.2vw,32px);line-height:1.35;letter-spacing:-.015em;color:var(--c80)}
+  .body a{color:var(--core);text-decoration-color:var(--c35);text-underline-offset:3px}
+  .plan{list-style:none;counter-reset:p;margin-top:1.1em;max-width:60ch;padding-left:22px;border-left:2px solid var(--core)}
+  .plan li{counter-increment:p;display:grid;grid-template-columns:2em minmax(0,1fr);align-items:baseline;font-size:clamp(20px,1.7vw,23px);line-height:1.4;letter-spacing:-.01em;color:var(--core)}
+  .plan li+li{margin-top:.45em}
+  .plan li::before{content:counter(p) ".";font-family:var(--mono);font-size:.62em;color:var(--c55)}
+  .body .plan+p{margin-top:1.4em}
+  .close .final a{color:var(--core);text-decoration-color:var(--c35);text-underline-offset:4px}
+  .sign{margin:64px auto 0;max-width:1000px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;text-align:center}
+  .sign b{display:block;font-weight:500;font-size:18px}
+  .sign i{display:block;margin-top:6px;font-style:normal;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c80)}
+  .sign small{display:block;margin:8px auto 0;max-width:30ch;text-wrap:balance;font-size:13.5px;line-height:1.5;color:var(--c55)}
+  @media (max-width:860px){.sign{grid-template-columns:minmax(0,1fr);gap:28px;margin-top:48px}}
   .date{margin-top:48px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--c35)}
 
   .rv{opacity:0;transform:translateY(24px);filter:blur(5px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s var(--ease)}
@@ -87,8 +96,6 @@
     .cover{padding-bottom:64px}
     .part{grid-template-columns:minmax(0,1fr);gap:22px;padding:64px 0}
     .side{position:static}
-    .ladder li{grid-template-columns:minmax(0,1fr);gap:6px}
-    .ladder b{padding-top:0}
     .beliefs li{padding-left:48px}
     .tw{padding:88px 0}
     .close{padding:96px var(--gut) 88px}
@@ -104,84 +111,101 @@
   <img src="/assets/video/hero-film.jpg" alt="">
   <div class="eyebrow">The Hypersun manifesto</div>
   <h1>One terawatt</h1>
-  <p>We're building the world's first intelligent energy company.</p>
+  <p>We're building the world's first intelligent energy company, to produce one terawatt by 2040.</p>
 </section>
 
 <article>
   <section class="part">
     <div class="side rv"><div class="num">I</div><h2>Energy is the input</h2></div>
     <div class="body rv">
-      <p class="lead">Every era of progress has run on more energy than the one before it.</p>
-      <p>Fire, coal, oil, the grid. Each time we learned to make more power, we learned to make more of everything else: food, medicine, light, knowledge.</p>
-      <p>The next era is asking for more than any before. AI is turning electricity into intelligence. Factories are coming home. Cities are growing, and the cars and furnaces in them are moving to the grid. Demand is rising faster than we know how to build.</p>
-      <p>The world is answering with sun, wind, water and atoms, and with grids rebuilt for a new century. The open question is whether we'll build well.</p>
+      <p class="lead">Every machine that thinks will need a power plant behind it.</p>
+      <p>Data centres used about 485 terawatt-hours of electricity in 2025, as much as all of Germany generates. The IEA expects that to roughly double by 2030. Factories are coming home, and the cars and furnaces in our cities are moving onto the grid. Every era of progress has run on more energy than the one before it, and this one will need more than any.</p>
+      <p>Making it from sunlight has never been cheaper. Electricity from new solar farms costs nearly 90 percent less than it did in 2010. The world will spend a record $3.4 trillion on energy this year, close to 60 percent of it on electricity, and about a billion dollars a day on solar alone. In 2025, almost 700 gigawatts of new solar came online, taking the total to nearly 3 terawatts.</p>
+      <p>And the job is nowhere near done. Some 655 million people still have no electricity at all.</p>
     </div>
   </section>
 
   <section class="part">
     <div class="side rv"><div class="num">II</div><h2>We are building blind</h2></div>
     <div class="body rv">
-      <p class="lead">Most of the energy system can't see itself.</p>
-      <p>A solar plant loses a few percent of its output every day and rarely knows where. A string fuse blows and nobody finds it for a week. A grid operator runs on hours-old data. A developer picks a site from a spreadsheet and lives with the answer for thirty years.</p>
-      <p>The tools that run power today record what happened. They don't know what should have happened, so they can't tell anyone what to do next. The loss is spread across millions of assets, small in each one and enormous in total.</p>
+      <p class="lead">Almost none of it can see itself.</p>
+      <p>A solar plant loses output every day and rarely knows where. A string fuse blows and nobody finds it for a week. A wind turbine drifts off its power curve and nobody notices until the quarterly report. A grid operator runs on hours-old data. A developer picks a site from a spreadsheet and lives with the answer for thirty years.</p>
+      <p>Take solar, the fastest-growing source of all. US sites produce 8.6 percent less electricity, on average, than the estimates they were financed on. If the world's solar fleet does as badly, the output of about 250 gigawatts of panels is being made and then lost without anyone noticing. That's more than the entire grid of almost every country on Earth.</p>
+      <p>The software meant to catch this is hindsight software. It records what happened, draws it on a screen, and leaves a person to work out what went wrong. It has no idea what should have happened, so it can't tell anyone what to do next.</p>
     </div>
   </section>
 
   <section class="part">
-    <div class="side rv"><div class="num">III</div><h2>Laplace</h2></div>
+    <div class="side rv"><div class="num">III</div><h2>Four ways this goes</h2></div>
+    <div class="body rv">
+      <p class="lead">As we see it, the buildout can go one of four ways.</p>
+      <ol class="beliefs">
+        <li><strong>Nothing changes</strong><span>Capacity goes up, a slice of every plant's output leaks away, and everyone pays for energy nobody used.</span></li>
+        <li><strong>The incumbents bolt AI onto their dashboards</strong><span>Operators already spend $13 to $15 billion a year on SCADA and another $6 to $7 billion on digital twins for energy. That spend keeps growing, and the plants stay the same.</span></li>
+        <li><strong>Every utility and hyperscaler builds its own model</strong><span>Each one sees up to its own fence line, and nobody sees the system.</span></li>
+        <li><strong>Demand wins</strong><span>More than 2,000 gigawatts of US generation and storage is waiting in line for a grid connection, and the projects that got through in 2025 waited a median of more than five years. Data centres wait, prices climb, and the age of abundance turns into an age of rationing.</span></li>
+      </ol>
+      <p style="margin-top:1.4em">We don't want any of these. We think there's a fifth way.</p>
+    </div>
+  </section>
+
+  <section class="part">
+    <div class="side rv"><div class="num">IV</div><h2>Laplace</h2></div>
     <div class="body rv">
       <p class="lead">In 1814, Pierre-Simon Laplace imagined an intelligence that knew the state of everything, and so could see what comes next.</p>
-      <p>We're building that intelligence for energy. Laplace is a physics twin of every asset, from the panel to the grid. It knows what each one should make in this sunlight, at this temperature, right now. When reality falls short, it finds the gap, prices it, and sends someone to fix it.</p>
-      <p>Physics is the point. A model that only learns from history repeats it. A model that knows the physics can tell you what a plant should do on a day it's never seen, and what a plant that doesn't exist yet would do if you built it.</p>
+      <p>We're building that intelligence for energy, and then an energy company around it.</p>
+      <p>Laplace is a physics twin of every asset, from the solar panel, wind turbine, dam or reactor to the grid. It knows what each one should make in this sunlight, this wind and this heat, right now. When reality falls short, it finds the gap, prices it and sends someone to fix it.</p>
+      <p>Physics matters because a model that only learns from history repeats it. A model that knows the physics can tell you what a plant will do on a day it's never seen, and what a plant that doesn't exist yet would do if you built it.</p>
     </div>
   </section>
 
   <section class="part">
-    <div class="side rv"><div class="num">IV</div><h2>How we get there</h2></div>
+    <div class="side rv"><div class="num">V</div><h2>What we believe</h2></div>
     <div class="body rv">
-      <p class="lead">We'll earn the right to produce energy by first understanding it better than anyone.</p>
-      <p>That happens in three steps. Each one funds and teaches the next.</p>
-      <ol class="ladder">
-        <li><b>See</b><span><strong>Twin every plant</strong>Operators already spend billions on control and monitoring software. SCADA alone is a $13 to $15 billion market, and digital twins for energy add another $6 to $7 billion, growing fastest of all. We start there, because that's where the data lives, and we replace hindsight with physics.</span></li>
-        <li><b>Know</b><span><strong>Sell what the data knows</strong>Every plant we twin teaches the model. Across many plants and many grids, that becomes something no single operator has: a picture of where energy is lost and where load is going. We sell that insight back to operators and developers, so they know what to fix and where to build next.</span></li>
-        <li><b>Build</b><span><strong>Make the energy ourselves</strong>The company that knows the most about where and how to produce energy should be the one producing it. We will use everything the twin has learned to build and run generation of our own, sited, sized and operated by intelligence from the first day.</span></li>
+      <ol class="beliefs" style="margin-top:0">
+        <li><strong>Physics over hindsight</strong><span>A plant should be judged against what the laws of nature say it can make.</span></li>
+        <li><strong>Every kilowatt-hour deserves to be seen</strong><span>Whether it was made or lost, we measure it and say why.</span></li>
+        <li><strong>Trust before control</strong><span>We start read-only. We touch a plant only once we've shown we understand it.</span></li>
+        <li><strong>Own the outcome</strong><span>In the end we'll be paid for energy delivered, so every lost megawatt-hour is ours to find.</span></li>
+        <li><strong>Abundance is the goal</strong><span>More energy, cheaper and cleaner, for everyone on Earth, starting with the people who have none.</span></li>
       </ol>
     </div>
   </section>
 
   <section class="tw rv">
-    <div class="num">V</div>
+    <div class="num">VI</div>
     <b>1 TW</b>
-    <p>Our goal is to produce one terawatt of energy. That's about three-quarters of the entire United States power fleet, built by one company that can see every watt of it.</p>
+    <p>The goal is one terawatt by 2040, made from sunlight, wind, water, the heat of the Earth and split atoms. That's about three-quarters of the entire United States power fleet, built by one company that can see every watt of it.</p>
   </section>
 
   <section class="part">
-    <div class="side rv"><div class="num">VI</div><h2>An intelligent energy company</h2></div>
+    <div class="side rv"><div class="num">VII</div><h2>An intelligent energy company</h2></div>
     <div class="body rv">
-      <p class="lead">There are energy companies, and there are software companies that serve them. We intend to be the first that is both.</p>
-      <p>Utilities own the assets and buy their software from vendors who have never owned a plant. Neither feels the full cost of a lost megawatt-hour, so neither is built to chase it all the way down.</p>
-      <p>We will. When the company that models the plant also owns the plant, every insight turns straight into energy, and every megawatt-hour produced sharpens the model. That loop is the company.</p>
-    </div>
-  </section>
-
-  <section class="part">
-    <div class="side rv"><div class="num">VII</div><h2>What we believe</h2></div>
-    <div class="body rv">
-      <ol class="beliefs">
-        <li><strong>Physics before opinion</strong><span>Every decision starts from what the laws of nature say should happen.</span></li>
-        <li><strong>Every kilowatt-hour deserves to be seen</strong><span>Whether it was made or lost, we measure it and say why.</span></li>
-        <li><strong>Earn trust before control</strong><span>We start read-only. We touch a plant only once we've shown we understand it.</span></li>
-        <li><strong>Build where the data says</strong><span>Sites, sizes and schedules come from the model.</span></li>
-        <li><strong>Abundance is the goal</strong><span>More energy, cheaper and cleaner, for everyone.</span></li>
+      <p class="lead">Today there are energy companies, and there are software companies that sell to them.</p>
+      <p>Utilities own the assets and buy their software from vendors who have never owned a plant, so neither feels the full cost of a lost megawatt-hour. When the company that models the plant also owns it, every insight turns straight into energy, and every megawatt-hour it produces sharpens the model. That loop is the company.</p>
+      <p>So, in short, the plan is:</p>
+      <ol class="plan">
+        <li>Twin every plant we can reach.</li>
+        <li>Sell what the twin learns to the operators and developers who need it.</li>
+        <li>Use the money and the model to build a terawatt of our own: solar, wind, hydro, geothermal and nuclear fission.</li>
       </ol>
+      <p>We know how this sounds. No single company has come close to a terawatt, and the odds that a startup gets there by 2040 are small. We're doing it anyway, because the alternative is a century of energy built blind.</p>
+      <p>The work in between is some of the hardest engineering there is: a physics model of every panel, turbine, reactor and line on a grid, running in real time, trusted enough that people build power plants on its word. If that's the problem you want to spend the next decade on, we want to hear from you.</p>
     </div>
   </section>
 </article>
 
 <section class="close">
+  <p class="final rv">That's why we're building Hypersun: the world's first intelligent energy company, and the first to produce a terawatt. <a href="/contact.html">Build it with us.</a></p>
   <h2 class="rv">Energy without limit</h2>
+  <div class="sign rv">
+    <div><b>Rushant Ashtputre</b><i>Co-founder</i><small>1× startup exit · BITS Pilani</small></div>
+    <div><b>Monali Dambre</b><i>Co-founder</i><small>Former Director of Enterprise GTM at Sabi, backed by Khosla Ventures · IIT Bombay</small></div>
+    <div><b>Manthan Gupta</b><i>Co-founder</i><small>AI Research Engineer at Zyphra, a $1B AI lab</small></div>
+  </div>
   <div class="date rv">October 2026</div>
 </section>
+
 </main>
 
 <script>
