@@ -417,5 +417,9 @@
     </div>
   </div>
 </footer>
+<script>
+  // wake the live twin (Cloud Run scales to zero) while the visitor watches the recording
+  for (const u of ['https://demo.hypersun.si', 'https://laplace-demo-115799126052.us-central1.run.app']) fetch(u + '/api/meta', { mode: 'no-cors', cache: 'no-store' }).catch(() => {});
+</script>
 </body>
 </html>
