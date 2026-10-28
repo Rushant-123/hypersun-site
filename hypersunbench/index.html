@@ -8,7 +8,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Hypersun">
 <meta property="og:title" content="HypersunBench · Hypersun">
-<meta property="og:description" content="The world's largest multi-country solar forecasting benchmark. 44 GW, five continents, 2.4 million predictions. Hypersun v1 beats Google, Amazon and Mistral.">
+<meta property="og:description" content="The world's largest multi-country solar forecasting benchmark. 44 GW, five continents, 2.4 million predictions. Hypersun v1 beats Google, Amazon, Anthropic and Mistral.">
 <meta property="og:image" content="https://hypersun.si/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#000000">
@@ -82,6 +82,7 @@
   th:first-child,td:first-child{text-align:left;padding-left:0;width:44px;color:var(--c55);font-family:var(--mono);font-size:13px}
   th.l,td.l{text-align:left}
   td.model b{display:block;font-weight:500;font-size:17px}
+  .model sup,.mc-hd sup{font-size:.6em;color:var(--c55);margin-left:2px}
   td.model small{display:block;margin-top:2px;font-size:13px;color:var(--c55)}
   td.ov{width:220px}
   .bar{display:flex;align-items:center;justify-content:flex-end;gap:12px}
@@ -253,7 +254,7 @@
       <div class="rv">
         <div class="num">Result</div>
         <h2>Hypersun v1 is number one</h2>
-        <p class="intro">We put the leading AI forecasting models from Google, Amazon, Mistral AI, Salesforce and NXAI head to head on the same plants, under the same rules. <b>Hypersun v1 beat every one of them</b>, day-ahead and intraday, and it held the lead on plants it had never seen.</p>
+        <p class="intro">We put the leading AI models from Google, Amazon, Anthropic, Mistral AI, Salesforce and NXAI head to head on the same plants, under the same rules. <b>Hypersun v1 beat every one of them</b>, day-ahead and intraday, and it held the lead on plants it had never seen.</p>
       </div>
       <div class="scores rv">
         <div><i>Day-ahead</i><b>0.265</b><span>26.5% less forecast error than the industry baseline, across all 213 plants. Ranked #1.</span></div>
@@ -285,6 +286,7 @@
     <div class="notes rv">
       <p><b>Overall</b> is the equal-weight mean over all 213 plants. <b>Held-out</b> is the 43 plants no model was trained on. <b>nMAE</b> is mean absolute error as a percentage of plant capacity, lower is better.</p>
       <p>Smart persistence, the zero point of the scale, has a day-ahead nMAE of 16.0% and an intraday nMAE of 14.4%. Every model runs through its official release.</p>
+      <p><b>* Opus 5.5</b> is a general-purpose language model, and running it on all 185,578 forecasts is slow and costly, so it was scored on a random sample of 900 plant-days. On that same sample it ranks fifth intraday and level with TiRex-2 day-ahead, 0.055 day-ahead and 0.031 intraday behind Hypersun v1. Its scores here are full-test estimates: its sample scores, adjusted by how much harder the sample was for the other models.</p>
     </div>
   </section>
 
@@ -319,7 +321,7 @@
     <div class="cards rv" id="mrowsm"></div>
     <div class="notes rv">
       <p><b>India:</b> CERC Deviation Settlement Mechanism 2024, at a ₹2.50/kWh contract rate for every plant. <b>Spain and Italy:</b> ENTSO-E imbalance prices against the day-ahead price of the plant's zone. <b>Great Britain:</b> Elexon system price against the market index price.</p>
-      <p>The schedule is each model's median forecast. Savings are measured against smart persistence on the test window and scaled to a full year. Australia, Brazil and the US do not charge solar plants for forecast deviations, so they are not priced. The dot marks the biggest saving in each column.</p>
+      <p>The schedule is each model's median forecast. Savings are measured against smart persistence on the test window and scaled to a full year. Australia, Brazil and the US do not charge solar plants for forecast deviations, so they are not priced. Opus 5.5 is not priced because it was scored on a sample. The dot marks the biggest saving in each column.</p>
     </div>
   </section>
 
@@ -386,6 +388,8 @@
     {name:'TimesFM 3.0', by:'Google',
       m:{da:[[109298,3837,1004],[307.83,4.609,.6615]], id:[[251863,3002,291],[254.07,4.411,.6409]]},
       da:[.243,.282,.240,.127,.152,.250,.292,.258,12.25], id:[.269,.294,.277,.214,.153,.254,.356,.272,10.73]},
+    {name:'Opus 5.5', by:'Anthropic', est:true,
+      da:[.216,.274,.244,.076,.127,.170,.295,.230,12.72], id:[.260,.278,.295,.193,.161,.218,.339,.240,10.96]},
     {name:'TiRex-2', by:'NXAI',
       m:{da:[[49752,3585,1113],[339.00,4.736,.5953]], id:[[184748,2783,410],[289.21,4.521,.5686]]},
       da:[.215,.244,.221,.073,.153,.226,.261,.231,12.73], id:[.231,.237,.254,.150,.161,.213,.311,.238,11.34]},
@@ -420,7 +424,7 @@
       const s = r[task], ov = s[0];
       const cell = i => `<td class="reg${s[i] === best[i] ? ' best' : ''}${s[i] < 0 ? ' neg' : ''}">${f3(s[i])}</td>`;
       return `<tr${r.us ? ' class="us"' : ''}><td>${String(k + 1).padStart(2, '0')}</td>`
-        + `<td class="l model"><b>${esc(r.name)}</b><small>${esc(r.by)}</small></td>`
+        + `<td class="l model"><b>${esc(r.name)}${r.est ? '<sup>*</sup>' : ''}</b><small>${esc(r.by)}</small></td>`
         + `<td class="ov${ov === best[0] ? ' best' : ''}"><span class="bar"><i style="--w:${Math.max(0, ov / max * 100)}%"></i><b>${f3(ov)}</b></span></td>`
         + REG.map((_, j) => cell(j + 1)).join('') + cell(7)
         + `<td class="reg${s[8] === nmaeBest ? ' best' : ''}">${s[8].toFixed(1)}%</td></tr>`;
@@ -429,7 +433,7 @@
     rowsm.innerHTML = runs.map((r, k) => {
       const s = r[task];
       return `<div class="mc${r.us ? ' us' : ''}"><div class="mc-hd"><span class="rk">${String(k + 1).padStart(2, '0')}</span>`
-        + `<div><b>${esc(r.name)}</b><small>${esc(r.by)}</small></div><div><strong>${f3(s[0])}</strong><em>Overall</em></div></div><dl>`
+        + `<div><b>${esc(r.name)}${r.est ? '<sup>*</sup>' : ''}</b><small>${esc(r.by)}</small></div><div><strong>${f3(s[0])}</strong><em>Overall</em></div></div><dl>`
         + lab.map((l, i) => `<div><dt>${l}</dt><dd class="${s[i + 1] === best[i + 1] ? 'best' : ''}${s[i + 1] < 0 ? ' neg' : ''}">${f3(s[i + 1])}</dd></div>`).join('')
         + `<div><dt>nMAE</dt><dd class="${s[8] === nmaeBest ? 'best' : ''}">${s[8].toFixed(1)}%</dd></div></dl></div>`;
     }).join('');
@@ -438,8 +442,9 @@
 
   const mrows = document.getElementById('mrows'), mrowsm = document.getElementById('mrowsm');
   function renderMoney(task){
-    const runs = [...RUNS].sort((a, b) => b[task][0] - a[task][0]);
-    const best = [0, 1, 2].map(i => Math.max(...RUNS.map(r => r.m[task][0][i])));
+    const priced = RUNS.filter(r => r.m);
+    const runs = [...priced].sort((a, b) => b[task][0] - a[task][0]);
+    const best = [0, 1, 2].map(i => Math.max(...priced.map(r => r.m[task][0][i])));
     const sign = (v, f) => (v < 0 ? '−' : '') + f(Math.abs(v));
     mrows.innerHTML = runs.map((r, k) => {
       const [save, cost] = r.m[task];
