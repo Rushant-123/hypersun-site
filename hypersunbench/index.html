@@ -407,7 +407,7 @@
       <li><strong>Plants the model has never seen</strong><span>About one plant in five in each market is held out of training. Those plants count in the score and are also reported on their own.</span></li>
       <li><strong>Scored on probabilities</strong><span>Models give a range of outcomes for every block of the day, not one number. The score rewards being both close and honest about uncertainty.</span></li>
       <li><strong>Curtailment removed</strong><span>Hours when the grid told a plant to turn down are excluded, or scored against the operator's estimate of available power. The benchmark measures weather-driven output.</span></li>
-      <li><strong>Recent data</strong><span>Test windows fall in 2026 wherever the data allows, so the models are scored on months they have not seen. The one exception, the US in 2022, is disclosed.</span></li>
+      <li><strong>Recent data</strong><span>Test windows are recent: April to September 2026 in most markets, July to October in India. The one exception, the US in 2022, is disclosed.</span></li>
     </ol>
   </section>
 
@@ -428,7 +428,7 @@
         <p>Each model gives nine quantiles, from 10% to 90%, for every block of the forecast day. We score them with the continuous ranked probability score (CRPS), which measures how far the predicted range sits from what the plant actually made.</p>
         <p>Each plant's CRPS is compared with <b>smart persistence</b>: yesterday's cloudiness carried onto tomorrow's sun path. That baseline is hard to beat on clear days and easy to beat on changing ones, so the score shows how much a model knows about the weather.</p>
         <div class="eq">skill = 1 − CRPS(model) ÷ CRPS(smart persistence)</div>
-        <p style="margin-top:1.4em">Skill is computed per plant and averaged with equal weight, so a 5 MW plant in Britain counts as much as a 500 MW plant in Brazil. Day-ahead and intraday are reported separately.</p>
+        <p style="margin-top:1.4em">Skill is computed per plant and averaged with equal weight, so a 4 MW plant in Australia counts as much as a 1.6 GW plant in Brazil. Day-ahead and intraday are reported separately.</p>
       </div>
     </div>
   </section>
