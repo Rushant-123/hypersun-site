@@ -129,13 +129,14 @@
   .col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;outline:none;cursor:default}
   .col .up{box-sizing:border-box;width:100%;padding-top:46px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
   .col .dn{width:100%;display:flex;flex-direction:column;justify-content:flex-start;align-items:center}
-  .col .bar{display:block;width:58%;max-width:76px;font-style:normal;transition:height .6s var(--ease),filter .2s}
+  .col .bar{position:relative;flex:none;display:block;width:58%;max-width:76px;font-style:normal;transition:height .6s var(--ease),filter .2s}
   .col .up .bar{border-radius:8px 8px 2px 2px;background:linear-gradient(180deg,rgba(246,248,255,.30),rgba(246,248,255,.07));box-shadow:inset 0 1px 0 rgba(246,248,255,.35)}
   .col .dn .bar{border-radius:2px 2px 8px 8px;background:linear-gradient(0deg,rgba(246,248,255,0),rgba(246,248,255,.12))}
-  .col .dn .bar.clip{-webkit-mask:linear-gradient(180deg,#000 55%,transparent);mask:linear-gradient(180deg,#000 55%,transparent)}
+  .col .dn .bar.clip{background:linear-gradient(180deg,rgba(246,248,255,.12),rgba(246,248,255,0))}
   .col.us .up .bar{background:linear-gradient(180deg,#fff,rgba(246,248,255,.78));box-shadow:0 0 34px rgba(var(--corona),.55),0 0 8px rgba(255,255,255,.5)}
-  .col .v{font-family:var(--disp);font-weight:700;font-size:24px;line-height:1;letter-spacing:.01em;color:var(--c80);margin-bottom:10px;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .col .dn .v{margin:10px 0 0;color:var(--c35);font-size:20px}
+  .col .v{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);font-family:var(--disp);font-weight:700;font-size:24px;line-height:1;letter-spacing:.01em;color:var(--c80);padding-bottom:10px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .col .dn .v{bottom:auto;top:100%;padding:10px 0 0;color:var(--c35);font-size:20px}
+  .col .dn .bar.deep .v{top:auto;bottom:0;padding:0 0 6px}
   .col.us .v{color:var(--core);font-size:34px;text-shadow:var(--glow)}
   .col:hover .bar,.col:focus-visible .bar{filter:brightness(1.35)}
   .col:focus-visible .v{text-decoration:underline;text-underline-offset:4px}
@@ -157,7 +158,7 @@
   .ht{display:grid;align-items:center;min-height:26px}
   .ht .neg{display:flex;justify-content:flex-end;align-items:center;gap:6px;border-right:1px solid var(--c55);height:26px}
   .ht .pos{display:flex;align-items:center;gap:6px;height:26px}
-  .ht .bar{display:block;height:16px;font-style:normal;background:linear-gradient(90deg,rgba(246,248,255,.07),rgba(246,248,255,.30))}
+  .ht .bar{flex:none;display:block;height:16px;font-style:normal;background:linear-gradient(90deg,rgba(246,248,255,.07),rgba(246,248,255,.30))}
   .ht .pos .bar{border-radius:2px 8px 8px 2px}
   .ht .neg .bar{border-radius:8px 2px 2px 8px;background:linear-gradient(270deg,rgba(246,248,255,.12),rgba(246,248,255,0))}
   .hrow.us .ht .bar{background:linear-gradient(90deg,rgba(246,248,255,.78),#fff);box-shadow:0 0 22px rgba(var(--corona),.55)}
@@ -316,7 +317,7 @@
       <div class="rv">
         <div class="num">Result</div>
         <h2>Hypersun v1 is number one</h2>
-        <p class="intro">We put the leading AI models from Google, OpenAI, Anthropic, Amazon, Mistral AI, DeepSeek, Moonshot AI, Salesforce and NXAI head to head on the same plants, under the same rules. <b>Hypersun v1 beat every one of them</b>, day-ahead and intraday, and it held the lead on plants it had never seen.</p>
+        <p class="intro">We put the leading AI models from Google, OpenAI, Anthropic, Amazon, Mistral AI, DeepSeek, Moonshot AI, Zhipu AI, Salesforce and NXAI head to head on the same plants, under the same rules. <b>Hypersun v1 beat every one of them</b>, day-ahead and intraday, and it held the lead on plants it had never seen.</p>
       </div>
       <div class="scores rv">
         <div><i>Day-ahead</i><b>0.265</b><span>26.5% less forecast error than the industry baseline, across all 213 plants. Ranked #1.</span></div>
@@ -469,6 +470,9 @@
     {name:'Kimi K3 (non-reasoning)', by:'Moonshot AI', est:true,
       m:{da:[[-197090,-1821,758],[463.29,7.216,.8028]], id:[[-75066,-2213,720],[420.01,6.806,.3855]]},
       da:[.009,.085,.096,-.087,.119,-.085,-.186,.142,15.26], id:[.011,.015,.112,-.082,-.071,-.005,.020,.037,13.73]},
+    {name:'GLM-5.3 (non-reasoning)', by:'Zhipu AI', est:true,
+      m:{da:[[-315994,-4608,1448],[523.51,8.501,.3959]], id:[[-196984,-3438,-338],[481.76,7.370,1.0093]]},
+      da:[.007,.088,.066,-.237,-.013,.002,.025,.055,15.55], id:[-.050,.015,.003,-.168,-.208,-.080,.061,.023,14.67]},
     {name:'TiRex-2', by:'NXAI',
       m:{da:[[49752,3585,1113],[339.00,4.736,.5953]], id:[[184748,2783,410],[289.21,4.521,.5686]]},
       da:[.215,.244,.221,.073,.153,.226,.261,.231,12.73], id:[.231,.237,.254,.150,.161,.213,.311,.238,11.34]},
@@ -542,8 +546,8 @@
     for (let t = 0; t <= top + step / 2; t += step) grid += `<div class="gl${t < step / 2 ? ' zero' : ''}" style="bottom:calc(${100 - Pv}% + (${Pv}% - 46px) * ${t / top})"></div>`;
     el.innerHTML = `<div class="plot">${grid}` + items.map((d, k) =>
       `<div class="col${d.us ? ' us' : ''}" tabindex="0" data-k="${k}" aria-label="${esc(d.name)}, ${esc(d.by)}: ${fmt(d.v)}">`
-      + `<div class="up" style="height:${Pv}%">${d.v >= 0 ? `<span class="v">${fmt(d.v)}</span><i class="bar" style="height:${pct(d.v, top)}%"></i>` : ''}</div>`
-      + `<div class="dn" style="height:${100 - Pv}%">${d.v < 0 ? `<i class="bar${d.v < floor ? ' clip' : ''}" style="height:${Math.min(100, pct(d.v, floor))}%"></i><span class="v">${fmt(d.v)}</span>` : ''}</div></div>`).join('')
+      + `<div class="up" style="height:${Pv}%">${d.v >= 0 ? `<i class="bar" style="height:${pct(d.v, top)}%"><span class="v">${fmt(d.v)}</span></i>` : ''}</div>`
+      + `<div class="dn" style="height:${100 - Pv}%">${d.v < 0 ? `<i class="bar${d.v < floor ? ' clip' : ''}${pct(d.v, floor) > 45 ? ' deep' : ''}" style="height:${Math.min(100, pct(d.v, floor))}%"><span class="v">${fmt(d.v)}</span></i>` : ''}</div></div>`).join('')
       + `</div><div class="names">` + items.map(d => `<div${d.us ? ' class="us"' : ''}><b>${esc(d.name)}</b><small>${esc(d.by)}</small></div>`).join('') + '</div><div class="tip"></div>';
   }
   function hover(el){
@@ -551,7 +555,7 @@
       const tip = el.querySelector('.tip'), d = el._items[+col.dataset.k];
       if (!tip || !d) return;
       tip.innerHTML = `<b>${esc(d.name)}</b>` + d.tip.map(([k, v]) => `<span>${k}<i>${v}</i></span>`).join('');
-      const r = col.getBoundingClientRect(), c = el.getBoundingClientRect(), bar = col.querySelector('.v') || col;
+      const r = col.getBoundingClientRect(), c = el.getBoundingClientRect(), bar = col.querySelector('.bar') || col;
       tip.style.left = (r.left - c.left + r.width / 2) + 'px';
       tip.style.top = (bar.getBoundingClientRect().top - c.top - 8) + 'px';
       tip.classList.add('on');
