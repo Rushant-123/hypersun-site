@@ -8,7 +8,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Hypersun">
 <meta property="og:title" content="HypersunBench · Hypersun">
-<meta property="og:description" content="The world's largest multi-country solar forecasting benchmark. 44 GW, five continents, 2.4 million predictions. Hypersun v1 beats Google, Amazon, Anthropic and Mistral.">
+<meta property="og:description" content="The world's largest multi-country solar forecasting benchmark. 44 GW, five continents, 2.4 million predictions. Hypersun v1 beats Google, OpenAI, Anthropic, Amazon and Mistral.">
 <meta property="og:image" content="https://hypersun.si/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#000000">
@@ -316,7 +316,7 @@
       <div class="rv">
         <div class="num">Result</div>
         <h2>Hypersun v1 is number one</h2>
-        <p class="intro">We put the leading AI models from Google, Amazon, Anthropic, Mistral AI, Salesforce and NXAI head to head on the same plants, under the same rules. <b>Hypersun v1 beat every one of them</b>, day-ahead and intraday, and it held the lead on plants it had never seen.</p>
+        <p class="intro">We put the leading AI models from Google, OpenAI, Anthropic, Amazon, Mistral AI, DeepSeek, Moonshot AI, Salesforce and NXAI head to head on the same plants, under the same rules. <b>Hypersun v1 beat every one of them</b>, day-ahead and intraday, and it held the lead on plants it had never seen.</p>
       </div>
       <div class="scores rv">
         <div><i>Day-ahead</i><b>0.265</b><span>26.5% less forecast error than the industry baseline, across all 213 plants. Ranked #1.</span></div>
@@ -460,6 +460,15 @@
     {name:'Opus 5.5', by:'Anthropic', est:true,
       m:{da:[[34886,2999,670],[345.56,5.044,.8444]], id:[[208494,4697,-395],[276.30,3.534,1.027]]},
       da:[.216,.274,.244,.076,.127,.170,.295,.230,12.72], id:[.260,.278,.295,.193,.161,.218,.339,.240,10.96]},
+    {name:'GPT-6 Sol', by:'OpenAI', est:true,
+      m:{da:[[59881,3018,839],[333.00,5.034,.7483]], id:[[201079,3545,-364],[280.03,4.133,1.0093]]},
+      da:[.216,.245,.239,.079,.120,.231,.272,.215,12.65], id:[.248,.263,.285,.181,.138,.220,.327,.238,11.03]},
+    {name:'DeepSeek V4.1 Flash', by:'DeepSeek', est:true,
+      m:{da:[[-103000,1300,834],[415.63,5.777,.7582]], id:[[632,1504,259],[381.67,5.092,.6577]]},
+      da:[.177,.281,.148,-.029,.205,.149,.193,.228,13.03], id:[.179,.205,.170,.027,.193,.168,.232,.199,11.95]},
+    {name:'Kimi K3 (non-reasoning)', by:'Moonshot AI', est:true,
+      m:{da:[[-197090,-1821,758],[463.29,7.216,.8028]], id:[[-75066,-2213,720],[420.01,6.806,.3855]]},
+      da:[.009,.085,.096,-.087,.119,-.085,-.186,.142,15.26], id:[.011,.015,.112,-.082,-.071,-.005,.020,.037,13.73]},
     {name:'TiRex-2', by:'NXAI',
       m:{da:[[49752,3585,1113],[339.00,4.736,.5953]], id:[[184748,2783,410],[289.21,4.521,.5686]]},
       da:[.215,.244,.221,.073,.153,.226,.261,.231,12.73], id:[.231,.237,.254,.150,.161,.213,.311,.238,11.34]},
