@@ -113,6 +113,64 @@
   td.cut{color:var(--c55);font-size:14px}
   th.grp{text-align:center;border-bottom:0;padding-bottom:0;color:var(--c80)}
 
+  /* bar charts: leader on the left (top on phones) */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+  .chips button{appearance:none;border:1px solid var(--c35);background:transparent;color:var(--c80);font:500 13px var(--sans);padding:0 14px;min-height:36px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+  .chips button:hover{border-color:var(--core);color:var(--core)}
+  .chips button[aria-pressed="true"]{background:var(--core);border-color:var(--core);color:#000}
+  .chips button:focus-visible{outline:2px solid var(--core);outline-offset:3px}
+  .chart{position:relative;margin-top:28px;padding-left:44px}
+  .plot{position:relative;height:340px;display:flex;gap:2px}
+  #mchart{padding-left:0}
+  #mchart .gl{left:0}
+  .gl{position:absolute;left:-44px;right:0;height:0;border-top:1px solid var(--c08);pointer-events:none}
+  .gl span{position:absolute;left:0;top:-8px;font-family:var(--mono);font-size:10.5px;color:var(--c35)}
+  .gl.zero{border-top-color:var(--c55)}
+  .col{flex:1;min-width:0;display:flex;flex-direction:column;cursor:default;outline:none;border-radius:4px}
+  .col .up{display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+  .col .dn{display:flex;flex-direction:column;justify-content:flex-start;align-items:center}
+  .col .bar{display:block;width:min(64px,72%);background:var(--c35);transition:background .2s,height .5s var(--ease)}
+  .col .up .bar{border-radius:4px 4px 0 0}
+  .col .dn .bar{border-radius:0 0 4px 4px;background:var(--c18)}
+  .col .val{font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;margin-bottom:8px;white-space:nowrap}
+  .col .dn .val{margin:8px 0 0;color:var(--c55)}
+  .col:hover .bar,.col:focus-visible .bar{background:var(--c55)}
+  .col.us .bar{background:var(--core);box-shadow:0 0 22px rgba(var(--corona),.65)}
+  .col.us .val{text-shadow:var(--glow)}
+  .col:focus-visible{box-shadow:inset 0 0 0 1px var(--c35)}
+  .names{display:flex;gap:2px;margin-top:14px}
+  .names div{flex:1;min-width:0;text-align:center;padding:0 4px}
+  .names em{display:block;font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--c35)}
+  .names b{display:block;font-weight:500;font-size:13.5px;line-height:1.25;margin-top:4px}
+  .names small{display:block;font-size:12px;color:var(--c55);margin-top:2px}
+  .names .us b{text-shadow:0 0 16px rgba(var(--corona),.8)}
+  .tip{position:absolute;z-index:3;pointer-events:none;min-width:180px;padding:12px 14px;background:#0b0c10;border:1px solid var(--c35);border-radius:6px;font-size:13px;line-height:1.5;color:var(--c80);transform:translate(-50%,-100%);opacity:0;transition:opacity .15s}
+  .tip.on{opacity:1}
+  .tip b{display:block;color:var(--core);font-weight:500;font-size:14px}
+  .tip span{display:flex;justify-content:space-between;gap:16px}
+  .tip span i{font-style:normal;color:var(--core);font-variant-numeric:tabular-nums}
+  .hplot{display:grid;gap:14px}
+  .hrow{display:grid;grid-template-columns:minmax(0,38%) minmax(0,1fr);align-items:center;gap:12px}
+  .hrow .hn b{display:block;font-weight:500;font-size:14.5px;line-height:1.2}
+  .hrow .hn small{display:block;font-size:12px;color:var(--c55)}
+  .hrow.us .hn b{text-shadow:0 0 16px rgba(var(--corona),.8)}
+  .ht{display:grid;align-items:center;min-height:26px}
+  .ht .neg{display:flex;justify-content:flex-end;align-items:center;gap:6px;border-right:1px solid var(--c55);height:26px}
+  .ht .pos{display:flex;align-items:center;gap:6px;height:26px}
+  .ht .bar{display:block;height:18px;background:var(--c35)}
+  .ht .pos .bar{border-radius:0 4px 4px 0}
+  .ht .neg .bar{border-radius:4px 0 0 4px;background:var(--c18)}
+  .hrow.us .ht .bar{background:var(--core);box-shadow:0 0 16px rgba(var(--corona),.65)}
+  .ht .val{font-size:13.5px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .ht .val.n{color:var(--c55)}
+  details.raw{margin-top:36px;border-top:1px solid var(--c18)}
+  details.raw summary{cursor:pointer;list-style:none;padding:16px 0;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--c55)}
+  details.raw summary::-webkit-details-marker{display:none}
+  details.raw summary::after{content:" +";color:var(--core)}
+  details.raw[open] summary::after{content:" −"}
+  details.raw summary:hover{color:var(--core)}
+  details.raw .tblwrap{margin-top:0}
+
   /* phone cards, replace the tables below 640px */
   .cards{display:none}
   .mc{border-bottom:1px solid var(--c18);padding:18px 0}
@@ -202,6 +260,7 @@
     section.blk{padding:56px 0}
     .blk h2{font-size:40px}
     .tblwrap{display:none}
+    .chart{padding-left:0}
     .cards{display:block;margin-top:24px;border-top:1px solid var(--c35)}
     .lb-hd{gap:20px}
     .tabs{width:100%}
@@ -269,20 +328,24 @@
       <div>
         <div class="num">Leaderboard</div>
         <h2>Forecast skill</h2>
-        <p class="intro">Higher is better. A score of 0.30 means 30% less forecast error than smart persistence, the baseline every forecaster has to beat. The dot marks the best score in each column.</p>
+        <p class="intro">Higher is better. A score of 0.30 means 30% less forecast error than smart persistence, the baseline every forecaster has to beat. Pick a market to see who leads there.</p>
       </div>
       <div class="tabs" role="tablist" aria-label="Task">
         <button role="tab" id="tab-da" aria-selected="true" aria-controls="lb" data-task="da">Day-ahead</button>
         <button role="tab" id="tab-id" aria-selected="false" aria-controls="lb" data-task="id" tabindex="-1">Intraday</button>
       </div>
     </div>
-    <div class="tblwrap rv" id="lb" role="tabpanel" aria-labelledby="tab-da" tabindex="0">
+    <div class="chips rv" id="lbchips" role="group" aria-label="Market"></div>
+    <div class="chart rv" id="lbchart" role="img" aria-label="Forecast skill by model"></div>
+    <details class="raw rv"><summary>See every number</summary>
+    <div class="tblwrap" id="lb" role="tabpanel" aria-labelledby="tab-da" tabindex="0">
       <table>
         <thead><tr><th>#</th><th class="l">Model</th><th>Overall</th><th>AU</th><th>BR</th><th>IN</th><th>ES/IT</th><th>GB</th><th>US</th><th>Held-out</th><th>nMAE</th></tr></thead>
         <tbody id="rows"></tbody>
       </table>
     </div>
-    <div class="cards rv" id="rowsm"></div>
+    <div class="cards" id="rowsm"></div>
+    </details>
     <div class="notes rv">
       <p><b>Overall</b> is the equal-weight mean over all 213 plants. <b>Held-out</b> is the 43 plants no model was trained on. <b>nMAE</b> is mean absolute error as a percentage of plant capacity, lower is better.</p>
       <p>Smart persistence, the zero point of the scale, has a day-ahead nMAE of 16.0% and an intraday nMAE of 14.4%. Every model runs through its official release.</p>
@@ -310,17 +373,21 @@
         <button role="tab" id="mtab-id" aria-selected="false" aria-controls="mtbl" data-task="id" tabindex="-1">Intraday</button>
       </div>
     </div>
-    <div class="tblwrap rv" id="mtbl" role="tabpanel" aria-labelledby="mtab-da" tabindex="0">
+    <div class="chips rv" id="mchips" role="group" aria-label="Market"></div>
+    <div class="chart rv" id="mchart" role="img" aria-label="Penalty savings by model"></div>
+    <details class="raw rv"><summary>See every number</summary>
+    <div class="tblwrap" id="mtbl" role="tabpanel" aria-labelledby="mtab-da" tabindex="0">
       <table>
         <thead><tr><th></th><th></th><th class="grp" colspan="2">India</th><th class="grp" colspan="2">Spain / Italy</th><th class="grp" colspan="2">Great Britain</th></tr>
         <tr><th>#</th><th class="l">Model</th><th>Saved</th><th>Penalty cut</th><th>Saved</th><th>Cost cut</th><th>Saved</th><th>Cost cut</th></tr></thead>
         <tbody id="mrows"></tbody>
       </table>
     </div>
-    <div class="cards rv" id="mrowsm"></div>
+    <div class="cards" id="mrowsm"></div>
+    </details>
     <div class="notes rv">
       <p><b>India:</b> CERC Deviation Settlement Mechanism 2024, at a ₹2.50/kWh contract rate for every plant. <b>Spain and Italy:</b> ENTSO-E imbalance prices against the day-ahead price of the plant's zone. <b>Great Britain:</b> Elexon system price against the market index price.</p>
-      <p>The schedule is each model's median forecast. Savings are measured against smart persistence on the test window and scaled to a full year. Australia, Brazil and the US do not charge solar plants for forecast deviations, so they are not priced. The dot marks the biggest saving in each column.</p>
+      <p>The schedule is each model's median forecast. Savings are measured against smart persistence on the test window and scaled to a full year. Australia, Brazil and the US do not charge solar plants for forecast deviations, so they are not priced.</p>
     </div>
   </section>
 
@@ -440,6 +507,66 @@
   }
   render('da');
 
+  // bar chart: items [{name, by, us, v, tip}], sorted high to low; leader on the left (top on phones)
+  const phone = matchMedia('(max-width:640px)');
+  function niceStep(r){ const e = 10 ** Math.floor(Math.log10(r / 4)), f = r / 4 / e; return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * e; }
+  function bars(el, items, fmt, ticks = true){
+    items = [...items].sort((a, b) => b.v - a.v);
+    const hi = Math.max(0, ...items.map(d => d.v)), lo = Math.min(0, ...items.map(d => d.v));
+    const step = niceStep(hi - lo || 1), top = Math.ceil(hi / step) * step, bot = Math.floor(lo / step) * step;
+    const range = (top - bot) || 1, P = top / range * 100;
+    const pct = (v, edge) => edge ? Math.abs(v) / Math.abs(edge) * 100 : 0;
+    el._items = items;
+    if (phone.matches) {
+      el.innerHTML = '<div class="hplot">' + items.map((d, k) => `<div class="hrow${d.us ? ' us' : ''}"><div class="hn"><b>${k + 1}. ${esc(d.name)}</b><small>${esc(d.by)}</small></div>`
+        + `<div class="ht" style="grid-template-columns:${Math.min(100 - P, 30)}% minmax(0,1fr)"><div class="neg">${d.v < 0 ? `<i class="bar" style="width:${pct(d.v, bot)}%"></i>` : ''}</div>`
+        + `<div class="pos">${d.v >= 0 ? `<i class="bar" style="width:${pct(d.v, top) * .72}%"></i>` : ''}<span class="val${d.v < 0 ? ' n' : ''}">${fmt(d.v)}</span></div></div></div>`).join('') + '</div>';
+      return;
+    }
+    let grid = '';
+    for (let t = bot; t <= top + step / 2; t += step) grid += `<div class="gl${Math.abs(t) < step / 2 ? ' zero' : ''}" style="bottom:${(t - bot) / range * 100}%">${ticks ? `<span>${Math.abs(t) < step / 2 ? '0' : fmt(t)}</span>` : ''}</div>`;
+    el.innerHTML = `<div class="plot">${grid}` + items.map((d, k) => `<div class="col${d.us ? ' us' : ''}" tabindex="0" data-k="${k}" aria-label="${esc(d.name)}: ${fmt(d.v)}">`
+      + `<div class="up" style="height:${P}%">${d.v >= 0 ? `<span class="val">${fmt(d.v)}</span><i class="bar" style="height:${pct(d.v, top)}%"></i>` : ''}</div>`
+      + `<div class="dn" style="height:${100 - P}%">${d.v < 0 ? `<i class="bar" style="height:${pct(d.v, bot)}%"></i><span class="val">${fmt(d.v)}</span>` : ''}</div></div>`).join('')
+      + `</div><div class="names">` + items.map((d, k) => `<div${d.us ? ' class="us"' : ''}><em>${String(k + 1).padStart(2, '0')}</em><b>${esc(d.name)}</b><small>${esc(d.by)}</small></div>`).join('') + '</div><div class="tip"></div>';
+  }
+  function hover(el){
+    const show = col => {
+      const tip = el.querySelector('.tip'), d = el._items[+col.dataset.k];
+      if (!tip || !d) return;
+      tip.innerHTML = `<b>${esc(d.name)}</b>` + d.tip.map(([k, v]) => `<span>${k}<i>${v}</i></span>`).join('');
+      const r = col.getBoundingClientRect(), c = el.getBoundingClientRect(), bar = col.querySelector('.val') || col;
+      tip.style.left = (r.left - c.left + r.width / 2) + 'px';
+      tip.style.top = (bar.getBoundingClientRect().top - c.top - 8) + 'px';
+      tip.classList.add('on');
+    };
+    const hide = () => el.querySelector('.tip')?.classList.remove('on');
+    el.addEventListener('pointerover', e => { const col = e.target.closest('.col'); col ? show(col) : hide(); });
+    el.addEventListener('pointerleave', hide);
+    el.addEventListener('focusin', e => { const col = e.target.closest('.col'); if (col) show(col); });
+    el.addEventListener('focusout', hide);
+  }
+  function chips(el, labels, onPick){
+    el.innerHTML = labels.map((l, i) => `<button type="button" aria-pressed="${i === 0}">${l}</button>`).join('');
+    el.querySelectorAll('button').forEach((b, i) => b.addEventListener('click', () => {
+      el.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      onPick(i);
+    }));
+  }
+
+  // skill chart: metric index into the score arrays
+  const SK = [['Overall', 0], ['Held-out', 7], ['Australia', 1], ['Brazil', 2], ['India', 3], ['Spain / Italy', 4], ['Great Britain', 5], ['United States', 6]];
+  let lbTask = 'da', lbMetric = 0;
+  const lbchart = document.getElementById('lbchart');
+  function drawSkill(){
+    const i = SK[lbMetric][1];
+    bars(lbchart, RUNS.map(r => ({name: r.name, by: r.by, us: r.us, v: r[lbTask][i],
+      tip: [['Skill', f3(r[lbTask][i])], ['Overall', f3(r[lbTask][0])], ['Held-out', f3(r[lbTask][7])], ['nMAE', r[lbTask][8].toFixed(1) + '%']]})), f3);
+  }
+  chips(document.getElementById('lbchips'), SK.map(m => m[0]), i => { lbMetric = i; drawSkill(); });
+  hover(lbchart);
+  drawSkill();
+
   const mrows = document.getElementById('mrows'), mrowsm = document.getElementById('mrowsm');
   function renderMoney(task){
     const priced = RUNS.filter(r => r.m);
@@ -470,10 +597,27 @@
   }
   renderMoney('da');
 
+  // money chart: saving per 100 MW per year in one market
+  const MK = ['India', 'Spain / Italy', 'Great Britain'];
+  let mTask = 'da', mMetric = 0;
+  const mchart = document.getElementById('mchart');
+  function drawMoney(){
+    const i = mMetric, sign = v => (v < 0 ? '−' : '') + MONEY[i](Math.abs(v));
+    bars(mchart, RUNS.filter(r => r.m).map(r => {
+      const [save, cost] = r.m[mTask], cut = 1 - cost[i] / REF[mTask][i];
+      return {name: r.name, by: r.by, us: r.us, v: save[i],
+        tip: [['Saved per 100 MW / yr', sign(save[i])], [cut < 0 ? 'Penalties' : 'Penalty cut', cut < 0 ? Math.round(-cut * 100) + '% more' : Math.round(cut * 100) + '%']]};
+    }), sign, false);
+  }
+  chips(document.getElementById('mchips'), MK, i => { mMetric = i; drawMoney(); });
+  hover(mchart);
+  drawMoney();
+  phone.addEventListener('change', () => { drawSkill(); drawMoney(); });
+
   for (const list of document.querySelectorAll('.tabs')) {
     const tabs = [...list.querySelectorAll('button')];
     const panel = document.getElementById(tabs[0].getAttribute('aria-controls'));
-    const draw = panel.id === 'lb' ? render : renderMoney;
+    const draw = panel.id === 'lb' ? t => { render(t); lbTask = t; drawSkill(); } : t => { renderMoney(t); mTask = t; drawMoney(); };
     const select = t => {
       tabs.forEach(b => { const on = b === t; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
       panel.setAttribute('aria-labelledby', t.id);
