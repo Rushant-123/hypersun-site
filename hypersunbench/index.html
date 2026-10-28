@@ -112,6 +112,26 @@
   td.cut{color:var(--c55);font-size:14px}
   th.grp{text-align:center;border-bottom:0;padding-bottom:0;color:var(--c80)}
 
+  /* phone cards, replace the tables below 640px */
+  .cards{display:none}
+  .mc{border-bottom:1px solid var(--c18);padding:18px 0}
+  .mc.us{background:rgba(var(--corona),.07);margin:0 -16px;padding:18px 16px}
+  .mc-hd{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:baseline;gap:10px}
+  .mc-hd .rk{font-family:var(--mono);font-size:12px;color:var(--c55)}
+  .mc-hd b{display:block;font-weight:500;font-size:17px;line-height:1.25}
+  .mc-hd small{display:block;font-size:13px;color:var(--c55)}
+  .mc-hd strong{font-family:var(--disp);font-weight:800;font-size:34px;line-height:1}
+  .mc.us .mc-hd strong{text-shadow:var(--glow)}
+  .mc-hd em{display:block;font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--c55);text-align:right}
+  .mc dl{margin:14px 0 0 38px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 8px}
+  .mc dl.m3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mc dt{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--c55)}
+  .mc dd{font-size:15px;font-variant-numeric:tabular-nums;color:var(--c80)}
+  .mc dd.best,.mc dd span.best{color:var(--core);font-weight:500}
+  .mc dd.best::after,.mc dd span.best::after{content:"";display:inline-block;width:5px;height:5px;margin-left:5px;border-radius:50%;background:var(--core);vertical-align:2px;box-shadow:0 0 8px rgba(var(--corona),.9)}
+  .mc dd.neg{color:var(--c35)}
+  .mc dd small{display:block;font-size:12px;color:var(--c55)}
+
   /* rules */
   .rules{list-style:none;counter-reset:r;margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--c18);border:1px solid var(--c18)}
   .rules li{counter-increment:r;background:var(--void);padding:30px 28px 32px}
@@ -173,6 +193,40 @@
     th:first-child,td:first-child{display:none}
     .close{padding:96px var(--gut) 88px}
   }
+  @media (max-width:640px){
+    .cover h1{font-size:15.2vw;overflow-wrap:normal}
+    .cover p{font-size:18px}
+    .stats{margin-top:32px}
+    .stats b{font-size:34px}
+    section.blk{padding:56px 0}
+    .blk h2{font-size:40px}
+    .tblwrap{display:none}
+    .cards{display:block;margin-top:24px;border-top:1px solid var(--c35)}
+    .lb-hd{gap:20px}
+    .tabs{width:100%}
+    .tabs button{flex:1}
+    .scores b{font-size:52px}
+    .scores span{font-size:13.5px}
+    .cash{margin-top:32px}
+    .cash div{padding:22px 18px 24px}
+    .cash b{font-size:52px}
+    .mtab{margin-top:40px}
+    .rules{margin-top:32px}
+    .rules li{padding:18px 16px 20px;display:grid;grid-template-columns:30px minmax(0,1fr)}
+    .rules li::before{margin:4px 0 0}
+    .rules span{grid-column:2}
+    .rules strong{font-size:19px}
+    .rules span{font-size:15px}
+    .markets{margin-top:32px;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 16px}
+    .mk h3{font-size:24px}
+    .mk .src{font-size:13px;line-height:1.35}
+    .mk dl{grid-template-columns:minmax(0,1fr);gap:0;font-size:13.5px}
+    .mk dt{padding-top:8px;font-size:9.5px}
+    .mk dd small{display:block}
+    .score .body p{font-size:16px}
+    .eq{font-size:13px;padding:16px}
+    .close h2{font-size:48px}
+  }
 </style>
 <link rel="stylesheet" href="/assets/navigation.css">
 </head>
@@ -227,6 +281,7 @@
         <tbody id="rows"></tbody>
       </table>
     </div>
+    <div class="cards rv" id="rowsm"></div>
     <div class="notes rv">
       <p><b>Overall</b> is the equal-weight mean over all 213 plants. <b>Held-out</b> is the 43 plants no model was trained on. <b>nMAE</b> is mean absolute error as a percentage of plant capacity, lower is better.</p>
       <p>Smart persistence, the zero point of the scale, has a day-ahead nMAE of 16.0% and an intraday nMAE of 14.4%. Every model runs through its official release.</p>
@@ -261,6 +316,7 @@
         <tbody id="mrows"></tbody>
       </table>
     </div>
+    <div class="cards rv" id="mrowsm"></div>
     <div class="notes rv">
       <p><b>India:</b> CERC Deviation Settlement Mechanism 2024, at a ₹2.50/kWh contract rate for every plant. <b>Spain and Italy:</b> ENTSO-E imbalance prices against the day-ahead price of the plant's zone. <b>Great Britain:</b> Elexon system price against the market index price.</p>
       <p>The schedule is each model's median forecast. Savings are measured against smart persistence on the test window and scaled to a full year. Australia, Brazil and the US do not charge solar plants for forecast deviations, so they are not priced. The dot marks the biggest saving in each column.</p>
@@ -354,7 +410,7 @@
 
   const f3 = v => (v < 0 ? '−' : '') + Math.abs(v).toFixed(3).replace(/^0/, '');
   const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const rows = document.getElementById('rows');
+  const rows = document.getElementById('rows'), rowsm = document.getElementById('rowsm');
   function render(task){
     const runs = [...RUNS].sort((a, b) => b[task][0] - a[task][0]);
     const best = RUNS[0][task].map((_, i) => Math.max(...RUNS.map(r => r[task][i])));
@@ -369,10 +425,18 @@
         + REG.map((_, j) => cell(j + 1)).join('') + cell(7)
         + `<td class="reg${s[8] === nmaeBest ? ' best' : ''}">${s[8].toFixed(1)}%</td></tr>`;
     }).join('');
+    const lab = ['AU','BR','IN','ES/IT','GB','US','Held-out'];
+    rowsm.innerHTML = runs.map((r, k) => {
+      const s = r[task];
+      return `<div class="mc${r.us ? ' us' : ''}"><div class="mc-hd"><span class="rk">${String(k + 1).padStart(2, '0')}</span>`
+        + `<div><b>${esc(r.name)}</b><small>${esc(r.by)}</small></div><div><strong>${f3(s[0])}</strong><em>Overall</em></div></div><dl>`
+        + lab.map((l, i) => `<div><dt>${l}</dt><dd class="${s[i + 1] === best[i + 1] ? 'best' : ''}${s[i + 1] < 0 ? ' neg' : ''}">${f3(s[i + 1])}</dd></div>`).join('')
+        + `<div><dt>nMAE</dt><dd class="${s[8] === nmaeBest ? 'best' : ''}">${s[8].toFixed(1)}%</dd></div></dl></div>`;
+    }).join('');
   }
   render('da');
 
-  const mrows = document.getElementById('mrows');
+  const mrows = document.getElementById('mrows'), mrowsm = document.getElementById('mrowsm');
   function renderMoney(task){
     const runs = [...RUNS].sort((a, b) => b[task][0] - a[task][0]);
     const best = [0, 1, 2].map(i => Math.max(...RUNS.map(r => r.m[task][0][i])));
@@ -386,6 +450,17 @@
             return `<td class="reg${save[i] === best[i] ? ' best' : ''}${save[i] < 0 ? ' neg' : ''}">${sign(save[i], MONEY[i])}</td>`
               + `<td class="cut${cut < 0 ? ' neg' : ''}">${cut < 0 ? '+' + Math.round(-cut * 100) + '% more' : Math.round(cut * 100) + '%'}</td>`;
           }).join('') + '</tr>';
+    }).join('');
+    const lab = ['India','Spain/Italy','GB'];
+    mrowsm.innerHTML = runs.map((r, k) => {
+      const [save, cost] = r.m[task];
+      return `<div class="mc${r.us ? ' us' : ''}"><div class="mc-hd"><span class="rk">${String(k + 1).padStart(2, '0')}</span>`
+        + `<div><b>${esc(r.name)}</b><small>${esc(r.by)}</small></div><span></span></div><dl class="m3">`
+        + [0, 1, 2].map(i => {
+            const cut = 1 - cost[i] / REF[task][i];
+            return `<div><dt>${lab[i]}</dt><dd class="${save[i] < 0 ? 'neg' : ''}"><span class="${save[i] === best[i] ? 'best' : ''}">${sign(save[i], MONEY[i])}</span>`
+              + `<small>${cut < 0 ? Math.round(-cut * 100) + '% more' : Math.round(cut * 100) + '% cut'}</small></dd></div>`;
+          }).join('') + '</dl></div>';
     }).join('');
   }
   renderMoney('da');
