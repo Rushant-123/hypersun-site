@@ -119,31 +119,31 @@
   .chips button:hover{border-color:var(--core);color:var(--core)}
   .chips button[aria-pressed="true"]{background:var(--core);border-color:var(--core);color:#000}
   .chips button:focus-visible{outline:2px solid var(--core);outline-offset:3px}
-  .chart{position:relative;margin-top:28px;padding-left:44px}
-  .plot{position:relative;height:340px;display:flex;gap:2px}
-  #mchart{padding-left:0}
-  #mchart .gl{left:0}
-  .gl{position:absolute;left:-44px;right:0;height:0;border-top:1px solid var(--c08);pointer-events:none}
-  .gl span{position:absolute;left:0;top:-8px;font-family:var(--mono);font-size:10.5px;color:var(--c35)}
-  .gl.zero{border-top-color:var(--c55)}
-  .col{flex:1;min-width:0;display:flex;flex-direction:column;cursor:default;outline:none;border-radius:4px}
-  .col .up{display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
-  .col .dn{display:flex;flex-direction:column;justify-content:flex-start;align-items:center}
-  .col .bar{display:block;width:min(64px,72%);background:var(--c35);transition:background .2s,height .5s var(--ease)}
-  .col .up .bar{border-radius:4px 4px 0 0}
-  .col .dn .bar{border-radius:0 0 4px 4px;background:var(--c18)}
-  .col .val{font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;margin-bottom:8px;white-space:nowrap}
-  .col .dn .val{margin:8px 0 0;color:var(--c55)}
-  .col:hover .bar,.col:focus-visible .bar{background:var(--c55)}
-  .col.us .bar{background:var(--core);box-shadow:0 0 22px rgba(var(--corona),.65)}
-  .col.us .val{text-shadow:var(--glow)}
-  .col:focus-visible{box-shadow:inset 0 0 0 1px var(--c35)}
-  .names{display:flex;gap:2px;margin-top:14px}
-  .names div{flex:1;min-width:0;text-align:center;padding:0 4px}
-  .names em{display:block;font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--c35)}
-  .names b{display:block;font-weight:500;font-size:13.5px;line-height:1.25;margin-top:4px}
-  .names small{display:block;font-size:12px;color:var(--c55);margin-top:2px}
-  .names .us b{text-shadow:0 0 16px rgba(var(--corona),.8)}
+  .viz{margin-top:24px;border:1px solid var(--c18);border-radius:16px;padding:22px 28px 26px;background:radial-gradient(120% 70% at 12% 0%,rgba(var(--corona),.07),transparent 60%),#05060a}
+  .viz-sub{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--c55)}
+  .viz-sub span:last-child{color:var(--c35)}
+  .chart{position:relative;margin-top:30px}
+  .plot{position:relative;height:300px;display:flex;gap:10px}
+  .gl{position:absolute;left:0;right:0;height:0;border-top:1px dashed rgba(246,248,255,.07);pointer-events:none}
+  .gl.zero{border-top:1px solid var(--c35)}
+  .col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;outline:none;cursor:default}
+  .col .up{width:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+  .col .dn{width:100%;display:flex;flex-direction:column;justify-content:flex-start;align-items:center}
+  .col .bar{display:block;width:58%;max-width:76px;font-style:normal;transition:height .6s var(--ease),filter .2s}
+  .col .up .bar{border-radius:8px 8px 2px 2px;background:linear-gradient(180deg,rgba(246,248,255,.30),rgba(246,248,255,.07));box-shadow:inset 0 1px 0 rgba(246,248,255,.35)}
+  .col .dn .bar{border-radius:2px 2px 8px 8px;background:linear-gradient(0deg,rgba(246,248,255,0),rgba(246,248,255,.12))}
+  .col .dn .bar.clip{-webkit-mask:linear-gradient(180deg,#000 55%,transparent);mask:linear-gradient(180deg,#000 55%,transparent)}
+  .col.us .up .bar{background:linear-gradient(180deg,#fff,rgba(246,248,255,.78));box-shadow:0 0 34px rgba(var(--corona),.55),0 0 8px rgba(255,255,255,.5)}
+  .col .v{font-family:var(--disp);font-weight:700;font-size:24px;line-height:1;letter-spacing:.01em;color:var(--c80);margin-bottom:10px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .col .dn .v{margin:10px 0 0;color:var(--c35);font-size:20px}
+  .col.us .v{color:var(--core);font-size:34px;text-shadow:var(--glow)}
+  .col:hover .bar,.col:focus-visible .bar{filter:brightness(1.35)}
+  .col:focus-visible .v{text-decoration:underline;text-underline-offset:4px}
+  .names{display:flex;gap:10px;margin-top:16px}
+  .names div{flex:1;min-width:0;text-align:center}
+  .names b{display:block;font-weight:500;font-size:14px;line-height:1.25;color:var(--c80);text-wrap:balance}
+  .names small{display:block;margin-top:5px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--c35)}
+  .names .us b{color:var(--core);text-shadow:0 0 16px rgba(var(--corona),.8)}
   .tip{position:absolute;z-index:3;pointer-events:none;min-width:180px;padding:12px 14px;background:#0b0c10;border:1px solid var(--c35);border-radius:6px;font-size:13px;line-height:1.5;color:var(--c80);transform:translate(-50%,-100%);opacity:0;transition:opacity .15s}
   .tip.on{opacity:1}
   .tip b{display:block;color:var(--core);font-weight:500;font-size:14px}
@@ -157,10 +157,10 @@
   .ht{display:grid;align-items:center;min-height:26px}
   .ht .neg{display:flex;justify-content:flex-end;align-items:center;gap:6px;border-right:1px solid var(--c55);height:26px}
   .ht .pos{display:flex;align-items:center;gap:6px;height:26px}
-  .ht .bar{display:block;height:18px;background:var(--c35)}
-  .ht .pos .bar{border-radius:0 4px 4px 0}
-  .ht .neg .bar{border-radius:4px 0 0 4px;background:var(--c18)}
-  .hrow.us .ht .bar{background:var(--core);box-shadow:0 0 16px rgba(var(--corona),.65)}
+  .ht .bar{display:block;height:16px;font-style:normal;background:linear-gradient(90deg,rgba(246,248,255,.07),rgba(246,248,255,.30))}
+  .ht .pos .bar{border-radius:2px 8px 8px 2px}
+  .ht .neg .bar{border-radius:8px 2px 2px 8px;background:linear-gradient(270deg,rgba(246,248,255,.12),rgba(246,248,255,0))}
+  .hrow.us .ht .bar{background:linear-gradient(90deg,rgba(246,248,255,.78),#fff);box-shadow:0 0 22px rgba(var(--corona),.55)}
   .ht .val{font-size:13.5px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
   .ht .val.n{color:var(--c55)}
   details.raw{margin-top:36px;border-top:1px solid var(--c18)}
@@ -261,6 +261,8 @@
     .blk h2{font-size:40px}
     .tblwrap{display:none}
     .chart{padding-left:0}
+    .viz{padding:18px 16px 20px;border-radius:12px}
+    .chart{margin-top:20px}
     .cards{display:block;margin-top:24px;border-top:1px solid var(--c35)}
     .lb-hd{gap:20px}
     .tabs{width:100%}
@@ -336,7 +338,7 @@
       </div>
     </div>
     <div class="chips rv" id="lbchips" role="group" aria-label="Market"></div>
-    <div class="chart rv" id="lbchart" role="img" aria-label="Forecast skill by model"></div>
+    <div class="viz rv"><div class="viz-sub"><span id="lbsub"></span><span>Higher is better</span></div><div class="chart" id="lbchart" role="img" aria-label="Forecast skill by model"></div></div>
     <details class="raw rv"><summary>See every number</summary>
     <div class="tblwrap" id="lb" role="tabpanel" aria-labelledby="tab-da" tabindex="0">
       <table>
@@ -374,7 +376,7 @@
       </div>
     </div>
     <div class="chips rv" id="mchips" role="group" aria-label="Market"></div>
-    <div class="chart rv" id="mchart" role="img" aria-label="Penalty savings by model"></div>
+    <div class="viz rv"><div class="viz-sub"><span id="msub"></span><span>Higher is better</span></div><div class="chart" id="mchart" role="img" aria-label="Penalty savings by model"></div></div>
     <details class="raw rv"><summary>See every number</summary>
     <div class="tblwrap" id="mtbl" role="tabpanel" aria-labelledby="mtab-da" tabindex="0">
       <table>
@@ -523,19 +525,22 @@
         + `<div class="pos">${d.v >= 0 ? `<i class="bar" style="width:${pct(d.v, top) * .72}%"></i>` : ''}<span class="val${d.v < 0 ? ' n' : ''}">${fmt(d.v)}</span></div></div></div>`).join('') + '</div>';
       return;
     }
+    // losses get at most a shallow band below zero; deeper bars fade out (their value is still printed)
+    const floor = Math.max(bot, -top * .35), vr = (top - floor) || 1, Pv = top / vr * 100;
     let grid = '';
-    for (let t = bot; t <= top + step / 2; t += step) grid += `<div class="gl${Math.abs(t) < step / 2 ? ' zero' : ''}" style="bottom:${(t - bot) / range * 100}%">${ticks ? `<span>${Math.abs(t) < step / 2 ? '0' : fmt(t)}</span>` : ''}</div>`;
-    el.innerHTML = `<div class="plot">${grid}` + items.map((d, k) => `<div class="col${d.us ? ' us' : ''}" tabindex="0" data-k="${k}" aria-label="${esc(d.name)}: ${fmt(d.v)}">`
-      + `<div class="up" style="height:${P}%">${d.v >= 0 ? `<span class="val">${fmt(d.v)}</span><i class="bar" style="height:${pct(d.v, top)}%"></i>` : ''}</div>`
-      + `<div class="dn" style="height:${100 - P}%">${d.v < 0 ? `<i class="bar" style="height:${pct(d.v, bot)}%"></i><span class="val">${fmt(d.v)}</span>` : ''}</div></div>`).join('')
-      + `</div><div class="names">` + items.map((d, k) => `<div${d.us ? ' class="us"' : ''}><em>${String(k + 1).padStart(2, '0')}</em><b>${esc(d.name)}</b><small>${esc(d.by)}</small></div>`).join('') + '</div><div class="tip"></div>';
+    for (let t = 0; t <= top + step / 2; t += step) grid += `<div class="gl${t < step / 2 ? ' zero' : ''}" style="bottom:${(t - floor) / vr * 100}%"></div>`;
+    el.innerHTML = `<div class="plot">${grid}` + items.map((d, k) =>
+      `<div class="col${d.us ? ' us' : ''}" tabindex="0" data-k="${k}" aria-label="${esc(d.name)}, ${esc(d.by)}: ${fmt(d.v)}">`
+      + `<div class="up" style="height:${Pv}%">${d.v >= 0 ? `<span class="v">${fmt(d.v)}</span><i class="bar" style="height:${pct(d.v, top)}%"></i>` : ''}</div>`
+      + `<div class="dn" style="height:${100 - Pv}%">${d.v < 0 ? `<i class="bar${d.v < floor ? ' clip' : ''}" style="height:${Math.min(100, pct(d.v, floor))}%"></i><span class="v">${fmt(d.v)}</span>` : ''}</div></div>`).join('')
+      + `</div><div class="names">` + items.map(d => `<div${d.us ? ' class="us"' : ''}><b>${esc(d.name)}</b><small>${esc(d.by)}</small></div>`).join('') + '</div><div class="tip"></div>';
   }
   function hover(el){
     const show = col => {
       const tip = el.querySelector('.tip'), d = el._items[+col.dataset.k];
       if (!tip || !d) return;
       tip.innerHTML = `<b>${esc(d.name)}</b>` + d.tip.map(([k, v]) => `<span>${k}<i>${v}</i></span>`).join('');
-      const r = col.getBoundingClientRect(), c = el.getBoundingClientRect(), bar = col.querySelector('.val') || col;
+      const r = col.getBoundingClientRect(), c = el.getBoundingClientRect(), bar = col.querySelector('.v') || col;
       tip.style.left = (r.left - c.left + r.width / 2) + 'px';
       tip.style.top = (bar.getBoundingClientRect().top - c.top - 8) + 'px';
       tip.classList.add('on');
@@ -560,6 +565,7 @@
   const lbchart = document.getElementById('lbchart');
   function drawSkill(){
     const i = SK[lbMetric][1];
+    document.getElementById('lbsub').textContent = `Skill vs smart persistence · ${SK[lbMetric][0]} · ${lbTask === 'da' ? 'Day-ahead' : 'Intraday'}`;
     bars(lbchart, RUNS.map(r => ({name: r.name, by: r.by, us: r.us, v: r[lbTask][i],
       tip: [['Skill', f3(r[lbTask][i])], ['Overall', f3(r[lbTask][0])], ['Held-out', f3(r[lbTask][7])], ['nMAE', r[lbTask][8].toFixed(1) + '%']]})), f3);
   }
@@ -602,6 +608,7 @@
   let mTask = 'da', mMetric = 0;
   const mchart = document.getElementById('mchart');
   function drawMoney(){
+    document.getElementById('msub').textContent = `Saved per 100 MW per year · ${MK[mMetric]} · ${mTask === 'da' ? 'Day-ahead' : 'Intraday'}`;
     const i = mMetric, sign = v => (v < 0 ? '−' : '') + MONEY[i](Math.abs(v));
     bars(mchart, RUNS.filter(r => r.m).map(r => {
       const [save, cost] = r.m[mTask], cut = 1 - cost[i] / REF[mTask][i];
