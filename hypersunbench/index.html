@@ -127,7 +127,7 @@
   .gl{position:absolute;left:0;right:0;height:0;border-top:1px dashed rgba(246,248,255,.07);pointer-events:none}
   .gl.zero{border-top:1px solid var(--c35)}
   .col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;outline:none;cursor:default}
-  .col .up{width:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+  .col .up{box-sizing:border-box;width:100%;padding-top:46px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
   .col .dn{width:100%;display:flex;flex-direction:column;justify-content:flex-start;align-items:center}
   .col .bar{display:block;width:58%;max-width:76px;font-style:normal;transition:height .6s var(--ease),filter .2s}
   .col .up .bar{border-radius:8px 8px 2px 2px;background:linear-gradient(180deg,rgba(246,248,255,.30),rgba(246,248,255,.07));box-shadow:inset 0 1px 0 rgba(246,248,255,.35)}
@@ -139,7 +139,7 @@
   .col.us .v{color:var(--core);font-size:34px;text-shadow:var(--glow)}
   .col:hover .bar,.col:focus-visible .bar{filter:brightness(1.35)}
   .col:focus-visible .v{text-decoration:underline;text-underline-offset:4px}
-  .names{display:flex;gap:10px;margin-top:16px}
+  .names{display:flex;gap:10px;margin-top:16px;height:58px;overflow:hidden}
   .names div{flex:1;min-width:0;text-align:center}
   .names b{display:block;font-weight:500;font-size:14px;line-height:1.25;color:var(--c80);text-wrap:balance}
   .names small{display:block;margin-top:5px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--c35)}
@@ -150,7 +150,7 @@
   .tip span{display:flex;justify-content:space-between;gap:16px}
   .tip span i{font-style:normal;color:var(--core);font-variant-numeric:tabular-nums}
   .hplot{display:grid;gap:14px}
-  .hrow{display:grid;grid-template-columns:minmax(0,38%) minmax(0,1fr);align-items:center;gap:12px}
+  .hrow{display:grid;grid-template-columns:minmax(0,38%) minmax(0,1fr);align-items:center;gap:12px;height:54px}
   .hrow .hn b{display:block;font-weight:500;font-size:14.5px;line-height:1.2}
   .hrow .hn small{display:block;font-size:12px;color:var(--c55)}
   .hrow.us .hn b{text-shadow:0 0 16px rgba(var(--corona),.8)}
@@ -262,6 +262,7 @@
     .tblwrap{display:none}
     .chart{padding-left:0}
     .viz{padding:18px 16px 20px;border-radius:12px}
+    .viz-sub{height:5em;overflow:hidden;align-content:flex-start}
     .chart{margin-top:20px}
     .cards{display:block;margin-top:24px;border-top:1px solid var(--c35)}
     .lb-hd{gap:20px}
@@ -521,14 +522,15 @@
     el._items = items;
     if (phone.matches) {
       el.innerHTML = '<div class="hplot">' + items.map((d, k) => `<div class="hrow${d.us ? ' us' : ''}"><div class="hn"><b>${k + 1}. ${esc(d.name)}</b><small>${esc(d.by)}</small></div>`
-        + `<div class="ht" style="grid-template-columns:${Math.min(100 - P, 30)}% minmax(0,1fr)"><div class="neg">${d.v < 0 ? `<i class="bar" style="width:${pct(d.v, bot)}%"></i>` : ''}</div>`
+        + `<div class="ht" style="grid-template-columns:18% minmax(0,1fr)"><div class="neg">${d.v < 0 ? `<i class="bar" style="width:${pct(d.v, bot)}%"></i>` : ''}</div>`
         + `<div class="pos">${d.v >= 0 ? `<i class="bar" style="width:${pct(d.v, top) * .72}%"></i>` : ''}<span class="val${d.v < 0 ? ' n' : ''}">${fmt(d.v)}</span></div></div></div>`).join('') + '</div>';
       return;
     }
-    // losses get at most a shallow band below zero; deeper bars fade out (their value is still printed)
-    const floor = Math.max(bot, -top * .35), vr = (top - floor) || 1, Pv = top / vr * 100;
+    // fixed geometry so switching views never moves the axis: zero line at 80%, a fixed band below it for losses
+    // (deeper losses fade out; their value is still printed)
+    const Pv = 80, floor = -top * (100 - Pv) / Pv, vr = top - floor;
     let grid = '';
-    for (let t = 0; t <= top + step / 2; t += step) grid += `<div class="gl${t < step / 2 ? ' zero' : ''}" style="bottom:${(t - floor) / vr * 100}%"></div>`;
+    for (let t = 0; t <= top + step / 2; t += step) grid += `<div class="gl${t < step / 2 ? ' zero' : ''}" style="bottom:calc(${100 - Pv}% + (${Pv}% - 46px) * ${t / top})"></div>`;
     el.innerHTML = `<div class="plot">${grid}` + items.map((d, k) =>
       `<div class="col${d.us ? ' us' : ''}" tabindex="0" data-k="${k}" aria-label="${esc(d.name)}, ${esc(d.by)}: ${fmt(d.v)}">`
       + `<div class="up" style="height:${Pv}%">${d.v >= 0 ? `<span class="v">${fmt(d.v)}</span><i class="bar" style="height:${pct(d.v, top)}%"></i>` : ''}</div>`
