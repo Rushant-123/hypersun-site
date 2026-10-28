@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HypersunBench · Hypersun</title>
+<meta name="description" content="HypersunBench is the world's largest multi-country benchmark for utility-scale solar power forecasting: 44 GW of real power plants on five continents, 2.4 million predictions scored. Hypersun v1 ranks first.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hypersun">
+<meta property="og:title" content="HypersunBench · Hypersun">
+<meta property="og:description" content="The world's largest multi-country solar forecasting benchmark. 44 GW, five continents, 2.4 million predictions. Hypersun v1 beats Google, Amazon and Mistral.">
+<meta property="og:image" content="https://hypersun.si/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://hypersun.si/hypersunbench/">
+<link rel="icon" href="/assets/hypersun-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="/assets/navigation.js" defer></script>
+<style>
+  :root{
+    --void:#000; --core:#F6F8FF;
+    --c80:rgba(246,248,255,.8); --c55:rgba(246,248,255,.55); --c35:rgba(246,248,255,.35); --c18:rgba(246,248,255,.18); --c08:rgba(246,248,255,.06);
+    --corona:143,168,255;
+    --sans:"Geist", system-ui, sans-serif; --mono:"Geist Mono", ui-monospace, monospace; --disp:"Big Shoulders Display", "Geist", sans-serif;
+    --gut:56px; --ease:cubic-bezier(.16,1,.3,1);
+    --glow:0 0 40px rgba(var(--corona),.45), 0 0 6px rgba(255,255,255,.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--void)}
+  body{background:var(--void);color:var(--core);font-family:var(--sans);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;height:76px;padding:0 var(--gut)}
+  nav::before{content:"";position:absolute;left:0;right:0;top:0;height:150px;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.82) 0,rgba(0,0,0,.5) 45%,rgba(0,0,0,0) 100%)}
+  nav .links{display:flex;gap:28px;font-size:13px;color:var(--c80)}
+  nav a{text-decoration:none}
+  nav .links a[aria-current]{color:var(--core)}
+
+  .eyebrow,.num{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--c55)}
+  .eyebrow{color:var(--c80)}
+
+  .cover{position:relative;min-height:92vh;min-height:92svh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 var(--gut) 72px;overflow:hidden}
+  .cover>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+  .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#000 6%,rgba(0,0,0,.35) 55%,rgba(0,0,0,.65))}
+  .cover>*:not(img){position:relative;z-index:1}
+  .cover h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(64px,12vw,200px);line-height:.84;letter-spacing:.005em;margin-top:18px;text-shadow:var(--glow);overflow-wrap:anywhere}
+  .cover p{margin-top:26px;max-width:40ch;font-size:clamp(20px,1.7vw,25px);line-height:1.4;color:var(--c80)}
+  .stats{margin-top:48px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));max-width:1100px;border-top:1px solid var(--c35)}
+  .stats div{padding:18px 20px 0 0}
+  .stats b{display:block;font-family:var(--disp);font-weight:800;font-size:clamp(36px,3.6vw,56px);line-height:1;letter-spacing:.01em}
+  .stats span{display:block;margin-top:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c55)}
+
+  .wrap{max-width:calc(1328px + var(--gut) * 2);margin:0 auto;padding:0 var(--gut)}
+  section.blk{padding:104px 0;border-top:1px solid var(--c18)}
+  .blk h2{margin-top:14px;font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(44px,4.6vw,72px);line-height:.92;letter-spacing:.01em}
+  .blk .intro{margin-top:22px;max-width:62ch;color:var(--c80)}
+  .blk .intro b{font-weight:500;color:var(--core)}
+
+  /* result */
+  .result{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:end}
+  .scores{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--c18);border:1px solid var(--c18)}
+  .scores div{background:var(--void);padding:28px 28px 26px}
+  .scores b{display:block;font-family:var(--disp);font-weight:800;font-size:clamp(72px,8vw,128px);line-height:.85;text-shadow:var(--glow)}
+  .scores span{display:block;margin-top:14px;font-size:15px;line-height:1.45;color:var(--c80)}
+  .scores i{font-style:normal;display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c55);margin-bottom:16px}
+  .callout{grid-column:1/-1;display:flex;gap:20px;align-items:baseline;padding:22px 26px;border:1px solid var(--c35);border-radius:4px;font-size:17px;color:var(--c80)}
+  .callout b{font-weight:500;color:var(--core)}
+  .callout .tag{flex-shrink:0;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--core)}
+
+  /* leaderboard */
+  .lb-hd{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+  .tabs{display:inline-flex;border:1px solid var(--c35);border-radius:999px;padding:3px}
+  .tabs button{appearance:none;border:0;background:transparent;color:var(--c80);font:500 14px var(--sans);padding:10px 20px;border-radius:999px;cursor:pointer;min-height:44px;transition:background .2s,color .2s}
+  .tabs button[aria-selected="true"]{background:var(--core);color:#000}
+  .tabs button:focus-visible{outline:2px solid var(--core);outline-offset:3px}
+  .tblwrap{margin-top:36px;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid var(--c35)}
+  table{width:100%;border-collapse:collapse;min-width:980px;font-variant-numeric:tabular-nums}
+  th,td{padding:16px 12px;text-align:right;border-bottom:1px solid var(--c18);white-space:nowrap}
+  th{font-family:var(--mono);font-weight:400;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--c55);padding-top:18px;padding-bottom:14px}
+  th:first-child,td:first-child{text-align:left;padding-left:0;width:44px;color:var(--c55);font-family:var(--mono);font-size:13px}
+  th.l,td.l{text-align:left}
+  td.model b{display:block;font-weight:500;font-size:17px}
+  td.model small{display:block;margin-top:2px;font-size:13px;color:var(--c55)}
+  td.ov{width:220px}
+  .bar{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+  .bar i{display:block;height:6px;width:110px;background:var(--c08);border-radius:3px;position:relative;overflow:hidden}
+  .bar i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--c55);border-radius:3px}
+  .bar b{font-weight:500;font-size:17px;min-width:4.2ch}
+  td.reg{color:var(--c80);font-size:15px}
+  td.best{color:var(--core);font-weight:500}
+  td.best::after{content:"";display:inline-block;width:5px;height:5px;margin-left:6px;border-radius:50%;background:var(--core);vertical-align:2px;box-shadow:0 0 8px rgba(var(--corona),.9)}
+  td.neg{color:var(--c35)}
+  td.ov.best::after{display:none}
+  tr.us td{background:rgba(var(--corona),.07)}
+  tr.us td.model b{text-shadow:0 0 18px rgba(var(--corona),.7)}
+  tr.us .bar i::after{background:var(--core);box-shadow:0 0 10px rgba(var(--corona),.9)}
+  .notes{margin-top:22px;display:grid;gap:8px;max-width:90ch;font-size:14px;line-height:1.55;color:var(--c55)}
+  .notes b{font-weight:500;color:var(--c80)}
+
+  /* money */
+  .cash{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--c18);border:1px solid var(--c18)}
+  .cash div{background:var(--void);padding:28px 28px 30px}
+  .cash i{font-style:normal;display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c55)}
+  .cash b{display:block;margin-top:18px;font-family:var(--disp);font-weight:800;font-size:clamp(56px,5.6vw,92px);line-height:.85;text-shadow:var(--glow)}
+  .cash span{display:block;margin-top:14px;font-size:15px;line-height:1.45;color:var(--c80)}
+  .cash small{display:block;margin-top:16px;padding-top:14px;border-top:1px solid var(--c18);font-size:14px;line-height:1.5;color:var(--c55)}
+  .cash small em{font-style:normal;color:var(--core)}
+  .mtab{margin-top:56px}
+  #mtbl table{min-width:860px}
+  td.cut{color:var(--c55);font-size:14px}
+  th.grp{text-align:center;border-bottom:0;padding-bottom:0;color:var(--c80)}
+
+  /* rules */
+  .rules{list-style:none;counter-reset:r;margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--c18);border:1px solid var(--c18)}
+  .rules li{counter-increment:r;background:var(--void);padding:30px 28px 32px}
+  .rules li::before{content:counter(r,decimal-leading-zero);display:block;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--c55);margin-bottom:20px}
+  .rules strong{display:block;font-weight:500;font-size:21px;line-height:1.25}
+  .rules span{display:block;margin-top:10px;font-size:16px;line-height:1.55;color:var(--c80)}
+
+  /* markets */
+  .markets{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 48px}
+  .mk{border-top:1px solid var(--c35);padding-top:20px}
+  .mk h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:40px;line-height:.95;letter-spacing:.01em}
+  .mk .src{margin-top:6px;font-size:15px;color:var(--c80)}
+  .mk dl{margin-top:18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 18px;font-size:14.5px}
+  .mk dt{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--c55);padding-top:3px}
+  .mk dd{color:var(--core)}
+  .mk dd small{color:var(--c55);font-size:13px}
+
+  /* score */
+  .score{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px}
+  .score .body p{max-width:60ch;color:var(--c80)}
+  .score .body p+p{margin-top:1.1em}
+  .score .body p.lead{font-size:clamp(22px,1.9vw,28px);line-height:1.35;letter-spacing:-.015em;color:var(--core)}
+  .score .body b{font-weight:500;color:var(--core)}
+  .eq{margin-top:1.4em;padding:20px 24px;border-left:2px solid var(--core);font-family:var(--mono);font-size:15px;color:var(--core);overflow-wrap:anywhere}
+
+  .close{padding:132px var(--gut) 120px;text-align:center;border-top:1px solid var(--c18)}
+  .close h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(56px,8vw,132px);line-height:.88;letter-spacing:.01em;text-shadow:var(--glow)}
+  .close p{max-width:46ch;margin:32px auto 0;font-size:clamp(19px,1.6vw,23px);line-height:1.45;color:var(--c80)}
+
+  footer{border-top:1px solid var(--c18);padding:40px var(--gut);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--c35)}
+  footer a{color:var(--c55);text-decoration:none}
+  footer a:hover{color:var(--core)}
+
+  .rv{opacity:0;transform:translateY(24px);filter:blur(5px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s var(--ease)}
+  .rv.in{opacity:1;transform:none;filter:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none}}
+  @media (max-width:1024px){
+    .rules,.markets{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .cash{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (max-width:860px){
+    :root{--gut:16px}
+    body{font-size:16.5px}
+    nav .links{gap:16px;font-size:12.5px}
+    .cover{padding-bottom:56px}
+    .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .stats div{padding-bottom:16px}
+    section.blk{padding:72px 0}
+    .result,.score{grid-template-columns:minmax(0,1fr);gap:32px}
+    .scores div{padding:22px 18px}
+    .callout{flex-direction:column;gap:8px;padding:18px}
+    .rules,.markets{grid-template-columns:minmax(0,1fr)}
+    table{min-width:820px}
+    td.ov{width:auto}
+    .bar i{display:none}
+    table{min-width:720px}
+    th:nth-child(2),td.model{position:sticky;left:0;z-index:1;background:var(--void);padding-left:10px;box-shadow:1px 0 0 var(--c18)}
+    tr.us td.model{background:#0b0d14}
+    th:first-child,td:first-child{display:none}
+    .close{padding:96px var(--gut) 88px}
+  }
+</style>
+<link rel="stylesheet" href="/assets/navigation.css">
+</head>
+<body>
+<nav aria-label="Main navigation"><a class="mark" href="/"><img src="/assets/hypersun-wordmark.svg" alt="Hypersun" style="height:17px;display:block"></a><button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button><span class="links" id="nav-links"><a href="/laplace.html">Laplace</a><a href="/hypersunbench/" aria-current="page">Benchmark</a><a href="/who.html">Industries</a><a href="/contact.html">Contact</a></span></nav>
+
+<main>
+<section class="cover">
+  <img src="/assets/video/field.jpg" alt="">
+  <div class="eyebrow">Introducing HypersunBench · October 2026</div>
+  <h1>HypersunBench</h1>
+  <p>The world's largest multi-country benchmark for solar power forecasting. 44 gigawatts of real power plants on five continents, scored against what they actually delivered to the grid.</p>
+  <div class="stats">
+    <div><b>44 GW</b><span>Of solar capacity</span></div>
+    <div><b>213</b><span>Power plants</span></div>
+    <div><b>5</b><span>Continents</span></div>
+    <div><b>2.4M</b><span>Predictions scored</span></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="blk">
+    <div class="result">
+      <div class="rv">
+        <div class="num">Result</div>
+        <h2>Hypersun v1 is number one</h2>
+        <p class="intro">We put the leading AI forecasting models from Google, Amazon, Mistral AI, Salesforce and NXAI head to head on the same plants, under the same rules. <b>Hypersun v1 beat every one of them</b>, day-ahead and intraday, and it held the lead on plants it had never seen.</p>
+      </div>
+      <div class="scores rv">
+        <div><i>Day-ahead</i><b>0.265</b><span>26.5% less forecast error than the industry baseline, across all 213 plants. Ranked #1.</span></div>
+        <div><i>Intraday</i><b>0.290</b><span>29.0% less forecast error than the industry baseline, across all 213 plants. Ranked #1.</span></div>
+      </div>
+      <div class="callout rv"><span class="tag">Australia</span><span>Hypersun v1 even beats the grid operator at its own game. <b>On Australia's 88 plants it outscores AEMO's official day-ahead forecast, 0.297 to 0.274.</b></span></div>
+    </div>
+  </section>
+
+  <section class="blk" id="leaderboard">
+    <div class="lb-hd rv">
+      <div>
+        <div class="num">Leaderboard</div>
+        <h2>Forecast skill</h2>
+        <p class="intro">Higher is better. A score of 0.30 means 30% less forecast error than smart persistence, the baseline every forecaster has to beat. The dot marks the best score in each column.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Task">
+        <button role="tab" id="tab-da" aria-selected="true" aria-controls="lb" data-task="da">Day-ahead</button>
+        <button role="tab" id="tab-id" aria-selected="false" aria-controls="lb" data-task="id" tabindex="-1">Intraday</button>
+      </div>
+    </div>
+    <div class="tblwrap rv" id="lb" role="tabpanel" aria-labelledby="tab-da" tabindex="0">
+      <table>
+        <thead><tr><th>#</th><th class="l">Model</th><th>Overall</th><th>AU</th><th>BR</th><th>IN</th><th>ES/IT</th><th>GB</th><th>US</th><th>Held-out</th><th>nMAE</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="notes rv">
+      <p><b>Overall</b> is the equal-weight mean over all 213 plants. <b>Held-out</b> is the 43 plants no model was trained on. <b>nMAE</b> is mean absolute error as a percentage of plant capacity, lower is better.</p>
+      <p>Smart persistence, the zero point of the scale, has a day-ahead nMAE of 16.0% and an intraday nMAE of 14.4%. Every model runs through its official release.</p>
+    </div>
+  </section>
+
+  <section class="blk" id="money">
+    <div class="rv">
+      <div class="num">The money</div>
+      <h2>Accuracy is revenue</h2>
+      <p class="intro">Where a grid fines a plant for missing its schedule, every forecast error has a price. We priced every forecast on HypersunBench under <b>each market's own penalty rules</b>, then measured how much each model saves a plant compared with the baseline forecast.</p>
+    </div>
+    <div class="cash rv">
+      <div><i>India · deviation penalties</i><b>₹1.21 cr</b><span>saved per 100 MW per year by Hypersun v1, day-ahead. It cuts the penalty bill by 17%.</span>
+        <small>The baseline forecast pays <em>₹365 per MWh</em> in penalties, about 15% of the plant's revenue. Intraday, Hypersun v1 saves <em>₹2.50 cr</em> per 100 MW and cuts penalties by 34%.</small></div>
+      <div><i>Spain &amp; Italy · imbalance costs</i><b>€431k</b><span>saved per 100 MW per year by Hypersun v1, day-ahead. It cuts imbalance costs by 33%.</span>
+        <small>The baseline forecast pays <em>€6.54 per MWh</em> in imbalance costs. Intraday, Hypersun v1 saves <em>€347k</em> per 100 MW and cuts costs by 29%.</small></div>
+      <div><i>Great Britain · imbalance costs</i><b>£131k</b><span>saved per 100 MW per year by Hypersun v1, day-ahead. It cuts imbalance costs by 63%.</span>
+        <small>The baseline forecast pays <em>£1.27 per MWh</em> in imbalance costs. Intraday, Hypersun v1 saves <em>£44k</em> per 100 MW and cuts costs by 33%.</small></div>
+    </div>
+    <div class="lb-hd mtab rv">
+      <div><div class="num">Savings per 100 MW per year, versus the baseline forecast</div></div>
+      <div class="tabs" role="tablist" aria-label="Task">
+        <button role="tab" id="mtab-da" aria-selected="true" aria-controls="mtbl" data-task="da">Day-ahead</button>
+        <button role="tab" id="mtab-id" aria-selected="false" aria-controls="mtbl" data-task="id" tabindex="-1">Intraday</button>
+      </div>
+    </div>
+    <div class="tblwrap rv" id="mtbl" role="tabpanel" aria-labelledby="mtab-da" tabindex="0">
+      <table>
+        <thead><tr><th></th><th></th><th class="grp" colspan="2">India</th><th class="grp" colspan="2">Spain / Italy</th><th class="grp" colspan="2">Great Britain</th></tr>
+        <tr><th>#</th><th class="l">Model</th><th>Saved</th><th>Penalty cut</th><th>Saved</th><th>Cost cut</th><th>Saved</th><th>Cost cut</th></tr></thead>
+        <tbody id="mrows"></tbody>
+      </table>
+    </div>
+    <div class="notes rv">
+      <p><b>India:</b> CERC Deviation Settlement Mechanism 2024, at a ₹2.50/kWh contract rate for every plant. <b>Spain and Italy:</b> ENTSO-E imbalance prices against the day-ahead price of the plant's zone. <b>Great Britain:</b> Elexon system price against the market index price.</p>
+      <p>The schedule is each model's median forecast. Savings are measured against smart persistence on the test window and scaled to a full year. Australia, Brazil and the US do not charge solar plants for forecast deviations, so they are not priced. The dot marks the biggest saving in each column.</p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="rv">
+      <div class="num">The rules</div>
+      <h2>The hardest test in solar</h2>
+      <p class="intro">Most forecasting benchmarks let models use data they could never have had in time. Real grids don't. HypersunBench plays by the market's rules, so a score here means money in the real world.</p>
+    </div>
+    <ol class="rules rv">
+      <li><strong>The real market deadline</strong><span>Each day-ahead forecast is issued at the market's own cut-off on the day before, using only data observed by then. Intraday forecasts are revised at 08:00, 11:00 and 14:00 local time.</span></li>
+      <li><strong>No peeking at the future</strong><span>Every input a model uses must have existed before the forecast was issued. Nothing measured after the deadline, nothing reconstructed in hindsight.</span></li>
+      <li><strong>Plants the model has never seen</strong><span>About one plant in five in each market is held out of training. Those plants count in the score and are also reported on their own.</span></li>
+      <li><strong>Scored on probabilities</strong><span>Models give a range of outcomes for every block of the day, not one number. The score rewards being both close and honest about uncertainty.</span></li>
+      <li><strong>Curtailment removed</strong><span>Hours when the grid told a plant to turn down are excluded, or scored against the operator's estimate of available power. The benchmark measures weather-driven output.</span></li>
+      <li><strong>Recent data</strong><span>Test windows fall in 2026 wherever the data allows, so the models are scored on months they have not seen. The one exception, the US in 2022, is disclosed.</span></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <div class="rv">
+      <div class="num">Markets</div>
+      <h2>Five continents, six grids</h2>
+      <p class="intro">From Australia to Brazil, from monsoon India to the English countryside, every plant is scored on the meter data its own grid operator publishes.</p>
+    </div>
+    <div class="markets" id="markets"></div>
+  </section>
+
+  <section class="blk">
+    <div class="score">
+      <div class="rv"><div class="num">The score</div><h2>One number, every market</h2></div>
+      <div class="body rv">
+        <p class="lead">One headline score, comparable across markets with very different weather.</p>
+        <p>Each model gives nine quantiles, from 10% to 90%, for every block of the forecast day. We score them with the continuous ranked probability score (CRPS), which measures how far the predicted range sits from what the plant actually made.</p>
+        <p>Each plant's CRPS is compared with <b>smart persistence</b>: yesterday's cloudiness carried onto tomorrow's sun path. That baseline is hard to beat on clear days and easy to beat on changing ones, so the score shows how much a model knows about the weather.</p>
+        <div class="eq">skill = 1 − CRPS(model) ÷ CRPS(smart persistence)</div>
+        <p style="margin-top:1.4em">Skill is computed per plant and averaged with equal weight, so a 5 MW plant in Britain counts as much as a 500 MW plant in Brazil. Day-ahead and intraday are reported separately.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="close">
+  <h2 class="rv">The bar is set</h2>
+  <p class="rv">Hypersun v1 is the most accurate solar forecaster on HypersunBench, day-ahead and intraday, across five continents.</p>
+</section>
+</main>
+
+<footer><span>© 2026 Hypersun</span><span><a href="/">Home</a> · <a href="/laplace.html">Laplace</a> · <a href="/contact.html">Contact</a></span></footer>
+
+<script>
+  // HypersunBench v1 test results; history-only runs are not listed
+  const REG = ['AU','BR','IN','ESIT','GB','US'];
+  const RUNS = [
+    {name:'Hypersun v1', by:'Hypersun', us:true,
+      m:{da:[[121100,4309,1312],[301.65,4.372,.4743]], id:[[249539,3465,441],[255.29,4.178,.5499]]},
+      da:[.265,.297,.267,.151,.187,.272,.317,.278,11.97], id:[.290,.310,.306,.217,.181,.272,.374,.293,10.48]},
+    {name:'Timestral 209M', by:'Mistral AI',
+      m:{da:[[119654,4326,1217],[302.41,4.363,.5319]], id:[[248959,3690,397],[255.59,4.065,.5765]]},
+      da:[.258,.293,.257,.141,.182,.260,.310,.271,12.08], id:[.288,.312,.300,.214,.179,.268,.372,.291,10.50]},
+    {name:'Chronos-2', by:'Amazon',
+      m:{da:[[66959,3357,1330],[330.00,4.850,.4633]], id:[[220490,3282,575],[270.50,4.270,.4688]]},
+      da:[.245,.266,.256,.110,.195,.240,.275,.256,12.33], id:[.279,.287,.304,.194,.200,.245,.353,.283,10.64]},
+    {name:'TimesFM 3.0', by:'Google',
+      m:{da:[[109298,3837,1004],[307.83,4.609,.6615]], id:[[251863,3002,291],[254.07,4.411,.6409]]},
+      da:[.243,.282,.240,.127,.152,.250,.292,.258,12.25], id:[.269,.294,.277,.214,.153,.254,.356,.272,10.73]},
+    {name:'TiRex-2', by:'NXAI',
+      m:{da:[[49752,3585,1113],[339.00,4.736,.5953]], id:[[184748,2783,410],[289.21,4.521,.5686]]},
+      da:[.215,.244,.221,.073,.153,.226,.261,.231,12.73], id:[.231,.237,.254,.150,.161,.213,.311,.238,11.34]},
+    {name:'PVWatts + LightGBM', by:'Physics baseline',
+      m:{da:[[-81763,453,1156],[407.85,6.311,.5687]], id:[[-15939,879,434],[394.27,5.479,.5542]]},
+      da:[.070,.086,.068,-.035,.054,.095,.122,.082,15.07], id:[.070,.078,.076,-.045,.066,.084,.146,.062,13.56]},
+    {name:'Moirai 2.0 small', by:'Salesforce',
+      m:{da:[[-370856,495,200],[559.19,6.289,1.1492]], id:[[-131364,160,-79],[454.69,5.840,.8657]]},
+      da:[-.027,-.041,.011,-.266,.050,.008,-.074,-.006,16.96], id:[.043,.057,.069,-.099,-.006,.018,.047,.056,14.12]},
+  ];
+  // penalty cost per MWh of the baseline (smart persistence), [IN ₹, ES/IT €, GB £]
+  const REF = {da:[365.05,6.538,1.2707], id:[385.92,5.921,.8176]};
+  const MONEY = [v => `₹${(v * 100 / 1e7).toFixed(2)} cr`, v => `€${Math.round(v * 100 / 1e3)}k`, v => `£${Math.round(v * 100 / 1e3)}k`];
+  const MARKETS = [
+    {r:'Australia', src:'AEMO, National Electricity Market', sites:88, res:'15 min', dl:'12:30 AEST, day before', win:'Apr – Sep 2026'},
+    {r:'Brazil', src:'ONS, national grid operator', sites:78, res:'1 hour', dl:'10:00 BRT, day before', win:'Apr – Sep 2026'},
+    {r:'India', src:'SRLDC, southern regional grid', sites:14, res:'15 min', dl:'06:00 IST, day before', win:'Jul – Oct 2026'},
+    {r:'Spain / Italy', src:'ENTSO-E transparency platform', sites:21, res:'1 hour', dl:'12:00 CET, day before', win:'Apr – Sep 2026'},
+    {r:'Great Britain', src:'Elexon BMRS', sites:7, res:'30 min', dl:'09:50 local, day before', win:'Apr – Sep 2026'},
+    {r:'United States', src:'NREL PVDAQ', sites:5, res:'15 min', dl:'10:00 local, day before', win:'Jun – Nov 2022', note:'older data, disclosed'},
+  ];
+
+  const f3 = v => (v < 0 ? '−' : '') + Math.abs(v).toFixed(3).replace(/^0/, '');
+  const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const rows = document.getElementById('rows');
+  function render(task){
+    const runs = [...RUNS].sort((a, b) => b[task][0] - a[task][0]);
+    const best = RUNS[0][task].map((_, i) => Math.max(...RUNS.map(r => r[task][i])));
+    const nmaeBest = Math.min(...RUNS.map(r => r[task][8]));
+    const max = best[0];
+    rows.innerHTML = runs.map((r, k) => {
+      const s = r[task], ov = s[0];
+      const cell = i => `<td class="reg${s[i] === best[i] ? ' best' : ''}${s[i] < 0 ? ' neg' : ''}">${f3(s[i])}</td>`;
+      return `<tr${r.us ? ' class="us"' : ''}><td>${String(k + 1).padStart(2, '0')}</td>`
+        + `<td class="l model"><b>${esc(r.name)}</b><small>${esc(r.by)}</small></td>`
+        + `<td class="ov${ov === best[0] ? ' best' : ''}"><span class="bar"><i style="--w:${Math.max(0, ov / max * 100)}%"></i><b>${f3(ov)}</b></span></td>`
+        + REG.map((_, j) => cell(j + 1)).join('') + cell(7)
+        + `<td class="reg${s[8] === nmaeBest ? ' best' : ''}">${s[8].toFixed(1)}%</td></tr>`;
+    }).join('');
+  }
+  render('da');
+
+  const mrows = document.getElementById('mrows');
+  function renderMoney(task){
+    const runs = [...RUNS].sort((a, b) => b[task][0] - a[task][0]);
+    const best = [0, 1, 2].map(i => Math.max(...RUNS.map(r => r.m[task][0][i])));
+    const sign = (v, f) => (v < 0 ? '−' : '') + f(Math.abs(v));
+    mrows.innerHTML = runs.map((r, k) => {
+      const [save, cost] = r.m[task];
+      return `<tr${r.us ? ' class="us"' : ''}><td>${String(k + 1).padStart(2, '0')}</td>`
+        + `<td class="l model"><b>${esc(r.name)}</b><small>${esc(r.by)}</small></td>`
+        + [0, 1, 2].map(i => {
+            const cut = 1 - cost[i] / REF[task][i];
+            return `<td class="reg${save[i] === best[i] ? ' best' : ''}${save[i] < 0 ? ' neg' : ''}">${sign(save[i], MONEY[i])}</td>`
+              + `<td class="cut${cut < 0 ? ' neg' : ''}">${cut < 0 ? '+' + Math.round(-cut * 100) + '% more' : Math.round(cut * 100) + '%'}</td>`;
+          }).join('') + '</tr>';
+    }).join('');
+  }
+  renderMoney('da');
+
+  for (const list of document.querySelectorAll('.tabs')) {
+    const tabs = [...list.querySelectorAll('button')];
+    const panel = document.getElementById(tabs[0].getAttribute('aria-controls'));
+    const draw = panel.id === 'lb' ? render : renderMoney;
+    const select = t => {
+      tabs.forEach(b => { const on = b === t; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+      panel.setAttribute('aria-labelledby', t.id);
+      draw(t.dataset.task);
+    };
+    tabs.forEach(t => {
+      t.addEventListener('click', () => select(t));
+      t.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        const n = tabs[(tabs.indexOf(t) + 1) % tabs.length];
+        select(n); n.focus();
+      });
+    });
+  }
+
+  document.getElementById('markets').innerHTML = MARKETS.map(m =>
+    `<div class="mk rv"><h3>${m.r}</h3><div class="src">${m.src}</div><dl>`
+    + `<dt>Plants</dt><dd>${m.sites}</dd><dt>Scored at</dt><dd>${m.res}</dd>`
+    + `<dt>Deadline</dt><dd>${m.dl}</dd><dt>Test window</dt><dd>${m.win}${m.note ? ` <small>· ${m.note}</small>` : ''}</dd></dl></div>`).join('');
+
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold: .12});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
