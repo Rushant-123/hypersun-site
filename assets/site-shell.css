@@ -1,0 +1,51 @@
+/* Shared v5 navigation. Scoped to keep the twin's own controls independent. */
+:root{--gutter:clamp(22px,4.5vw,72px)}
+.site-header,.site-header *,.shared-footer,.shared-footer *{box-sizing:border-box}
+.site-header{height:84px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 var(--gutter);position:relative;z-index:50;background:#fff;border-bottom:1px solid #e5e5e5;font-family:Geist,Arial,sans-serif;color:#191919}
+.site-header .brand{flex:none;display:block}
+.site-header .brand img{display:block;width:184px;height:64px;max-width:none;object-fit:contain}
+.site-header #navigation{position:static;inset:auto;display:flex;align-items:center;gap:24px;height:auto;padding:0;margin:0;background:transparent;box-shadow:none;border:0;font:500 13px Geist,Arial,sans-serif;color:#191919}
+.site-header #navigation:before{display:none}
+.site-header #navigation>a{color:#191919;text-decoration:none;white-space:nowrap;line-height:1.5;padding:10px 0}
+.site-header #navigation>a:hover,.site-header #navigation>a[aria-current=page]{color:#b94300}
+.site-header #navigation>.nav-contact{margin:0 0 0 8px;padding:12px 18px;border:1px solid #ff5c00;border-radius:9px;background:#ff5c00;color:white}
+.site-header #navigation>.nav-contact:hover{background:#df4f00;border-color:#df4f00;color:white}
+.site-header #navigation>.nav-contact[aria-current=page]{color:white}
+.site-header .menu-toggle{display:none}
+.site-header :focus-visible,.shared-footer :focus-visible,.research-actions a:focus-visible,.walkthrough-link:focus-visible{outline:2px solid #b94300;outline-offset:5px}
+.site-skip{position:fixed;left:20px;top:-100px;z-index:100;background:#fff;color:#191919;padding:12px 20px;font:500 14px Geist,sans-serif}
+.site-skip:focus{top:12px}
+.shared-footer{max-width:1440px;margin:auto;padding:0 var(--gutter);border-top:1px solid #dedede;background:#f7f7f7;color:#191919;display:block;font-family:Geist,Arial,sans-serif}
+.shared-footer a{color:inherit;text-decoration:none}.shared-footer a:hover{color:#b94300}
+.shared-footer .footer-top{padding:48px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.shared-footer .brand img{width:184px;height:64px;object-fit:contain;display:block}
+.shared-footer .footer-top p{font-size:13px;color:#585858;line-height:1.6;margin:0}
+.shared-footer .footer-top>div{display:flex;flex-wrap:wrap;gap:16px 24px;font-size:12px;max-width:450px}
+.shared-footer .footer-contact{font-size:13px;color:#585858;margin:0}.shared-footer .footer-contact a{color:#191919;margin-left:15px}
+.shared-footer .footer-bottom{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #dedede;margin-top:24px;padding:22px 0;font-size:11px;color:#585858}
+.footer-top>div{flex-wrap:wrap;row-gap:16px}
+.hosted-walkthrough{max-width:1440px;margin:auto;padding:64px var(--gutter) 40px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:64px;align-items:center}
+.walkthrough-label{font:500 13px Geist,sans-serif;color:#b94300}
+.hosted-walkthrough h2{font:500 clamp(36px,3.6vw,54px)/1.08 Geist,sans-serif;letter-spacing:-.045em;margin:18px 0 24px;text-transform:none}
+.hosted-walkthrough p{font:400 16px/1.65 Geist,sans-serif;color:#585858;max-width:43ch}
+.walkthrough-link{display:inline-flex;margin-top:28px;padding:13px 20px;border-radius:10px;background:#ff5c00;color:#fff;text-decoration:none;font:500 14px/1.5 Geist,sans-serif}
+.hosted-walkthrough figure{margin:0;min-width:0}.hosted-walkthrough video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:16px;border:1px solid #dedede;background:#fff}
+.hosted-walkthrough figcaption{margin-top:12px;color:#585858;font:400 12px Geist,sans-serif}
+.error-page{margin:0;background:#f7f7f7}
+.not-found{min-height:60vh;padding:100px var(--gutter);font-family:Geist,Arial,sans-serif;color:#191919;background:#f7f7f7}.not-found h1{font-size:clamp(42px,7vw,84px);font-weight:500;letter-spacing:-.05em;margin:16px 0}.not-found>p{line-height:1.6}
+.research-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.research-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 20px;border:1px solid #c7c7c7;border-radius:9px;text-decoration:none;background:#fff;color:#191919;font:500 14px/1.5 Geist,sans-serif}.research-actions a:first-child{background:#ff5c00;color:#fff;border-color:#ff5c00}
+@media(max-width:1100px){
+ .site-header{height:76px}.site-header .menu-toggle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:44px;height:44px;padding:0;border:0;background:transparent;cursor:pointer;flex:none}
+ .site-header .menu-toggle span{display:block;height:1px;width:21px;background:#191919;transition:transform .15s}
+ .site-header .menu-toggle[aria-expanded=true] span:first-child{transform:translateY(3px) rotate(45deg)}.site-header .menu-toggle[aria-expanded=true] span:last-child{transform:translateY(-3px) rotate(-45deg)}
+ .site-header #navigation{display:none;position:absolute;top:76px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:#fff;padding:15px var(--gutter) 25px;border-bottom:1px solid #dedede;box-shadow:0 8px 15px #0000000a;max-height:calc(100svh - 76px);overflow:auto}
+ .site-header #navigation.open{display:flex}.site-header #navigation>a{padding:13px 0;font-size:15px}.site-header #navigation>.nav-contact{padding:13px;margin:10px 0 0;text-align:center}
+ .shared-footer .footer-top>div{width:100%;max-width:none}
+ .hosted-walkthrough{gap:32px}
+}
+@media(max-width:680px){
+ .site-header{height:70px}.site-header #navigation{top:70px;max-height:calc(100svh - 70px)}.site-header .brand img{width:160px;height:56px}
+ .shared-footer .footer-top{display:block;padding:36px 0}.shared-footer .footer-top p{margin-top:24px}.shared-footer .footer-top>div{display:flex;margin-top:24px;gap:16px 22px}.shared-footer .footer-contact a{display:block;margin:10px 0;overflow-wrap:anywhere}
+ .hosted-walkthrough{grid-template-columns:minmax(0,1fr);padding-top:40px;gap:30px}.hosted-walkthrough h2{font-size:36px}.not-found{padding-top:56px}
+}
+@media(prefers-reduced-motion:reduce){.site-header .menu-toggle span{transition:none}}

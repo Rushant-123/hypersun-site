@@ -1,0 +1,39 @@
+/* Match the reference's twelve-column editorial grid; preserve the selected hero. */
+@media (min-width:1101px){
+  .a-section-head,.section-heading,.solution-heading,.a-closing>.a-wrap,.home-final,.home-faq{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+  .a-section-head>:first-child,.section-heading>:first-child,.solution-heading>:first-child,.a-closing>.a-wrap>:first-child,.home-final>:first-child,.home-faq>:first-child{grid-column:1/span 6}
+  .a-section-head>:nth-child(2),.section-heading>:nth-child(2),.solution-heading>:nth-child(2),.a-closing>.a-wrap>:nth-child(2),.home-final>:nth-child(2),.home-faq>:nth-child(2){grid-column:8/span 5}
+  .a-solar-audience .a-audience-top>div,.a-battery-audience .a-audience-top>div{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+  .a-solar-audience h2,.a-battery-audience h2{grid-column:1/span 6}
+  .a-solar-audience .a-lede,.a-solar-audience .a-button,.a-battery-audience .a-lede,.a-battery-audience .a-status,.a-battery-audience .a-button{grid-column:8/span 5}
+}
+.loss-image>.energy-flow{padding:24px;background:#e8ece8;border:1px solid #d4dad5;min-height:0}
+.diagram-heading,.diagnostic-heading{display:flex;justify-content:space-between;gap:20px;font-size:13px;line-height:1.5}
+.diagram-heading span:last-child,.diagnostic-heading span:last-child{color:#626963}
+.energy-flow svg{display:block;width:100%;height:auto;margin:16px 0}
+.flow-line{fill:none;stroke:#a2ada5;stroke-width:2;stroke-dasharray:4 5}
+.flow-node{fill:#f3f4f1;stroke:#bac4bd;stroke-width:1.5;transition:fill .2s,stroke .2s}
+.flow-icon{fill:none;stroke:#43524a;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.flow-active .flow-node{fill:#fff2e8;stroke:#cc4a00}
+.flow-active .flow-icon{stroke:#b84200}
+.loss-image .diagram-note{font-size:13px;margin:0;color:#626963}
+.recorded-diagnostic{min-width:0;background:#fff;padding:32px;border:1px solid #d0d5d2;border-radius:6px}
+.recorded-diagnostic svg{display:block;width:100%;height:auto;margin:40px 0 24px;overflow:visible}
+.diagnostic-legend{display:flex;flex-wrap:wrap;gap:12px 24px;font-size:13px;color:#626963}
+.diagnostic-legend span:before{content:'';display:inline-block;width:22px;border-top:2px dashed #a3aaa5;vertical-align:middle;margin-right:8px}
+.diagnostic-legend span:last-child:before{border-top:2px solid #cc4a00}
+.recorded-diagnostic figcaption{font-size:13px;line-height:1.55;color:#626963;margin-top:24px;max-width:42em}
+.investigation-context{width:100%}
+.context-flow{display:block;width:100%;height:auto}
+.investigation-context figcaption{text-align:center;font-size:13px;color:#b5b8b6;margin-top:12px}
+.page-who .a-battery-painting img{aspect-ratio:16/9;object-position:center}
+@media(max-width:760px){
+  .loss-image>.energy-flow{padding:20px 14px}
+  .diagram-heading,.diagnostic-heading{font-size:12px;gap:16px}
+  .energy-flow svg{margin:24px 0}
+  .recorded-diagnostic{padding:22px}
+  .recorded-diagnostic svg{margin-top:32px}
+  .recorded-diagnostic figcaption,.diagnostic-legend{font-size:12px}
+  .investigation-context figcaption{font-size:12px;max-width:24em;margin:16px auto 0}
+  .page-who .a-battery-painting img{aspect-ratio:3/2}
+}

@@ -1,19 +1,20 @@
 # Hypersun
 
-> Hypersun builds Laplace, a physics-based digital twin for solar PV plants and grids. Laplace checks every inverter and string against what physics expects for the current sunlight and temperature, locates each loss to the inverter, combiner or string, and prices it.
+> Hypersun is building an AI operating system for independent power producers and battery storage operators. Laplace is its AI operations agent, bringing plant data, physics, and forecasting together to support operating decisions.
 
-- Laplace models every asset from the panels to the grid connection and checks it every five minutes, reconciled to the export meter.
-- It connects read-only over OPC UA or MQTT, without control access. A CSV export of a month of inverter and meter data is enough to start.
-- Beyond monitoring it runs day-ahead and intraday schedules in 15-minute blocks with deviation penalties, PPA invoicing and revenue-meter reconciliation, and work orders with SAP PM or Maximo sync.
-- It is built for solar developers and independent power producers, utilities and governments, developers and planners, and data centres.
+- Company scope: independent power producers across solar, wind, hydro, thermal and mixed generation portfolios, alongside battery storage operators. Models and integrations beyond the current solar prototypes are scoped with each engagement.
+- Working prototypes: a solar digital twin using recorded NREL plant data and a solar forecasting harness. The demo includes simulated faults and synthetic operational workflows.
+- In development: operator-reviewed maintenance recommendations and battery charge/discharge scheduling. Autonomous control and cross-owner energy trading are not available in the current demo.
+- Engagement: audit one plant, quantify potential improvements, run a scoped pilot, and expand based on measured results.
+- Ambition: operate over 1 TW by 2035, with longer-term coordination of independently owned generation and storage. This is a future target, not current capacity.
 
 ## Pages
 
-- [Home](https://hypersun.si/): what Hypersun is building
-- [Laplace](https://hypersun.si/laplace.html): the product, a recorded walkthrough, features and FAQ
-- [HypersunBench](https://hypersun.si/hypersunbench/): the largest multi-country solar power forecasting benchmark, 44 GW across 213 utility-scale plants on five continents, scored at real market deadlines, and its leaderboard (Hypersun v1 ranks first)
-- [Industries](https://hypersun.si/who.html): who Laplace is for and what each group gets
-- [Contact](https://hypersun.si/contact.html): how to send one site's data and get its twin
+- [Home](https://hypersun.si/): product and pilot overview
+- [Laplace](https://hypersun.si/laplace.html): working demo and capability status
+- [HypersunBench](https://hypersun.si/hypersunbench/): October 2026 solar forecasting evaluation, 213 plants, 44 GW of evaluated capacity and 2.4 million predictions. Hypersun v1 ranks first among evaluated models on overall day-ahead and intraday CRPS skill relative to smart persistence.
+- [Who it’s for](https://hypersun.si/who.html): independent power producers and battery storage operators
+- [Start a plant audit](https://hypersun.si/contact.html): discuss a site and scope a pilot
 
 ## Contact
 

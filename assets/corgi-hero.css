@@ -1,0 +1,15 @@
+@font-face{font-family:'Corgi Geist';src:url('fonts/Geist.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:'Instrument Serif';src:url('fonts/InstrumentSerif-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+.corgi-hero{position:relative;isolation:isolate;display:grid;place-items:center;min-height:700px;height:min(840px,calc(100svh - 76px));overflow:hidden;background:#edf3f4;color:#191919}
+.atlas-home .corgi-hero-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 52%;z-index:-2}
+.corgi-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#f3f4f4,transparent 15%);z-index:-1;pointer-events:none}
+.corgi-hero-copy{text-align:center;padding:0 24px 70px;max-width:850px}
+.atlas-home .corgi-hero h1{font:500 clamp(74px,6.8vw,100px)/1.01 'Corgi Geist',sans-serif;letter-spacing:-.055em;color:#191919}
+.atlas-home .corgi-hero h1 em{font:italic 400 1.16em/1.02 'Instrument Serif',Georgia,serif;letter-spacing:-.035em}
+.corgi-hero-copy>p{font:400 19px/1.55 'Corgi Geist',sans-serif;color:#444;margin:27px auto 0;max-width:38em}
+.corgi-hero .a-actions{justify-content:center;margin-top:28px;gap:12px}
+.corgi-hero .a-button{font-family:'Corgi Geist',sans-serif;border-radius:8px;min-height:48px;font-size:14px;padding:13px 22px}
+.corgi-hero .corgi-secondary{background:#ffffff80;border:1px solid #9b9b9b;color:#191919}
+.corgi-hero .corgi-secondary:hover{background:white}
+@media(max-width:760px){.corgi-hero{height:710px;min-height:650px;max-height:850px}.atlas-home .corgi-hero-art{object-fit:cover;object-position:58% center;opacity:.85}.corgi-hero-copy{padding:0 22px 140px}.atlas-home .corgi-hero h1{font-size:64px}.corgi-hero-copy>p{font-size:17px;line-height:1.5;margin-top:24px;max-width:22em}.corgi-desktop-break{display:none}.corgi-hero .a-actions{flex-wrap:wrap}.corgi-hero .a-button{padding:12px 17px}.corgi-hero::after{background:linear-gradient(0deg,#f3f4f4,transparent 17%),linear-gradient(90deg,#f7f7f70d,#f7f7f730)}}
+@media(max-width:360px){.atlas-home .corgi-hero h1{font-size:56px}.corgi-hero .a-actions{gap:8px}.corgi-hero .a-button{font-size:12px;padding-inline:14px}}

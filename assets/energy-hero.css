@@ -1,0 +1,17 @@
+/* The opening is a scene, with its copy in the sky. */
+.energy-hero{position:relative;isolation:isolate;height:calc(100svh - 76px);min-height:720px;background:#edf5f8;color:#102324;overflow:hidden}
+.energy-stage{position:absolute;inset:0;overflow:hidden;background:#edf5f8 url('hero/energy-future-campus.webp') center bottom/cover no-repeat}
+.energy-landscape{position:absolute;bottom:0;left:0;width:100%;max-width:none!important;height:auto!important;pointer-events:none}
+.energy-stage canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:none}.energy-stage.ready canvas{opacity:1}.energy-stage.ready>.energy-landscape{visibility:hidden}
+.energy-copy{position:relative;z-index:2;padding-top:clamp(100px,12svh,140px);pointer-events:none}.energy-copy>*{pointer-events:auto;width:fit-content}
+.atlas-home .energy-copy h1{font:440 clamp(76px,6.7vw,96px)/.98 var(--a-font);letter-spacing:-.035em;max-width:9em;text-wrap:initial;text-shadow:none;color:#102324}
+.atlas-home .energy-copy>p{font:400 20px/1.45 var(--a-font);margin-top:28px;max-width:28em;color:#34464b;text-shadow:none}
+.energy-copy .a-actions{margin-top:28px}.energy-demo{background:rgba(255,255,255,.25);border-color:#465b6270;color:#102324!important;backdrop-filter:blur(4px)}.energy-demo:hover{background:#ffffff90}
+
+
+
+@media(min-width:761px) and (max-height:850px){.energy-hero{min-height:650px}.energy-copy{padding-top:98px}.atlas-home .energy-copy h1{font-size:80px}.atlas-home .energy-copy>p{font-size:18px;margin-top:22px}.energy-copy .a-actions{margin-top:24px}}
+@media(min-width:761px) and (max-width:1100px){.atlas-home .energy-copy h1{font-size:80px}.energy-copy{padding-top:110px}.atlas-home .energy-copy>p{max-width:24em}.energy-copy>p br{display:none}}
+@media(max-width:760px){.energy-hero{height:auto;min-height:0;display:flex;flex-direction:column;background:#f3f4f4;padding-bottom:40px}.energy-stage{position:relative;inset:auto;width:100%;height:clamp(330px,46svh,410px);flex:none}.energy-landscape{width:850px!important;max-width:none!important;left:auto;right:-25px}.energy-copy{padding-top:32px;width:100%;pointer-events:auto}.atlas-home .energy-copy h1{font-size:56px;line-height:1;max-width:none}.atlas-home .energy-copy>p{font-size:18px;margin-top:24px;max-width:24em;color:#46565b;text-shadow:none}.energy-copy>p br{display:none}.energy-copy .a-actions{gap:12px}.energy-demo{border-color:#75878d;background:none}.energy-copy .a-button{padding-inline:17px;font-size:14px}.energy-stage canvas{transition:none}}
+@media(max-width:360px){.atlas-home .energy-copy h1{font-size:48px}.energy-stage{height:330px}.energy-copy .a-actions{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){.energy-stage canvas{transition:none}}

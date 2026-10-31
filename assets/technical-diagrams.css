@@ -1,0 +1,64 @@
+/* Atlas reference: open paper, fine ink, perspective working planes. */
+.power-balance{border-top:1px solid var(--a-line);border-bottom:1px solid var(--a-line);padding-top:24px}
+.balance-heading{display:flex;justify-content:space-between;gap:24px;font-size:13px;color:var(--a-muted)}
+.balance-instruction{color:#626666}
+#power-flow{margin-top:20px;min-width:0}
+.energy-drawing{width:100%;min-height:240px}
+.energy-drawing>svg{display:block;width:100%;height:auto}
+.energy-stage-choices{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin:12px 0 40px}
+.energy-stage-choice{border:0;border-top:1px solid #c7ccca;background:none;color:#4a4d4e;text-align:left;padding:20px 0 12px;min-height:100px;cursor:pointer}
+.energy-stage-choice>span{font-size:15px;display:block}
+.energy-stage-choice{min-height:64px}
+.atlas-home .portfolio-detail .portfolio-reading h3{font-size:16px;font-weight:500;margin:0 0 16px}
+.portfolio-detail .portfolio-reading p{font-size:14px;line-height:1.6}
+.energy-stage-choice>strong{display:block;margin-top:12px;font-weight:440;font-size:28px;line-height:1.1;letter-spacing:-.016em;color:#0e0f0f;font-variant-numeric:tabular-nums}
+.energy-stage-choice small{font-size:12px;font-weight:400;color:#626666;letter-spacing:0}
+.energy-stage-choice:hover{border-color:#777}
+.energy-stage-choice.is-selected{border-top:2px solid #ff5c00;padding-top:19px;color:#ab3e00}
+.energy-stage-choice.is-selected>strong{color:#ab3e00}
+.energy-stage-choice:focus-visible{outline:2px solid #bd4700;outline-offset:5px}
+.balance-detail{display:grid;grid-template-columns:1.65fr 1fr 1fr;gap:48px;border-top:1px solid var(--a-line);padding:32px 0;align-items:start;min-height:190px}
+.balance-detail-label,.balance-reading>span{font-size:13px;color:#626666}
+.atlas-home .balance-detail h3{font-size:24px;font-weight:440;margin:10px 0}
+.balance-detail p{color:var(--a-muted);max-width:43em;font-size:14px}
+.balance-reading strong{display:block;font-size:44px;line-height:1.2;letter-spacing:-.025em;font-weight:440;margin-top:16px;font-variant-numeric:tabular-nums}
+.balance-reading small{font-size:16px;letter-spacing:0;color:#626666}
+.balance-footnote{border-top:1px solid var(--a-line);padding:22px 0;display:flex;align-items:start;justify-content:space-between;gap:48px}
+.balance-footnote p{font-size:12px;color:#626666;max-width:70em}
+.balance-footnote a{white-space:nowrap;font-size:14px}
+#context-diagram svg{display:block;width:100%;height:auto;color:#c7cbca}
+.context-connector{fill:none;stroke:#747877;stroke-width:1}
+.context-input{fill:none;stroke:#545958;stroke-width:.8}
+.context-agent{fill:#171717;stroke:#ff5c00;stroke-width:1}
+.context-name{fill:#e5e7e6;font-size:15px}
+.context-sub{fill:#a2a7a5;font-size:13px}
+/* The product evidence sits on the same page, without a separate dashboard card. */
+.atlas-home .recorded-diagnostic,.atlas-home .forecast-visual{background:transparent;border:0;border-radius:0;border-top:1px solid #bfc4c2;padding:24px 0 0;min-height:0}
+.atlas-home .recorded-diagnostic svg,.atlas-home .forecast-visual svg{display:block;width:100%;height:auto;margin:40px 0 0}
+.atlas-home .fault-top{margin-bottom:0}
+.chart-time-axis{display:flex;justify-content:space-between;font-size:12px;color:#626666;margin:12px 0 28px}
+.atlas-home .diagnostic-legend,.atlas-home .legend{display:flex;justify-content:flex-start;gap:24px;margin:0;font-size:13px;color:#626666}
+.atlas-home .diagnostic-legend span:first-child:before{border-color:#929795}
+.atlas-home .diagnostic-legend span:last-child:before{border-color:#252725}
+.atlas-home .legend span:first-child:before{border-color:#252725}
+.atlas-home .legend span:last-child:before{border-color:#929795}
+.atlas-home .recorded-diagnostic figcaption,.chart-caption{margin-top:24px;font-size:12px;color:#626666;max-width:42em}
+.atlas-home .capabilities{padding-top:64px}
+.atlas-home .capability-grid p{min-height:0}
+@media(max-width:760px){
+ .balance-heading{font-size:12px;gap:16px}
+ .energy-stage-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px;margin:0 0 28px}
+ .energy-stage-choice{min-height:56px;padding-top:16px}
+ .energy-stage-choice.is-selected{padding-top:15px}
+ .energy-stage-choice>span{font-size:14px}
+ .energy-stage-choice>strong{font-size:24px;margin-top:10px}
+ .energy-stage-choice:last-child{grid-column:1/-1}
+ .balance-detail{grid-template-columns:1fr 1fr;gap:24px;padding:28px 0;min-height:0}
+ .balance-detail>div:first-child{grid-column:1/-1;min-height:145px}
+ .balance-reading strong{font-size:36px;margin-top:10px}
+ .balance-reading small,.balance-reading>span{font-size:12px}
+ .balance-footnote{display:block;padding-block:22px}
+ .balance-footnote a{margin-top:16px}
+ #context-diagram{width:100%;overflow:hidden}
+ .atlas-home .recorded-diagnostic svg,.atlas-home .forecast-visual svg{margin-top:28px}
+}

@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Laplace live demo · Hypersun</title>
+<title>Laplace interactive demo · Hypersun</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="Live Laplace demo: a physics digital twin of a 38.7 MWp solar park running on recorded plant data.">
-<meta name="theme-color" content="#000000">
-<link rel="icon" href="/assets/hypersun-icon.svg" type="image/svg+xml">
+<meta name="description" content="Interactive Laplace demo: explore a solar digital twin using recorded plant data and simulated faults.">
+<meta name="theme-color" content="#f7f7f7">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Geist:wght@300..600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
     --void:#000; --core:#F6F8FF;
@@ -45,26 +45,34 @@
   @media (prefers-reduced-motion:reduce){ol li.cur::before{animation:none}.bar i{transition:none}}
   @media (max-width:860px){header,footer{padding-left:16px;padding-right:16px}main{padding:16px}}
 </style>
-</head>
-<body>
-<header><a href="/"><img src="/assets/hypersun-wordmark.svg" alt="Hypersun"></a></header>
-<main>
+<link rel="stylesheet" href="../assets/research-pages.css?v=20261030">
+<link rel="stylesheet" href="../assets/site-shell.css?v=20261030">
+<script src="../assets/shared-navigation.js?v=20261030" defer></script>
+<link rel="icon" href="../favicon.ico?v=20261030" sizes="16x16 32x32 48x48"><link rel="icon" href="../assets/favicon.svg?v=20261030" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png?v=20261030" sizes="180x180"></head>
+<body class="research-page demo-page">
+<a class="site-skip" href="#main">Skip to content</a>
+<header class="site-header">
+<a class="brand" href="../index.html" aria-label="Hypersun home"><img src="../assets/hypersun-wordmark-black.svg" alt="Hypersun" width="184" height="20"></a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation" aria-label="Open navigation"><span></span><span></span></button>
+<nav id="navigation" aria-label="Main navigation"><a href="../laplace.html">Laplace</a><a href="../index.html#how">How it works</a><a href="../hypersunbench/">Benchmark</a><a href="../manifesto/">Manifesto</a><a href="../who.html">Who it’s for</a><a href="../contact.html" class="nav-contact">Start a plant audit</a></nav>
+</header>
+<main id="main">
   <div class="box" aria-live="polite">
-    <div class="label">Laplace live demo</div>
-    <h1 class="ok">Setting up your plant</h1>
+    <div class="label">Laplace interactive demo</div>
+    <h1 class="ok">Opening the solar twin</h1>
     <h1 class="fail">The demo didn't start</h1>
     <div class="bar ok"><i id="bar"></i></div>
     <ol class="ok" id="steps">
       <li>Starting the physics twin</li>
       <li>Loading a year of measured plant data</li>
-      <li>Bringing 40 inverters online</li>
-      <li>Connecting the control room</li>
+      <li>Loading the 40-inverter model</li>
+      <li>Preparing simulated controls</li>
     </ol>
     <p class="note ok">The twin sleeps when nobody is watching, so the first visit takes a few seconds to wake it.</p>
-    <p class="note fail">It didn't wake up this time. <a href="" id="retry">Try again</a>, or <a href="/laplace.html">watch the recording</a> instead.</p>
+    <p class="note fail">It didn't wake up this time. <a href="" id="retry">Try again</a>, or <a href="../laplace.html">watch the recording</a> instead.</p>
   </div>
 </main>
-<footer>Recorded data from NREL PVDAQ system 9069 · Faults and commands are simulated</footer>
+<footer class="demo-note">Recorded data from NREL PVDAQ system 9069 · Faults and commands are simulated</footer>
 <script>
   // The live twin runs on Cloud Run and scales to zero; this page wakes it and hands over once it answers.
   // demo.hypersun.si first; the run.app address covers the time before its certificate is issued.
